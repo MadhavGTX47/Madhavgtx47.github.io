@@ -52,30 +52,70 @@
         h1 {
             color: #2c3e50;
             text-align: center;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 15px;
-            font-size: 2.5em;
-            margin-bottom: 30px;
+            font-size: 3em;
+            margin-bottom: 40px;
             position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            animation: titleGlow 3s ease-in-out infinite;
         }
         
-        h1::before {
-            content: "✈️";
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.8em;
+        @keyframes titleGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.1); }
         }
         
-        h1::after {
-            content: "🇺🇸";
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.8em;
+        .title-container {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .title-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .title-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .floating-icons {
+            position: absolute;
+            font-size: 2em;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.7;
+        }
+        
+        .floating-icons:nth-child(1) { top: 10px; left: 20px; animation-delay: 0s; }
+        .floating-icons:nth-child(2) { top: 20px; right: 30px; animation-delay: 1s; }
+        .floating-icons:nth-child(3) { bottom: 15px; left: 40px; animation-delay: 2s; }
+        .floating-icons:nth-child(4) { bottom: 25px; right: 20px; animation-delay: 3s; }
         
         h2 {
             color: #34495e;
@@ -167,7 +207,9 @@
             pointer-events: none;
         }
         
-        .answer-space:focus-within::before {
+        .answer-space:focus-within::before,
+        .answer-space:not(:empty)::before,
+        .answer-space.has-content::before {
             display: none;
         }
         
@@ -286,7 +328,6 @@
         }
         
         .section-divider::after {
-            content: "🌟";
             position: absolute;
             top: -15px;
             left: 50%;
@@ -358,6 +399,300 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
+        .feature-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9em;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-toggle:hover {
+            transform: scale(1.05);
+        }
+        
+        .countdown-timer {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .countdown-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .dark-mode {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #ecf0f1;
+        }
+        
+        .dark-mode .main-container {
+            background: rgba(44, 62, 80, 0.95);
+            color: #ecf0f1;
+        }
+        
+        .dark-mode .title-container {
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.95) 0%, rgba(52, 73, 94, 0.95) 100%) !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .dark-mode .question-box {
+            background: linear-gradient(145deg, #34495e 0%, #2c3e50 100%);
+            border-color: #4a5568;
+            color: #ecf0f1;
+        }
+        
+        .dark-mode .answer-space {
+            background: linear-gradient(145deg, #2d3748 0%, #1a202c 100%);
+            border-color: #4a5568;
+            color: #ecf0f1;
+        }
+        
+        .dark-mode h1 {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%) !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+        }
+        
+        .dark-mode h2 {
+            color: #ffffff;
+        }
+        
+        .dark-mode h3 {
+            color: #87ceeb;
+        }
+        
+        .dark-mode p {
+            color: #ecf0f1;
+        }
+        
+        .dark-mode strong {
+            color: #ffffff;
+        }
+        
+        .dark-mode em {
+            color: #bdc3c7;
+        }
+        
+        .dark-mode .tip-box {
+            background: linear-gradient(135deg, #2d5016 0%, #1e3a0a 100%);
+            color: #ecf0f1;
+        }
+        
+        .dark-mode .warning-box {
+            background: linear-gradient(135deg, #4a3c00 0%, #2d2400 100%);
+            color: #ecf0f1;
+        }
+        
+        .dark-mode .checklist {
+            background: linear-gradient(145deg, #1e3a5f 0%, #0f2a4a 100%);
+            color: #ecf0f1;
+        }
+        
+        .dark-mode input[type="text"],
+        .dark-mode input[type="number"],
+        .dark-mode input[type="date"],
+        .dark-mode textarea {
+            background: #2d3748;
+            border-color: #4a5568;
+            color: #ecf0f1;
+        }
+        
+        .dark-mode input[type="text"]::placeholder,
+        .dark-mode input[type="number"]::placeholder,
+        .dark-mode textarea::placeholder {
+            color: #a0aec0;
+        }
+        
+        .dark-mode label {
+            color: #ffffff !important;
+        }
+        
+        .dark-mode div[style*="background-color: #f8f9fa"] {
+            background: linear-gradient(145deg, #2d3748 0%, #1a202c 100%) !important;
+            color: #ecf0f1 !important;
+        }
+        
+        .dark-mode div[style*="background-color: #e8f4fd"] {
+            background: linear-gradient(145deg, #1e3a5f 0%, #0f2a4a 100%) !important;
+            color: #ecf0f1 !important;
+        }
+        
+        .dark-mode div[style*="background: linear-gradient(135deg, #e3f2fd"] {
+            background: linear-gradient(145deg, #1e3a5f 0%, #0f2a4a 100%) !important;
+            color: #ecf0f1 !important;
+        }
+        
+        .dark-mode div[style*="background: linear-gradient(135deg, #fff3e0"] {
+            background: linear-gradient(145deg, #4a3c00 0%, #2d2400 100%) !important;
+            color: #ecf0f1 !important;
+        }
+        
+        .dark-mode div[style*="background: linear-gradient(135deg, #e8f5e8"] {
+            background: linear-gradient(145deg, #2d5016 0%, #1e3a0a 100%) !important;
+            color: #ecf0f1 !important;
+        }
+        
+        .dark-mode div[style*="background-color: #fff3e0"] {
+            background: linear-gradient(145deg, #4a3c00 0%, #2d2400 100%) !important;
+            color: #ffffff !important;
+        }
+        
+        .dark-mode div[style*="border-left: 4px solid #ff9800"] {
+            background: linear-gradient(145deg, #4a3c00 0%, #2d2400 100%) !important;
+            color: #ffffff !important;
+        }
+        
+        .dark-mode div[style*="background-color: #ffebee"] {
+            background: linear-gradient(145deg, #4a1a1a 0%, #2d0f0f 100%) !important;
+            color: #ffffff !important;
+        }
+        
+        .dark-mode .title-subtitle {
+            color: #bdc3c7;
+        }
+        
+        .dark-mode .countdown-timer {
+            background: linear-gradient(135deg, #1a4d1a 0%, #0f3d0f 100%);
+            color: #ffffff;
+        }
+        
+        .achievement-badge {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #2c3e50;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+            animation: achievementPulse 2s ease-in-out;
+        }
+        
+        @keyframes achievementPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .xp-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .xp-progress {
+            width: 100%;
+            height: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .xp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700 0%, #ffed4e 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+
+        
+        .typing-animation {
+            border-right: 2px solid #3498db;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: #3498db; }
+        }
+        
+        .floating-quote {
+            position: fixed;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            animation: quoteFloat 4s ease-in-out;
+        }
+        
+        @keyframes quoteFloat {
+            0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
+            20% { transform: translateY(0) scale(1); opacity: 1; }
+            80% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(0.8); opacity: 0; }
+        }
+        
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .music-control:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .music-player {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            max-width: 300px;
+        }
+        
+        .music-player.show {
+            display: block;
+        }
+        
+        .music-player iframe {
+            border-radius: 10px;
+            width: 100%;
+            height: 200px;
+        }
+        
         .hidden {
             display: none;
         }
@@ -419,6 +754,8 @@
                             this.parentElement.classList.remove('success-animation');
                         }, 600);
                     }
+                    // Check achievements immediately when checkbox is checked
+                    setTimeout(checkAchievements, 100);
                 });
             });
             
@@ -426,6 +763,7 @@
             const answerSpaces = document.querySelectorAll('.answer-space');
             answerSpaces.forEach(space => {
                 space.contentEditable = true;
+                
                 space.addEventListener('focus', function() {
                     this.style.borderColor = '#2980b9';
                     this.style.boxShadow = '0 0 0 3px rgba(52, 152, 219, 0.1)';
@@ -434,6 +772,24 @@
                 space.addEventListener('blur', function() {
                     this.style.borderColor = '#3498db';
                     this.style.boxShadow = 'none';
+                });
+                
+                space.addEventListener('input', function() {
+                    // Hide placeholder when user starts typing
+                    if (this.textContent.trim() !== '') {
+                        this.classList.add('has-content');
+                    } else {
+                        this.classList.remove('has-content');
+                    }
+                    // Check achievements immediately when content is added
+                    setTimeout(checkAchievements, 100);
+                });
+                
+                space.addEventListener('keydown', function(e) {
+                    // Hide placeholder immediately when user starts typing
+                    if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete') {
+                        this.classList.add('has-content');
+                    }
                 });
             });
             
@@ -550,7 +906,7 @@
             saveButton.className = 'interactive-button';
             saveButton.textContent = '💾 Save Progress';
             saveButton.onclick = saveProgress;
-            document.querySelector('h1').after(saveButton);
+            document.querySelector('.title-container').after(saveButton);
             
             // Add print button
             const printButton = document.createElement('button');
@@ -558,19 +914,466 @@
             printButton.textContent = '🖨️ Print Workbook';
             printButton.onclick = () => window.print();
             saveButton.after(printButton);
+            
+            // Add reset button
+            const resetButton = document.createElement('button');
+            resetButton.className = 'interactive-button';
+            resetButton.style.background = 'linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)';
+            resetButton.textContent = '🔄 Reset All Progress';
+            resetButton.onclick = resetAllProgress;
+            printButton.after(resetButton);
+            
+
+            
+            // Add dark mode toggle
+            const darkModeToggle = document.createElement('button');
+            darkModeToggle.className = 'feature-toggle';
+            darkModeToggle.textContent = '🌙 Dark Mode';
+            darkModeToggle.onclick = toggleDarkMode;
+            document.body.appendChild(darkModeToggle);
+            
+            // Add countdown timer
+            const countdownTimer = document.createElement('div');
+            countdownTimer.className = 'countdown-timer';
+            countdownTimer.innerHTML = `
+                <div class="countdown-number" id="countdown">00:00:00</div>
+                <div>Time until your interview</div>
+            `;
+            document.querySelector('.title-container').after(countdownTimer);
+            
+            // Add achievement system
+            let achievements = JSON.parse(localStorage.getItem('visaAchievements') || '[]');
+            
+            function showAchievement(title, message) {
+                const badge = document.createElement('div');
+                badge.className = 'achievement-badge';
+                badge.innerHTML = `<strong>🏆 ${title}</strong><br>${message}`;
+                document.body.appendChild(badge);
+                
+                setTimeout(() => {
+                    badge.remove();
+                }, 4000);
+            }
+            
+            function toggleDarkMode() {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                darkModeToggle.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+                localStorage.setItem('darkMode', isDark);
+            }
+            
+            function updateCountdown() {
+                // Set interview date to July 23rd, 2025 at 8:00 AM
+                const interviewDate = new Date('2025-07-23T08:00:00');
+                
+                const now = new Date();
+                const diff = interviewDate - now;
+                
+                if (diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                    
+                    document.getElementById('countdown').textContent = 
+                        `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                } else {
+                    document.getElementById('countdown').textContent = "00:00:00:00";
+                    document.querySelector('.countdown-timer').innerHTML = `
+                        <div class="countdown-number">🎯 Interview Day!</div>
+                        <div>Good luck with your visa interview!</div>
+                    `;
+                }
+            }
+            
+            // Load dark mode preference
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = '☀️ Light Mode';
+            }
+            
+            // Start countdown timer
+            updateCountdown();
+            setInterval(updateCountdown, 1000); // Update every second
+            
+            // Check achievements periodically
+            setInterval(checkAchievements, 5000);
+            
+            // Check achievements on page load
+            checkAchievements();
+            
+            // XP System with Titles
+            let currentXP = parseInt(localStorage.getItem('visaXP') || '0');
+            let currentLevel = parseInt(localStorage.getItem('visaLevel') || '1');
+            let nextLevelXP = currentLevel * 100;
+            
+            const titles = [
+                "Novice Applicant",
+                "Apprentice Preparer", 
+                "Dedicated Student",
+                "Confident Candidate",
+                "Skilled Interviewer",
+                "Visa Expert",
+                "Interview Master",
+                "Grand Master",
+                "Legendary Preparer",
+                "Ultimate Visa Champion"
+            ];
+            
+            function getCurrentTitle() {
+                return titles[Math.min(currentLevel - 1, titles.length - 1)];
+            }
+            
+            function updateXPDisplay() {
+                document.getElementById('current-xp').textContent = currentXP;
+                document.getElementById('current-level').textContent = getCurrentTitle();
+                document.getElementById('next-level-xp').textContent = nextLevelXP;
+                
+                const xpPercentage = (currentXP / nextLevelXP) * 100;
+                document.getElementById('xp-fill').style.width = xpPercentage + '%';
+            }
+            
+            function addXP(amount) {
+                currentXP += amount;
+                localStorage.setItem('visaXP', currentXP.toString());
+                
+                if (currentXP >= nextLevelXP) {
+                    levelUp();
+                }
+                
+                updateXPDisplay();
+            }
+            
+            function levelUp() {
+                currentLevel++;
+                currentXP -= nextLevelXP;
+                nextLevelXP = currentLevel * 100;
+                
+                localStorage.setItem('visaLevel', currentLevel.toString());
+                localStorage.setItem('visaXP', currentXP.toString());
+                
+                // Show level up message with new title
+                const levelUpMsg = document.getElementById('level-up-message');
+                levelUpMsg.innerHTML = `🎉 Level Up! You are now: <strong>${getCurrentTitle()}</strong> 🎉`;
+                levelUpMsg.style.display = 'block';
+                setTimeout(() => {
+                    levelUpMsg.style.display = 'none';
+                }, 4000);
+                
+                // Play level up sound
+                playSound('levelup');
+            }
+            
+
+            
+            // Typing Animation
+            function addTypingAnimation(element) {
+                element.classList.add('typing-animation');
+                setTimeout(() => {
+                    element.classList.remove('typing-animation');
+                }, 1000);
+            }
+            
+            // Floating Quotes
+            const motivationalQuotes = [
+                "💪 You've got this! Confidence is key!",
+                "🎯 Every answer brings you closer to success!",
+                "🌟 Your preparation will pay off!",
+                "🚀 You're making amazing progress!",
+                "💎 Stay focused, stay determined!",
+                "🎊 Every step forward is a victory!",
+                "⭐ You're building your future!",
+                "🔥 Your dedication is inspiring!",
+                "🌈 Success is within your reach!",
+                "🏆 You're becoming interview-ready!"
+            ];
+            
+            function showRandomQuote() {
+                const quote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+                const quoteElement = document.createElement('div');
+                quoteElement.className = 'floating-quote';
+                quoteElement.textContent = quote;
+                quoteElement.style.left = Math.random() * (window.innerWidth - 300) + 'px';
+                document.body.appendChild(quoteElement);
+                
+                setTimeout(() => {
+                    quoteElement.remove();
+                }, 4000);
+            }
+            
+            // Background Music
+            let isMusicPlaying = false;
+            let musicPlayer = null;
+            
+            function createMusicControl() {
+                const musicBtn = document.createElement('button');
+                musicBtn.className = 'music-control';
+                musicBtn.innerHTML = '🎵 Background Music';
+                musicBtn.title = 'Open Music Player';
+                musicBtn.onclick = toggleMusicPlayer;
+                document.body.appendChild(musicBtn);
+                
+                // Create music player
+                musicPlayer = document.createElement('div');
+                musicPlayer.className = 'music-player';
+                musicPlayer.innerHTML = `
+                    <h4 style="margin: 0 0 15px 0; color: #333;">🎵 Dragon Quest Music</h4>
+                    <iframe src="https://www.youtube.com/embed/p1aXjj875qs?autoplay=0&controls=1&rel=0" 
+                            title="Dragon Quest Music" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                    <div style="margin-top: 15px; text-align: center;">
+                        <button onclick="closeMusicPlayer()" style="background: #667eea; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer;">
+                            Close Player
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(musicPlayer);
+            }
+            
+            function toggleMusicPlayer() {
+                if (musicPlayer.classList.contains('show')) {
+                    closeMusicPlayer();
+                } else {
+                    openMusicPlayer();
+                }
+            }
+            
+            function openMusicPlayer() {
+                musicPlayer.classList.add('show');
+                document.querySelector('.music-control').innerHTML = '🔇 Close Music';
+            }
+            
+            function closeMusicPlayer() {
+                musicPlayer.classList.remove('show');
+                document.querySelector('.music-control').innerHTML = '🎵 Background Music';
+            }
+            
+            // Make closeMusicPlayer global
+            window.closeMusicPlayer = closeMusicPlayer;
+            
+            // Reset all progress function
+            function resetAllProgress() {
+                if (confirm('Are you sure you want to reset ALL progress? This will clear:\n• All filled answers\n• All checked boxes\n• All XP and achievements\n• All saved progress\n\nThis cannot be undone!')) {
+                    // Clear localStorage
+                    localStorage.removeItem('visaPrepProgress');
+                    localStorage.removeItem('visaAchievements');
+                    localStorage.removeItem('visaXP');
+                    localStorage.removeItem('visaLevel');
+                    localStorage.removeItem('darkMode');
+                    
+                    // Reset XP and achievements
+                    currentXP = 0;
+                    currentLevel = 1;
+                    nextLevelXP = 100;
+                    achievements = [];
+                    
+                    // Clear all answer spaces
+                    answerSpaces.forEach(space => {
+                        space.textContent = '';
+                        space.classList.remove('has-content');
+                    });
+                    
+                    // Uncheck all checkboxes
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    
+                    // Update displays
+                    updateXPDisplay();
+                    updateProgress();
+                    
+                    // Show reset confirmation
+                    const resetMsg = document.createElement('div');
+                    resetMsg.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: linear-gradient(135deg, #e74c3c, #c0392b);
+                        color: white;
+                        padding: 30px;
+                        border-radius: 15px;
+                        font-size: 1.2em;
+                        font-weight: bold;
+                        z-index: 10000;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                        animation: fadeIn 0.5s ease-in;
+                        text-align: center;
+                    `;
+                    resetMsg.innerHTML = '🔄 All Progress Reset!<br><br>You can start fresh now!';
+                    document.body.appendChild(resetMsg);
+                    
+                    setTimeout(() => {
+                        resetMsg.remove();
+                    }, 3000);
+                    
+                    // Reload page after a short delay
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3500);
+                }
+            }
+            
+            // Make resetAllProgress global
+            window.resetAllProgress = resetAllProgress;
+            
+            function playSound(type) {
+                // Simple sound effect using Web Audio API
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    if (type === 'levelup') {
+                        oscillator.frequency.setValueAtTime(523, audioContext.currentTime); // C5
+                        oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1); // E5
+                        oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2); // G5
+                    }
+                    
+                    oscillator.type = 'sine';
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                    
+                    setTimeout(() => {
+                        audioContext.close();
+                    }, 1000);
+                } catch (e) {
+                    console.log('Sound not supported');
+                }
+            }
+            
+            // Enhanced achievement system with XP for filling boxes
+            function checkAchievements() {
+                const totalQuestions = document.querySelectorAll('.question-box').length;
+                const filledBoxes = document.querySelectorAll('.answer-space.has-content').length;
+                const totalBoxes = document.querySelectorAll('.answer-space').length;
+                const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                
+                // Achievement for first filled answer box
+                if (filledBoxes > 0 && !achievements.includes('first_answer')) {
+                    showAchievement('First Answer! 🎯', 'You wrote your first answer! +20 XP');
+                    achievements.push('first_answer');
+                    addXP(20);
+                }
+                
+                // Achievement for first checkbox
+                if (checkedBoxes > 0 && !achievements.includes('first_check')) {
+                    showAchievement('Getting Organized! 📋', 'You checked your first item! +15 XP');
+                    achievements.push('first_check');
+                    addXP(15);
+                }
+                
+                // Achievement for halfway through filling boxes
+                if (filledBoxes >= Math.ceil(totalBoxes / 2) && !achievements.includes('halfway_answers')) {
+                    showAchievement('Halfway Through! 🚀', 'You\'ve filled half the answer boxes! +50 XP');
+                    achievements.push('halfway_answers');
+                    addXP(50);
+                }
+                
+                // Achievement for halfway through checkboxes
+                if (checkedBoxes >= Math.ceil(document.querySelectorAll('input[type="checkbox"]').length / 2) && !achievements.includes('halfway_checks')) {
+                    showAchievement('Halfway Organized! 📊', 'You\'ve checked half the items! +40 XP');
+                    achievements.push('halfway_checks');
+                    addXP(40);
+                }
+                
+                // Achievement for almost all boxes filled
+                if (filledBoxes >= Math.floor(totalBoxes * 0.8) && !achievements.includes('almost_complete_answers')) {
+                    showAchievement('Almost Complete! 🎊', 'You\'ve filled almost all answer boxes! +75 XP');
+                    achievements.push('almost_complete_answers');
+                    addXP(75);
+                }
+                
+                // Achievement for almost all checkboxes
+                if (checkedBoxes >= Math.floor(document.querySelectorAll('input[type="checkbox"]').length * 0.8) && !achievements.includes('almost_complete_checks')) {
+                    showAchievement('Almost Organized! 📋', 'You\'ve checked almost all items! +60 XP');
+                    achievements.push('almost_complete_checks');
+                    addXP(60);
+                }
+                
+                // Ultimate achievement for filling ALL boxes
+                if (filledBoxes >= totalBoxes && !achievements.includes('complete_answers')) {
+                    showAchievement('Answer Master! 🏆', 'You\'ve filled ALL answer boxes! +150 XP');
+                    achievements.push('complete_answers');
+                    addXP(150);
+                    showRandomQuote();
+                }
+                
+                // Ultimate achievement for checking ALL boxes
+                if (checkedBoxes >= document.querySelectorAll('input[type="checkbox"]').length && !achievements.includes('complete_checks')) {
+                    showAchievement('Organization Master! 🏆', 'You\'ve checked ALL items! +100 XP');
+                    achievements.push('complete_checks');
+                    addXP(100);
+                    showRandomQuote();
+                }
+                
+                localStorage.setItem('visaAchievements', JSON.stringify(achievements));
+            }
+            
+            // Add typing animation to answer spaces
+            answerSpaces.forEach(space => {
+                space.addEventListener('focus', function() {
+                    addTypingAnimation(this);
+                });
+            });
+            
+            // Show random quotes periodically
+            setInterval(() => {
+                if (Math.random() < 0.1) { // 10% chance every interval
+                    showRandomQuote();
+                }
+            }, 30000); // Every 30 seconds
+            
+            // Initialize everything
+            updateXPDisplay();
+            createMusicControl();
+            
+            // Show initial quote
+            setTimeout(() => {
+                showRandomQuote();
+            }, 2000);
         });
     </script>
 </head>
 <body>
 
 <div class="main-container">
-    <h1>B1/B2 Visa Interview Preparation Workbook</h1>
+    <div class="title-container">
+        <div class="floating-icons">✈️</div>
+        <div class="floating-icons">🇺🇸</div>
+        <div class="floating-icons">🎯</div>
+        <div class="floating-icons">💪</div>
+
+<h1>B1/B2 Visa Interview Preparation Workbook</h1>
+        <div class="title-subtitle">Your Complete Guide to Visa Success</div>
+    </div>
     
     <div class="progress-bar">
         <div class="progress-fill"></div>
     </div>
     <p style="text-align: center; color: #666; margin-bottom: 30px;">📊 Track your progress as you complete the workbook</p>
-<h2 style="text-align: center; color: #34495e; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin: 20px 0;">Japanese Study Style Workbook for Parents<br>(Self-Sponsored, Child on H1B)</h2>
+    
+    <div class="xp-bar">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>🎯 <span id="current-level">Novice Applicant</span></span>
+            <span>⭐ XP: <span id="current-xp">0</span> / <span id="next-level-xp">100</span></span>
+        </div>
+        <div class="xp-progress">
+            <div class="xp-fill" id="xp-fill"></div>
+        </div>
+        <div id="level-up-message" style="display: none; font-weight: bold; color: #ffd700; text-align: center; margin-top: 10px;">🎉 Level Up! 🎉</div>
+    </div>
+    
+    <h2 style="text-align: center; color: #34495e; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin: 20px 0;">Japanese Study Style Workbook for Parents<br>(Self-Sponsored, Child on H1B)</h2>
 
 <div class="tip-box">
     <h3><span class="emoji-icon">📚</span>How to Use This Workbook</h3>
@@ -671,6 +1474,42 @@
     </div>
 </div>
 
+<div class="question-box">
+    <h3><span class="emoji-icon">🕐</span>Question 1.5</h3>
+    <p><strong>Why are you visiting at this particular time?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Mention specific reasons like "son's vacation time" or "good weather for sightseeing."
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">🏨</span>Question 1.6</h3>
+    <p><strong>Where will you be staying in the U.S.?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="warning-box">
+        <strong>⚠️ Important:</strong> Be consistent with your DS-160 application!
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">✈️</span>Question 1.7</h3>
+    <p><strong>Have you booked your flight ticket(s)?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> It's okay to say "not yet" - many people book after getting the visa.
+    </div>
+</div>
+
 <div class="section-divider"></div>
 
 <h2>Section 2: Financial Arrangements & Self-Sponsorship</h2>
@@ -757,6 +1596,42 @@
     </div>
 </div>
 
+<div class="question-box">
+    <h3><span class="emoji-icon">💰</span>Question 2.4</h3>
+    <p><strong>How much do you earn, and what is your monthly income?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Be honest about your income and bring salary slips as proof.
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">🛡️</span>Question 2.5</h3>
+    <p><strong>How will you manage expenses if something unexpected happens?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Mention emergency funds, credit cards, or family support.
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">👥</span>Question 2.6</h3>
+    <p><strong>Are you funding anyone else's trip (such as your spouse)?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Be clear about who is paying for what.
+    </div>
+</div>
+
 <div class="section-divider"></div>
 
 <h2>Section 3: Ties to Home Country</h2>
@@ -835,11 +1710,59 @@
     <div class="answer-space"></div>
     
     <div class="checklist">
-        <strong>💡 Strong Ties Checklist:</strong><br>
+        <strong>💪 Strong Ties Checklist:</strong><br>
         <input type="checkbox"> Job/business to return to<br>
         <input type="checkbox"> Property that needs maintenance<br>
         <input type="checkbox"> Family members depending on you<br>
         <input type="checkbox"> Community roles/commitments
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">👨‍👩‍👧‍👦</span>Question 3.4</h3>
+    <p><strong>Are you married? What does your spouse do?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Mention spouse's job and how it ties you to home country.
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">👶</span>Question 3.5</h3>
+    <p><strong>How many children do you have? What do they do? Where do they live?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 10px;">
+        <strong>📝 Family Information:</strong><br>
+        <div style="margin: 8px 0;">
+            <label>Child 1:</label>
+            <input type="text" placeholder="Name, age, job, location" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Child 2:</label>
+            <input type="text" placeholder="Name, age, job, location" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Child 3:</label>
+            <input type="text" placeholder="Name, age, job, location" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">🏠</span>Question 3.6</h3>
+    <p><strong>Do you live with anyone in your country? What are their jobs?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> This shows strong family ties to your home country.
     </div>
 </div>
 
@@ -912,6 +1835,56 @@
     </div>
 </div>
 
+<div class="question-box">
+    <h3><span class="emoji-icon">📞</span>Question 4.5</h3>
+    <p><strong>How often do you communicate with your son?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Be honest about communication frequency (weekly calls, etc.).
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">🏠</span>Question 4.6</h3>
+    <p><strong>Where does your son live? Can you provide his address?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div style="background-color: #e8f4fd; padding: 15px; border-radius: 10px;">
+        <strong>📝 Son's Address:</strong><br>
+        <input type="text" placeholder="Street address" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin: 5px 0;">
+        <input type="text" placeholder="City, State, ZIP" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin: 5px 0;">
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">👨‍👩‍👧‍👦</span>Question 4.7</h3>
+    <p><strong>Is your son married? Does he have children?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Mention if he has a family - this shows he's settled in the U.S.
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">🎓</span>Question 4.8</h3>
+    <p><strong>Which University did your son study at?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Know the university name and what he studied.
+    </div>
+</div>
+
 <div class="section-divider"></div>
 
 <h2>Section 5: Immigration History</h2>
@@ -947,6 +1920,42 @@
     
     <div style="background-color: #fff3e0; border-left: 4px solid #ff9800; padding: 15px;">
         <strong>💡 Golden Rule:</strong> Always tell the truth. Lying will result in permanent visa ban.
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">⏰</span>Question 5.3</h3>
+    <p><strong>Have you visited the U.S. before? If so, when and for how long?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> If yes, mention you returned on time and followed all rules.
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">🚫</span>Question 5.4</h3>
+    <p><strong>Have you ever overstayed a visa anywhere?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="warning-box">
+        <strong>⚠️ Important:</strong> Be completely honest about any overstays.
+    </div>
+</div>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">🌍</span>Question 5.5</h3>
+    <p><strong>Have you ever been refused a visa by any country before?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Include all countries, not just the U.S.
     </div>
 </div>
 
@@ -1058,7 +2067,7 @@
 
 <div style="text-align: center; margin-top: 40px; padding: 20px; border-top: 2px solid #e9ecef;">
     <p style="color: #666; font-size: 0.9em; margin: 0;">
-        <span style="font-weight: bold; color: #667eea;">from Immortal Gtx</span>
+        <span style="font-weight: bold; color: #667eea;">Immortal Gtx</span>
     </p>
 </div>
 
