@@ -1,296 +1,1068 @@
-<!-- Messy Code : just jotted down few lines-->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>My Website</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1/B2 Visa Interview Preparation Workbook</title>
     <style>
-      body {
-        font-family: "Montserrat", sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 0;
-      }
-
-      a {
-        text-decoration: none;
-      }
-
-      canvas {
-        background-color: #000;
-        display: block;
-        margin: auto;
-      }
-
-      /* set up header styles */
-      .header {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 999;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        animation: slideDown 0.5s;
-      }
-
-      .logo {
-        font-size: 2em;
-        font-weight: bold;
-        margin-left: 10px;
-        animation: fadeInLeft 1s;
-      }
-
-      .nav-links {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        animation: fadeInRight 1s;
-      }
-
-      .nav-links li {
-        margin-left: 10px;
-        text-transform: uppercase;
-        font-size: 1.2em;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .nav-links li:hover {
-        color: #f1c40f;
-        transform: scale(1.2);
-      }
-
-      @keyframes slideDown {
-        from {
-          transform: translateY(-100%);
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            box-sizing: border-box;
         }
-        to {
-          transform: translateY(0);
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
+            color: #333;
+            min-height: 100vh;
+            position: relative;
         }
-      }
-
-      @keyframes fadeInLeft {
-        from {
-          opacity: 0;
-          transform: translateX(-100%);
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
-        to {
-          opacity: 1;
-          transform: translateX(0);
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-      }
-
-      @keyframes fadeInRight {
-        from {
-          opacity: 0;
-          transform: translateX(100%);
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            position: relative;
         }
-        to {
-          opacity: 1;
-          transform: translateX(0);
+        
+        h1::before {
+            content: "✈️";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8em;
         }
-      }
-      /* set up main styles */
-      main {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-
-      .box {
-        background-color: rgb(203, 246, 252);
-        border-radius: 5px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-      }
-
-      h1 {
-        font-size: 4rem;
-        margin-bottom: 1.5rem;
-        color: #2d2d2d;
-        text-align: center;
-      }
-
-      h2 {
-        font-size: 2.5rem;
-        margin-bottom: 1.5rem;
-        color: #2d2d2d;
-      }
-
-      h3 {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-        color: #2d2d2d;
-      }
-
-      /* add some animations */
-      @keyframes example {
-        0% {
-          transform: rotate(0deg);
+        
+        h1::after {
+            content: "🇺🇸";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8em;
         }
-        100% {
-          transform: rotate(360deg);
+        
+        h2 {
+            color: #34495e;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 40px;
+            font-size: 1.4em;
+            position: relative;
+            overflow: hidden;
         }
-      }
-
-      .cat {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        animation: example 5s linear infinite;
-        z-index: 1;
-      }
+        
+        h2::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .question-box {
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border: 2px solid #e9ecef;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .question-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .question-box::before {
+            content: "💭";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5em;
+            opacity: 0.3;
+        }
+        
+        .answer-space {
+            border: 2px dashed #3498db;
+            min-height: 100px;
+            padding: 15px;
+            margin: 15px 0;
+            background: linear-gradient(145deg, #f8f9ff 0%, #ffffff 100%);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .answer-space:focus-within {
+            border-color: #2980b9;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .answer-space::before {
+            content: "✏️ Write here...";
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            color: #999;
+            font-style: italic;
+            pointer-events: none;
+        }
+        
+        .answer-space:focus-within::before {
+            display: none;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .tip-box::before {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #28a745;
+            color: white;
+            width: 4px;
+            height: 100%;
+            border-radius: 2px;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+        }
+        
+        .warning-box::before {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ffc107;
+            color: white;
+            width: 4px;
+            height: 100%;
+            border-radius: 2px;
+        }
+        
+        .checklist {
+            background: linear-gradient(145deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #2196f3;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .checklist::before {
+            content: "📋";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #2196f3;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: #2196f3;
+        }
+        
+        .checklist input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: #666;
+        }
+        
+        .illustration-space {
+            border: 3px dashed #3498db;
+            min-height: 120px;
+            margin: 15px 0;
+            padding: 25px;
+            text-align: center;
+            color: #666;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #f8f9ff 0%, #ffffff 100%);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .illustration-space:hover {
+            border-color: #2980b9;
+            background: linear-gradient(145deg, #e3f2fd 0%, #f8f9ff 100%);
+        }
+        
+        .illustration-space::before {
+            content: "🎨";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1.5em;
+        }
+        
+        .section-divider {
+            border-top: 3px solid #3498db;
+            margin: 50px 0 30px 0;
+            position: relative;
+        }
+        
+        .section-divider::after {
+            content: "🌟";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0 20px;
+            font-size: 1.5em;
+        }
+        
+        .emoji-icon {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        .floating-emoji {
+            position: fixed;
+            font-size: 2em;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .success-animation {
+            animation: successPulse 0.6s ease-in-out;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .interactive-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+        
+        .interactive-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media print {
+            body { font-size: 12px; }
+            .question-box { page-break-inside: avoid; }
+            .floating-emoji { display: none; }
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h1::before, h1::after {
+                display: none;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <header class="header">
-      <div class="logo">My Website</div>
-      <ul class="nav-links">
-        <li>Work</li>
-        <li>in</li>
-        <li>Progress!</li>
-      </ul>
-    </header>
-
     <script>
-      window.onscroll = function () {
-        stickyHeader();
-      };
-
-      var header = document.querySelector(".header");
-      var sticky = header.offsetTop;
-
-      function stickyHeader() {
-        if (window.pageYOffset > sticky) {
-          header.classList.add("sticky");
-        } else {
-          header.classList.remove("sticky");
-        }
-      }
+        // Interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Progress tracking
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const progressBar = document.querySelector('.progress-fill');
+            
+            function updateProgress() {
+                const total = checkboxes.length;
+                const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                const percentage = (checked / total) * 100;
+                progressBar.style.width = percentage + '%';
+                
+                if (percentage === 100) {
+                    showSuccessMessage();
+                }
+            }
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    updateProgress();
+                    if (this.checked) {
+                        this.parentElement.classList.add('success-animation');
+                        setTimeout(() => {
+                            this.parentElement.classList.remove('success-animation');
+                        }, 600);
+                    }
+                });
+            });
+            
+            // Make answer spaces interactive
+            const answerSpaces = document.querySelectorAll('.answer-space');
+            answerSpaces.forEach(space => {
+                space.contentEditable = true;
+                space.addEventListener('focus', function() {
+                    this.style.borderColor = '#2980b9';
+                    this.style.boxShadow = '0 0 0 3px rgba(52, 152, 219, 0.1)';
+                });
+                
+                space.addEventListener('blur', function() {
+                    this.style.borderColor = '#3498db';
+                    this.style.boxShadow = 'none';
+                });
+            });
+            
+            // Floating emojis
+            function createFloatingEmoji() {
+                const emojis = ['✈️', '🇺🇸', '🎯', '💪', '🌟', '📝', '💡'];
+                const emoji = document.createElement('div');
+                emoji.className = 'floating-emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * window.innerWidth + 'px';
+                emoji.style.top = window.innerHeight + 'px';
+                document.body.appendChild(emoji);
+                
+                setTimeout(() => {
+                    emoji.remove();
+                }, 3000);
+            }
+            
+            setInterval(createFloatingEmoji, 5000);
+            
+            // Success message
+            function showSuccessMessage() {
+                const message = document.createElement('div');
+                message.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(135deg, #28a745, #20c997);
+                    color: white;
+                    padding: 30px;
+                    border-radius: 15px;
+                    font-size: 1.2em;
+                    font-weight: bold;
+                    z-index: 10000;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    animation: fadeIn 0.5s ease-in;
+                `;
+                message.innerHTML = '🎉 Congratulations! You\'ve completed all tasks! 🎉';
+                document.body.appendChild(message);
+                
+                setTimeout(() => {
+                    message.remove();
+                }, 3000);
+            }
+            
+            // Add save functionality
+            function saveProgress() {
+                const data = {};
+                checkboxes.forEach((checkbox, index) => {
+                    data[`checkbox_${index}`] = checkbox.checked;
+                });
+                
+                answerSpaces.forEach((space, index) => {
+                    data[`answer_${index}`] = space.textContent;
+                });
+                
+                localStorage.setItem('visaPrepProgress', JSON.stringify(data));
+                
+                // Show save confirmation
+                const saveMsg = document.createElement('div');
+                saveMsg.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: #28a745;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 25px;
+                    font-size: 0.9em;
+                    z-index: 1000;
+                    animation: fadeIn 0.3s ease-in;
+                `;
+                saveMsg.textContent = '💾 Progress saved!';
+                document.body.appendChild(saveMsg);
+                
+                setTimeout(() => {
+                    saveMsg.remove();
+                }, 2000);
+            }
+            
+            // Load saved progress
+            function loadProgress() {
+                const saved = localStorage.getItem('visaPrepProgress');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    
+                    Object.keys(data).forEach(key => {
+                        if (key.startsWith('checkbox_')) {
+                            const index = parseInt(key.split('_')[1]);
+                            if (checkboxes[index]) {
+                                checkboxes[index].checked = data[key];
+                            }
+                        } else if (key.startsWith('answer_')) {
+                            const index = parseInt(key.split('_')[1]);
+                            if (answerSpaces[index]) {
+                                answerSpaces[index].textContent = data[key];
+                            }
+                        }
+                    });
+                    
+                    updateProgress();
+                }
+            }
+            
+            // Auto-save every 30 seconds
+            setInterval(saveProgress, 30000);
+            
+            // Load progress on page load
+            loadProgress();
+            
+            // Add save button
+            const saveButton = document.createElement('button');
+            saveButton.className = 'interactive-button';
+            saveButton.textContent = '💾 Save Progress';
+            saveButton.onclick = saveProgress;
+            document.querySelector('h1').after(saveButton);
+            
+            // Add print button
+            const printButton = document.createElement('button');
+            printButton.className = 'interactive-button';
+            printButton.textContent = '🖨️ Print Workbook';
+            printButton.onclick = () => window.print();
+            saveButton.after(printButton);
+        });
     </script>
+</head>
+<body>
 
-    <main style="max-width: 800px; margin: 0 auto; text-align: center">
-      <p id="text"></p>
-      <div
-        id="info"
-        style="
-          border: 1px solid #ccc;
-          padding: 10px;
-          margin-bottom: 20px;
-          background: linear-gradient(to bottom, #f5f5f5, #e5e5e5);
-        "
-      >
-        <h2 style="font-size: 2.2em; margin-bottom: 10px">
-          SAI MADHAV KOLLURI
-        </h2>
-        <ul style="list-style: none; margin: 0; padding: 0">
-          <li style="margin-bottom: 5px">
-            <span style="font-weight: bold">Phone:</span> (646) 239-2219
-          </li>
-          <li style="margin-bottom: 5px">
-            <span style="font-weight: bold">Email:</span> madhavgtx@umbc.edu
-          </li>
-        </ul>
-      </div>
+<div class="main-container">
+    <h1>B1/B2 Visa Interview Preparation Workbook</h1>
+    
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+    <p style="text-align: center; color: #666; margin-bottom: 30px;">📊 Track your progress as you complete the workbook</p>
+<h2 style="text-align: center; color: #34495e; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin: 20px 0;">Japanese Study Style Workbook for Parents<br>(Self-Sponsored, Child on H1B)</h2>
 
-      <p style="font-size: 1.2em; margin-bottom: 20px">
-        This is my first website hosted on GitHub Pages.
-      </p>
-      <p style="font-size: 1.2em; margin-bottom: 30px">
-        Connect with me on
-        <a
-          href="https://www.linkedin.com/in/kollurisaimadhav/"
-          style="color: #007bff"
-          >LinkedIn</a
-        >.
-      </p>
-      <p style="font-size: 1.2em; margin-bottom: 30px">
-        Also Check out my
-        <a href="https://github.com/MadhavGTX47" style="color: #007bff"
-          >GitHub profile</a
-        >
-        for more projects.
-      </p>
-      <canvas id="canvas" width="800" height="600"></canvas>
-      <img
-        src="https://media.tenor.com/qxy4ndhkBQIAAAAC/cat.gif"
-        alt="cat"
-        class="cat"
-        style="height: 105px"
-      />
+<div class="tip-box">
+    <h3><span class="emoji-icon">📚</span>How to Use This Workbook</h3>
+    <p>This workbook follows the Japanese study method with:</p>
+    <ul>
+        <li><strong>Questions</strong> followed by writing space for practice answers</li>
+        <li><strong>Key tips</strong> and strategies for each section</li>
+        <li><strong>Memory aids</strong> and common mistakes to avoid</li>
+        <li>Space for <strong>notes and illustrations</strong></li>
+    </ul>
+    <div style="text-align: center; margin-top: 15px;">
+        <span style="font-size: 2em;">🎯</span>
+        <p style="margin: 5px 0; font-size: 0.9em; color: #28a745;">Goal: Be prepared, be confident!</p>
+    </div>
+</div>
 
-      <script>
-        // Set up canvas
-        var canvas = document.getElementById("canvas");
-        var ctx = canvas.getContext("2d");
+<div class="section-divider"></div>
 
-        // Set up particles
-        var numParticles = 100;
-        var particles = [];
+<h2>Section 1: Purpose of Visit & Trip Details</h2>
+<p><em>Practice writing clear, concise answers</em></p>
 
-        // Create particle objects
-        for (var i = 0; i < numParticles; i++) {
-          var particle = {
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 3 + 1,
-            alpha: Math.random(),
-            speed: Math.random() * 0.05 + 0.01,
-            direction: Math.random() * Math.PI * 2,
-          };
-          particles.push(particle);
-        }
+<div class="question-box">
+    <h3><span class="emoji-icon">🎯</span>Question 1.1</h3>
+    <p><strong>What is your purpose for visiting the United States?</strong></p>
+    
+    <div style="text-align: center; margin: 15px 0;">
+        <span style="font-size: 3em;">✈️</span>
+        <p style="margin: 5px 0; font-size: 0.9em; color: #666;">Think: Family + Tourism</p>
+    </div>
+    
+    <p><em>Write your answer here (keep it short - 1-2 sentences):</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Keep it simple - "To visit my son/daughter and do sightseeing" is perfect.
+    </div>
+    
+    <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 15px; border-radius: 10px; margin-top: 15px;">
+        <strong>🎨 Quick Sketch:</strong>
+        <div style="display: flex; justify-content: space-around; margin-top: 10px;">
+            <span style="font-size: 2em;">👨‍👩‍👧‍👦</span>
+            <span style="font-size: 2em;">🗽</span>
+            <span style="font-size: 2em;">🏙️</span>
+            <span style="font-size: 2em;">📸</span>
+        </div>
+    </div>
+</div>
 
-        // Set up animation loop
-        function animate() {
-          // Clear canvas
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+<div class="question-box">
+    <h3>Question 1.2</h3>
+    <p><strong>How long do you plan to stay in the United States?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Memory Aid:</strong> Always mention specific dates and emphasize it's temporary.
+    </div>
+</div>
 
-          // Draw particles
-          ctx.fillStyle = "#fff";
-          for (var i = 0; i < particles.length; i++) {
-            var particle = particles[i];
-            ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.globalAlpha = particle.alpha;
-            ctx.fill();
+<div class="question-box">
+    <h3>Question 1.3</h3>
+    <p><strong>Why did you choose to visit the U.S. instead of another country?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="warning-box">
+        <strong>⚠️ Common Mistake:</strong> Don't say "because it's better" - focus on family connection.
+    </div>
+</div>
 
-            // Move particles
-            particle.x += Math.cos(particle.direction) * particle.speed;
-            particle.y += Math.sin(particle.direction) * particle.speed;
+<div class="question-box">
+    <h3>Question 1.4</h3>
+    <p><strong>Do you have a travel itinerary?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div style="background-color: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 10px;">
+        <strong>📝 Practice Space - Sketch your itinerary:</strong><br>
+        <div style="margin: 8px 0;">
+            <label>Week 1:</label>
+            <input type="text" placeholder="e.g., Visit son, NYC sightseeing" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Week 2:</label>
+            <input type="text" placeholder="e.g., Family time, local attractions" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Week 3:</label>
+            <input type="text" placeholder="e.g., Shopping, museums, parks" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Week 4:</label>
+            <input type="text" placeholder="e.g., Final family time, prepare to return" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+    </div>
+</div>
 
-            // Wrap particles around canvas edges
-            if (particle.x < -particle.radius) {
-              particle.x = canvas.width + particle.radius;
-            }
-            if (particle.y < -particle.radius) {
-              particle.y = canvas.height + particle.radius;
-            }
-            if (particle.x > canvas.width + particle.radius) {
-              particle.x = -particle.radius;
-            }
-            if (particle.y > canvas.height + particle.radius) {
-              particle.y = -particle.radius;
-            }
-          }
+<div class="section-divider"></div>
 
-          // Call animation loop again
-          requestAnimationFrame(animate);
-        }
+<h2>Section 2: Financial Arrangements & Self-Sponsorship</h2>
+<p><em>Proving you can afford the trip independently</em></p>
 
-        // Start animation loop
-        animate();
-      </script>
-    </main>
-  </body>
+<div class="question-box">
+    <h3><span class="emoji-icon">💰</span>Question 2.1</h3>
+    <p><strong>Who is paying for your trip?</strong></p>
+    
+    <div style="text-align: center; margin: 15px 0;">
+        <span style="font-size: 3em;">💳</span>
+        <p style="margin: 5px 0; font-size: 0.9em; color: #666;">Self-Sponsored = Independent</p>
+    </div>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>💡 Key Phrase:</strong> "We are paying all expenses ourselves from our savings."
+    </div>
+    
+    <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 15px; border-radius: 10px; margin-top: 15px;">
+        <strong>💪 Independence Check:</strong>
+        <div style="display: flex; justify-content: space-around; margin-top: 10px;">
+            <span style="font-size: 1.5em;">🏦</span>
+            <span style="font-size: 1.5em;">💵</span>
+            <span style="font-size: 1.5em;">📊</span>
+            <span style="font-size: 1.5em;">✅</span>
+        </div>
+        <p style="text-align: center; margin-top: 10px; font-size: 0.9em; color: #e65100;">No financial dependency on child</p>
+    </div>
+</div>
+
+<div class="question-box">
+    <h3>Question 2.2</h3>
+    <p><strong>Can you show bank statements as proof of funds?</strong></p>
+    
+    <p><em>Your response strategy:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="checklist">
+        <strong>📋 Checklist - Documents to bring:</strong><br>
+        <input type="checkbox"> Bank statements (last 6 months)<br>
+        <input type="checkbox"> Salary/pension slips<br>
+        <input type="checkbox"> Property documents<br>
+        <input type="checkbox"> Investment certificates
+    </div>
+</div>
+
+<div class="question-box">
+    <h3>Question 2.3</h3>
+    <p><strong>What is your total estimated cost for the trip?</strong></p>
+    
+    <div style="background-color: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 10px;">
+        <strong>Break down your calculation:</strong><br>
+        <div style="margin: 8px 0;">
+            <label>Flight tickets: $</label>
+            <input type="number" placeholder="0" style="width: 120px; padding: 5px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Accommodation: $</label>
+            <input type="number" placeholder="0" style="width: 120px; padding: 5px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Food & transport: $</label>
+            <input type="number" placeholder="0" style="width: 120px; padding: 5px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Shopping/misc: $</label>
+            <input type="number" placeholder="0" style="width: 120px; padding: 5px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Emergency fund: $</label>
+            <input type="number" placeholder="0" style="width: 120px; padding: 5px; border: 1px solid #ddd; border-radius: 3px;">
+        </div>
+        <div style="margin: 8px 0; font-weight: bold;">
+            <label>TOTAL: $</label>
+            <input type="number" placeholder="0" style="width: 120px; padding: 5px; border: 2px solid #3498db; border-radius: 3px; font-weight: bold;">
+        </div>
+    </div>
+    
+    <div class="tip-box">
+        <strong>💡 Tip:</strong> Research actual costs and be realistic, not too high or too low.
+    </div>
+</div>
+
+<div class="section-divider"></div>
+
+<h2>Section 3: Ties to Home Country</h2>
+<p><em>Showing strong reasons to return</em></p>
+
+<div class="question-box">
+    <h3><span class="emoji-icon">🏠</span>Question 3.1</h3>
+    <p><strong>What do you do in your home country?</strong></p>
+    
+    <div style="text-align: center; margin: 15px 0;">
+        <span style="font-size: 3em;">🏢</span>
+        <p style="margin: 5px 0; font-size: 0.9em; color: #666;">Strong ties = Must return</p>
+    </div>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="tip-box">
+        <strong>🎯 Strategy:</strong> Emphasize ongoing responsibilities and commitments.
+    </div>
+    
+    <div style="background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%); padding: 15px; border-radius: 10px; margin-top: 15px;">
+        <strong>🔗 Strong Ties Visual:</strong>
+        <div style="display: flex; justify-content: space-around; margin-top: 10px;">
+            <div style="text-align: center;">
+                <span style="font-size: 2em;">💼</span>
+                <p style="font-size: 0.8em; margin: 5px 0;">Job</p>
+            </div>
+            <div style="text-align: center;">
+                <span style="font-size: 2em;">🏠</span>
+                <p style="font-size: 0.8em; margin: 5px 0;">Home</p>
+            </div>
+            <div style="text-align: center;">
+                <span style="font-size: 2em;">👨‍👩‍👧‍👦</span>
+                <p style="font-size: 0.8em; margin: 5px 0;">Family</p>
+            </div>
+            <div style="text-align: center;">
+                <span style="font-size: 2em;">🌱</span>
+                <p style="font-size: 0.8em; margin: 5px 0;">Future</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="question-box">
+    <h3>Question 3.2</h3>
+    <p><strong>What assets or property do you own in your home country?</strong></p>
+    
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 10px;">
+        <strong>List your assets:</strong><br>
+        <div style="margin: 8px 0;">
+            <input type="text" placeholder="Asset 1 (e.g., House, Car, Business)" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <input type="text" placeholder="Asset 2 (e.g., Savings Account, Investments)" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <input type="text" placeholder="Asset 3 (e.g., Property, Land)" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <input type="text" placeholder="Asset 4 (e.g., Pension, Insurance)" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+    </div>
+    
+    <div class="illustration-space">
+        <strong>📝 Illustration Space - Draw a simple map of your property/assets:</strong><br>
+        [Draw here]
+    </div>
+</div>
+
+<div class="question-box">
+    <h3>Question 3.3</h3>
+    <p><strong>Who will take care of your responsibilities while you're away?</strong></p>
+    
+    <p><em>Your plan:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="checklist">
+        <strong>💡 Strong Ties Checklist:</strong><br>
+        <input type="checkbox"> Job/business to return to<br>
+        <input type="checkbox"> Property that needs maintenance<br>
+        <input type="checkbox"> Family members depending on you<br>
+        <input type="checkbox"> Community roles/commitments
+    </div>
+</div>
+
+<div class="section-divider"></div>
+
+<h2>Section 4: Questions About Your Son in the U.S.</h2>
+<p><em>Demonstrating family connection without immigration intent</em></p>
+
+<div class="question-box">
+    <h3>Question 4.1</h3>
+    <p><strong>What does your son do in the United States?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+</div>
+
+<div class="question-box">
+    <h3>Question 4.2</h3>
+    <p><strong>What visa does your son hold and where does he work?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div style="background-color: #e8f4fd; padding: 15px; border-radius: 10px;">
+        <strong>💡 Key Information to Remember:</strong><br>
+        <div style="margin: 8px 0;">
+            <label>Son's visa type:</label>
+            <input type="text" placeholder="e.g., H1B, L1, etc." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Company name:</label>
+            <input type="text" placeholder="e.g., Google, Microsoft, etc." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>Job title:</label>
+            <input type="text" placeholder="e.g., Software Engineer, Manager" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>City/state:</label>
+            <input type="text" placeholder="e.g., San Francisco, CA" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 8px 0;">
+            <label>How long in U.S.:</label>
+            <input type="text" placeholder="e.g., 3 years, since 2020" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+    </div>
+</div>
+
+<div class="question-box">
+    <h3>Question 4.3</h3>
+    <p><strong>Will you be staying with your son during your visit?</strong></p>
+    
+    <p><em>Your answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div class="warning-box">
+        <strong>⚠️ Important:</strong> Be consistent with your DS-160 application!
+    </div>
+</div>
+
+<div class="question-box">
+    <h3>Question 4.4</h3>
+    <p><strong>What are your son's future plans in the U.S.?</strong></p>
+    
+    <p><em>Your careful response:</em></p>
+    <div class="answer-space"></div>
+    
+    <div style="background-color: #ffebee; border-left: 4px solid #f44336; padding: 10px;">
+        <strong>🚫 Avoid saying:</strong> "He wants to get a green card for us" or implying immigration intent.
+    </div>
+</div>
+
+<div class="section-divider"></div>
+
+<h2>Section 5: Immigration History</h2>
+<p><em>Building credibility through honest disclosure</em></p>
+
+<div class="question-box">
+    <h3>Question 5.1</h3>
+    <p><strong>Have you traveled outside your country before?</strong></p>
+    
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 10px;">
+        <strong>List your travel history:</strong><br>
+        <div style="margin: 10px 0;">
+            <input type="text" placeholder="Country 1" style="width: 200px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin-right: 10px;">
+            <input type="text" placeholder="Year" style="width: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 10px 0;">
+            <input type="text" placeholder="Country 2" style="width: 200px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin-right: 10px;">
+            <input type="text" placeholder="Year" style="width: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+        <div style="margin: 10px 0;">
+            <input type="text" placeholder="Country 3" style="width: 200px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin-right: 10px;">
+            <input type="text" placeholder="Year" style="width: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+        </div>
+    </div>
+</div>
+
+<div class="question-box">
+    <h3>Question 5.2</h3>
+    <p><strong>Have you ever been denied a visa?</strong></p>
+    
+    <p><em>Your honest answer:</em></p>
+    <div class="answer-space"></div>
+    
+    <div style="background-color: #fff3e0; border-left: 4px solid #ff9800; padding: 15px;">
+        <strong>💡 Golden Rule:</strong> Always tell the truth. Lying will result in permanent visa ban.
+    </div>
+</div>
+
+<div class="section-divider"></div>
+
+<h2>Final Preparation Section</h2>
+
+<div class="question-box">
+    <h3>Mock Interview Practice</h3>
+    <p><strong>Practice with a family member - time yourself (2-3 minutes per answer):</strong></p>
+    
+    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
+        <div style="margin-bottom: 20px;">
+            <strong>Practice Date 1:</strong><br>
+            <input type="date" style="width: 200px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin: 5px 0;"><br>
+            <strong>Areas to improve:</strong><br>
+            <textarea placeholder="What went well? What needs work?" style="width: 100%; height: 60px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin: 5px 0; resize: vertical;"></textarea>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <strong>Practice Date 2:</strong><br>
+            <input type="date" style="width: 200px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin: 5px 0;"><br>
+            <strong>Areas to improve:</strong><br>
+            <textarea placeholder="What went well? What needs work?" style="width: 100%; height: 60px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin: 5px 0; resize: vertical;"></textarea>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <strong>Practice Date 3:</strong><br>
+            <input type="date" style="width: 200px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin: 5px 0;"><br>
+            <strong>Ready for interview:</strong><br>
+            <textarea placeholder="Final assessment - are you ready?" style="width: 100%; height: 60px; padding: 8px; border: 1px solid #ddd; border-radius: 5px; margin: 5px 0; resize: vertical;"></textarea>
+        </div>
+    </div>
+</div>
+
+<div class="checklist">
+    <h3>Document Checklist</h3>
+    <p><strong>Day before interview - check all items:</strong></p>
+    
+    <input type="checkbox"> Passport (valid for 6+ months)<br>
+    <input type="checkbox"> DS-160 confirmation page<br>
+    <input type="checkbox"> Interview appointment letter<br>
+    <input type="checkbox"> Bank statements (original + copies)<br>
+    <input type="checkbox"> Employment/pension documents<br>
+    <input type="checkbox"> Property ownership papers<br>
+    <input type="checkbox"> Invitation letter from son (optional)<br>
+    <input type="checkbox"> Travel itinerary<br>
+    <input type="checkbox"> Photographs (if required)<br>
+    <input type="checkbox"> Marriage certificate<br>
+    <input type="checkbox"> Birth certificates of children
+</div>
+
+<div class="question-box">
+    <h3>Emergency Phrases</h3>
+    <p><strong>If you don't understand a question:</strong></p>
+    <ul>
+        <li>"Could you please repeat the question?"</li>
+        <li>"I need a moment to think about that."</li>
+        <li>"Let me clarify what you're asking."</li>
+    </ul>
+</div>
+
+<div class="question-box">
+    <h3>Success Mantras</h3>
+    <p>Write your confidence-building statements:</p>
+    <div style="background-color: #f8f9fa; padding: 10px;">
+        1. _________________________________________________<br>
+        2. _________________________________________________<br>
+        3. _________________________________________________
+    </div>
+    <p><strong>Example:</strong> "I have strong ties to my home country and will definitely return after my visit."</p>
+</div>
+
+<div class="checklist">
+    <h3>Interview Day Strategy</h3>
+    <p><strong>Morning of interview:</strong></p>
+    
+    <input type="checkbox"> Good breakfast<br>
+    <input type="checkbox"> Arrive 30 minutes early<br>
+    <input type="checkbox"> Review this workbook one final time<br>
+    <input type="checkbox"> Stay calm and confident<br>
+    <input type="checkbox"> Remember: short, honest answers are best
+</div>
+
+<div style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 20px; margin: 40px 0; color: white; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1);">
+    <div style="position: absolute; top: -20px; left: -20px; font-size: 4em; opacity: 0.1;">🌟</div>
+    <div style="position: absolute; top: -20px; right: -20px; font-size: 4em; opacity: 0.1;">🎯</div>
+    <div style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 4em; opacity: 0.1;">💪</div>
+    
+    <h2 style="color: white; margin: 0; font-size: 2em;">💪 Final Motivation</h2>
+    <p style="font-size: 20px; margin: 15px 0;">The officer wants to approve you if you meet the requirements.<br>Be honest, be prepared, and stay confident!</p>
+    
+    <div style="display: flex; justify-content: space-around; margin: 20px 0;">
+        <span style="font-size: 3em;">🎯</span>
+        <span style="font-size: 3em;">💼</span>
+        <span style="font-size: 3em;">✈️</span>
+        <span style="font-size: 3em;">🇺🇸</span>
+    </div>
+    
+    <p style="font-size: 28px; font-weight: bold; color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Good luck with your B1/B2 visa interview!</p>
+    <p style="font-size: 24px; color: #ffffff; margin-top: 10px;">頑張って！ (Ganbatte!)</p>
+    
+    <div style="margin-top: 20px;">
+        <button class="interactive-button" onclick="window.print()" style="background: rgba(255,255,255,0.2); border: 2px solid white;">
+            🖨️ Print Your Workbook
+        </button>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 40px; padding: 20px; border-top: 2px solid #e9ecef;">
+    <p style="color: #666; font-size: 0.9em; margin: 0;">
+        <span style="font-weight: bold; color: #667eea;">from Immortal Gtx</span>
+    </p>
+</div>
+
+</div>
+
+</body>
 </html>
