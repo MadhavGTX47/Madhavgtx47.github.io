@@ -361,7 +361,6 @@
         }
         
         .checklist::before {
-            content: "📋";
             position: absolute;
             top: -10px;
             left: 20px;
@@ -1398,20 +1397,25 @@
             let nextLevelXP = currentLevel * 100;
             
             const titles = [
-                "Novice Applicant",
-                "Apprentice Preparer", 
-                "Dedicated Student",
-                "Confident Candidate",
-                "Skilled Interviewer",
-                "Visa Expert",
-                "Interview Master",
-                "Grand Master",
-                "Legendary Preparer",
-                "Ultimate Visa Champion"
+                "🎮 Novice Adventurer",
+                "🌟 Apprentice Hero", 
+                "🗡️ Dedicated Warrior",
+                "🛡️ Confident Champion",
+                "⚔️ Skilled Legend",
+                "🏆 Visa Expert Dragon",
+                "⚡ Interview Master",
+                "🌟 Grand Master",
+                "🔥 Legendary Preparer",
+                "🏆 Ultimate Visa Champion"
             ];
             
             function getCurrentTitle() {
-                return titles[Math.min(currentLevel - 1, titles.length - 1)];
+                if (currentLevel >= 10) return "🏆 Visa Master Dragon";
+                if (currentLevel >= 8) return "⚔️ Interview Legend";
+                if (currentLevel >= 6) return "🛡️ Preparation Champion";
+                if (currentLevel >= 4) return "🗡️ Study Warrior";
+                if (currentLevel >= 2) return "🌟 Learning Hero";
+                return "🎮 Novice Adventurer";
             }
             
             function updateXPDisplay() {
@@ -1442,13 +1446,13 @@
                 localStorage.setItem('visaLevel', currentLevel.toString());
                 localStorage.setItem('visaXP', currentXP.toString());
                 
-                // Show level up message with new title
-                const levelUpMsg = document.getElementById('level-up-message');
-                levelUpMsg.innerHTML = `🎉 Level Up! You are now: <strong>${getCurrentTitle()}</strong> 🎉`;
-                levelUpMsg.style.display = 'block';
-                setTimeout(() => {
-                    levelUpMsg.style.display = 'none';
-                }, 4000);
+                            // Show level up message with new title
+            const levelUpMsg = document.getElementById('level-up-message');
+            levelUpMsg.innerHTML = `⚔️ LEVEL UP! You are now: <strong>${getCurrentTitle()}</strong> ⚔️`;
+            levelUpMsg.style.display = 'block';
+            setTimeout(() => {
+                levelUpMsg.style.display = 'none';
+            }, 4000);
                 
                 // Play level up sound
                 playSound('levelup');
@@ -1466,16 +1470,21 @@
             
             // Floating Quotes
             const motivationalQuotes = [
-                "💪 You've got this! Confidence is key!",
-                "🎯 Every answer brings you closer to success!",
-                "🌟 Your preparation will pay off!",
-                "🚀 You're making amazing progress!",
-                "💎 Stay focused, stay determined!",
-                "🎊 Every step forward is a victory!",
-                "⭐ You're building your future!",
-                "🔥 Your dedication is inspiring!",
-                "🌈 Success is within your reach!",
-                "🏆 You're becoming interview-ready!"
+                "⚔️ You've got this! Your quest for the visa continues!",
+                "🎮 Every answer brings you closer to defeating the interview boss!",
+                "🌟 Your preparation will pay off in the final battle!",
+                "🚀 You're leveling up your interview skills!",
+                "💎 Stay focused, brave adventurer!",
+                "🎊 Every step forward is a victory in your quest!",
+                "⭐ You're building your character for the ultimate challenge!",
+                "🔥 Your dedication is inspiring, hero!",
+                "🌈 Success is within your reach, champion!",
+                "🏆 You're becoming a visa master!",
+                "🗡️ Keep fighting, brave warrior!",
+                "🛡️ Your shield of preparation is strong!",
+                "⚡ Your lightning-fast responses will win the day!",
+                "🎯 Your aim is true, archer of answers!",
+                "🏰 The castle of success awaits your arrival!"
             ];
             
             function showRandomQuote() {
@@ -1498,13 +1507,15 @@
             let isAutoMusicEnabled = localStorage.getItem('autoMusicEnabled') !== 'false';
             let currentMusicTrack = 0;
             
-            // Relaxing background music playlist
+            // Epic RPG background music playlist
             const musicPlaylist = [
                 'kup39UuYUCM', // Dragon Quest - Peaceful music
                 'HMnrl0tmd3k', // Peaceful Piano
                 '5qap5aO4i9A', // Lofi Study Music
                 'jfKfPfyJRdk', // Relaxing Music
-                'lFcSrYw-ARY'  // Ambient Study Music
+                'lFcSrYw-ARY', // Ambient Study Music
+                'dQw4w9WgXcQ', // Never Gonna Give You Up (for fun)
+                '9bZkp7q19f0'  // PSY - GANGNAM STYLE
             ];
             
             function createMusicControl() {
@@ -1532,19 +1543,19 @@
                 musicPlayer = document.createElement('div');
                 musicPlayer.className = 'music-player';
                 musicPlayer.innerHTML = `
-                    <h4 style="margin: 0 0 15px 0; color: #333;">🎵 Background Music</h4>
+                    <h4 style="margin: 0 0 15px 0; color: #333;">🎵 Epic Quest Music</h4>
                     <div style="margin-bottom: 10px;">
                         <label style="font-size: 0.9em; color: #666;">Volume: </label>
                         <input type="range" id="volumeSlider" min="0" max="100" value="15" style="width: 150px; margin: 0 10px;">
                         <span id="volumeDisplay" style="font-size: 0.9em; color: #666;">15%</span>
                     </div>
                     <div style="margin-bottom: 10px;">
-                        <button onclick="previousTrack()" style="background: #667eea; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 5px;">⏮️ Previous</button>
-                        <button onclick="nextTrack()" style="background: #667eea; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">⏭️ Next</button>
+                        <button onclick="previousTrack()" style="background: #8B4513; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 5px;">⏮️ Previous</button>
+                        <button onclick="nextTrack()" style="background: #8B4513; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">⏭️ Next</button>
                     </div>
                     <div id="ytPlayer" style="width: 100%; height: 200px; border-radius: 10px; overflow: hidden;"></div>
                     <div style="margin-top: 15px; text-align: center;">
-                        <button onclick="closeMusicPlayer()" style="background: #667eea; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer;">
+                        <button onclick="closeMusicPlayer()" style="background: #8B4513; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer;">
                             Close Player
                         </button>
                     </div>
@@ -1682,7 +1693,7 @@
                     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
                     animation: fadeIn 0.5s ease-in;
                 `;
-                notification.innerHTML = '🎵 Background music started! Double-click music button to open controls.';
+                notification.innerHTML = '🎵 Epic quest music started! Double-click music button to open controls.';
                 notification.style.cursor = 'pointer';
                 notification.onclick = function() {
                     toggleMusicPlayer();
@@ -1715,10 +1726,10 @@
                     max-width: 400px;
                 `;
                 prompt.innerHTML = `
-                    <h3 style="margin: 0 0 15px 0;">🎵 Enable Background Music?</h3>
-                    <p style="margin: 0 0 20px 0; font-size: 0.9em;">Browser blocked automatic music. Click "Start Music" to enable relaxing background music for your study session.</p>
+                    <h3 style="margin: 0 0 15px 0;">🎵 Enable Epic Quest Music?</h3>
+                    <p style="margin: 0 0 20px 0; font-size: 0.9em;">Browser blocked automatic music. Click "Start Music" to enable epic RPG background music for your visa quest!</p>
                     <button onclick="startMusicWithInteraction()" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 12px 25px; border-radius: 15px; font-size: 1em; cursor: pointer; margin: 0 10px;">
-                        🎵 Start Music Now
+                        🎵 Start Epic Music Now
                     </button>
                     <button onclick="disableAutoMusic()" style="background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.5); padding: 12px 25px; border-radius: 15px; font-size: 1em; cursor: pointer; margin: 0 10px;">
                         Maybe Later
@@ -2899,13 +2910,15 @@
 
 <div class="main-container">
     <div class="title-container">
-        <div class="floating-icons">✈️</div>
-        <div class="floating-icons">🇺🇸</div>
-        <div class="floating-icons">🎯</div>
-        <div class="floating-icons">💪</div>
+        <div class="floating-icons">⚔️</div>
+        <div class="floating-icons">🛡️</div>
+        <div class="floating-icons">🏆</div>
+        <div class="floating-icons">🌟</div>
+        <div class="floating-icons">🎮</div>
+        <div class="floating-icons">⚡</div>
 
-<h1>B1/B2 Visa Interview Preparation Workbook</h1>
-        <div class="title-subtitle">Your Complete Guide to Visa Success</div>
+<h1>🗺️ Visa Quest: Journey to America</h1>
+        <div class="title-subtitle">A Dragon Quest & Pokémon Adventure for Visa Success</div>
     </div>
     
     <div class="progress-bar">
@@ -2924,35 +2937,59 @@
         <div id="level-up-message" style="display: none; font-weight: bold; color: #ffd700; text-align: center; margin-top: 10px;">🎉 Level Up! 🎉</div>
     </div>
     
-    <h2 style="text-align: center; color: #34495e; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px; margin: 20px 0;">Japanese Study Style Workbook for Parents<br>(Self-Sponsored, Child on H1B)</h2>
+    <div style="text-align: center; background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%); color: white; padding: 20px; border-radius: 15px; margin: 20px 0; border: 3px solid #FFD700; box-shadow: 0 8px 25px rgba(139, 69, 19, 0.3);">
+        <h2 style="margin: 0; font-size: 1.8em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🏰 Dragon Quest: Visa Castle Adventure</h2>
+        <p style="margin: 10px 0; font-size: 1.1em;">🎮 Japanese Study Style RPG for Parents<br>⚔️ Self-Sponsored Hero Quest (Child on H1B)</p>
+        <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
+            <span style="font-size: 2em;">🗡️</span>
+            <span style="font-size: 2em;">🛡️</span>
+            <span style="font-size: 2em;">⚔️</span>
+            <span style="font-size: 2em;">🏆</span>
+        </div>
+    </div>
 
-<div class="tip-box">
-    <h3><span class="emoji-icon">📚</span>How to Use This Workbook</h3>
-    <p>This workbook follows the Japanese study method with:</p>
-    <ul>
-        <li><strong>Questions</strong> followed by writing space for practice answers</li>
-        <li><strong>Key tips</strong> and strategies for each section</li>
-        <li><strong>Memory aids</strong> and common mistakes to avoid</li>
-        <li>Space for <strong>notes and illustrations</strong></li>
+<div style="background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); border-left: 5px solid #FFD700; padding: 20px; margin: 15px 0; border-radius: 0 15px 15px 0; position: relative; animation: questPulse 3s infinite;">
+    <h3 style="margin: 0 0 15px 0; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);"><span class="emoji-icon">🗺️</span>Quest Guide: How to Complete Your Visa Adventure</h3>
+    <p style="color: white; margin-bottom: 15px;">This RPG follows the Japanese study method with:</p>
+    <ul style="color: white; margin-bottom: 15px;">
+        <li><strong>🏰 Quest Missions</strong> - Answer questions to gain XP and level up</li>
+        <li><strong>⚔️ Battle Strategies</strong> - Key tips and interview techniques</li>
+        <li><strong>🎮 Memory Power-ups</strong> - Common mistakes to avoid</li>
+        <li><strong>📚 Skill Scrolls</strong> - Space for notes and illustrations</li>
     </ul>
     <div style="text-align: center; margin-top: 15px;">
-        <span style="font-size: 2em;">🎯</span>
-        <p style="margin: 5px 0; font-size: 0.9em; color: #28a745;">Goal: Be prepared, be confident!</p>
+        <span style="font-size: 2.5em;">⚔️</span>
+        <p style="margin: 5px 0; font-size: 0.9em; color: #FFD700; font-weight: bold;">Quest Goal: Defeat the Interview Boss and claim your visa! ⚔️</p>
     </div>
 </div>
 
+<style>
+@keyframes questPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+</style>
+
 <div class="section-divider"></div>
 
-<h2>Section 1: Purpose of Visit & Trip Details</h2>
-<p><em>Practice writing clear, concise answers</em></p>
+<div style="background: linear-gradient(135deg, #228B22 0%, #32CD32 100%); color: white; padding: 20px; border-radius: 15px; margin: 20px 0; border: 3px solid #FFD700; box-shadow: 0 8px 25px rgba(34, 139, 34, 0.3);">
+    <h2 style="margin: 0; text-align: center; font-size: 2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🏰 Chapter 1: The Village of Purpose</h2>
+    <p style="text-align: center; margin: 10px 0; font-size: 1.2em; color: #FFD700;">⚔️ Quest: Master the Art of Clear Communication ⚔️</p>
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
+        <span style="font-size: 2em;">🗺️</span>
+        <span style="font-size: 2em;">⚔️</span>
+        <span style="font-size: 2em;">🛡️</span>
+        <span style="font-size: 2em;">🏆</span>
+    </div>
+</div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">🎯</span>Question 1.1</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 1.1: The Purpose Scroll</h3>
     <p><strong>What is your purpose for visiting the United States?</strong></p>
     
     <div style="text-align: center; margin: 15px 0;">
-        <span style="font-size: 3em;">✈️</span>
-        <p style="margin: 5px 0; font-size: 0.9em; color: #666;">Think: Family + Tourism</p>
+        <span style="font-size: 3em;">🗺️</span>
+        <p style="margin: 5px 0; font-size: 0.9em; color: #666;">🎮 Think: Family + Tourism Quest</p>
     </div>
     
     <p><em>Write your answer here (keep it short - 1-2 sentences):</em></p>
@@ -2962,14 +2999,15 @@
         <strong>💡 Tip:</strong> Keep it simple - "To visit my son/daughter and do sightseeing" is perfect.
     </div>
     
-    <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 15px; border-radius: 10px; margin-top: 15px;">
-        <strong>🎨 Quick Sketch:</strong>
+    <div style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); padding: 15px; border-radius: 10px; margin-top: 15px; border: 2px solid #8B4513;">
+        <strong>🎮 Quest Map:</strong>
         <div style="display: flex; justify-content: space-around; margin-top: 10px;">
             <span style="font-size: 2em;">👨‍👩‍👧‍👦</span>
             <span style="font-size: 2em;">🗽</span>
             <span style="font-size: 2em;">🏙️</span>
             <span style="font-size: 2em;">📸</span>
         </div>
+        <p style="text-align: center; margin-top: 10px; font-size: 0.9em; color: #8B4513; font-weight: bold;">🗺️ Your Adventure Path 🗺️</p>
     </div>
 </div>
 
@@ -3055,11 +3093,19 @@
 
 <div class="section-divider"></div>
 
-<h2>Section 2: Financial Arrangements & Self-Sponsorship</h2>
-<p><em>Proving you can afford the trip independently</em></p>
+<div style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: white; padding: 20px; border-radius: 15px; margin: 20px 0; border: 3px solid #8B4513; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);">
+    <h2 style="margin: 0; text-align: center; font-size: 2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🏰 Chapter 2: The Treasury of Gold</h2>
+    <p style="text-align: center; margin: 10px 0; font-size: 1.2em; color: #8B4513;">⚔️ Quest: Master the Art of Financial Independence ⚔️</p>
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
+        <span style="font-size: 2em;">💰</span>
+        <span style="font-size: 2em;">⚔️</span>
+        <span style="font-size: 2em;">🛡️</span>
+        <span style="font-size: 2em;">🏆</span>
+    </div>
+</div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">💰</span>Question 2.1</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 2.1: The Gold Scroll</h3>
     <p><strong>Who is paying for your trip?</strong></p>
     
     <div style="text-align: center; margin: 15px 0;">
@@ -3087,7 +3133,7 @@
 </div>
 
 <div class="question-box">
-    <h3>Question 2.2</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 2.2: The Treasure Map</h3>
     <p><strong>Can you show bank statements as proof of funds?</strong></p>
     
     <p><em>Your response strategy:</em></p>
@@ -3103,7 +3149,7 @@
 </div>
 
 <div class="question-box">
-    <h3>Question 2.3</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 2.3: The Cost Calculator</h3>
     <p><strong>What is your total estimated cost for the trip?</strong></p>
     
     <div style="background-color: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 10px;">
@@ -3140,7 +3186,7 @@
 </div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">💰</span>Question 2.4</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 2.4: The Income Scroll</h3>
     <p><strong>How much do you earn, and what is your monthly income?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3152,7 +3198,7 @@
 </div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">🛡️</span>Question 2.5</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 2.5: The Emergency Shield</h3>
     <p><strong>How will you manage expenses if something unexpected happens?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3164,7 +3210,7 @@
 </div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">👥</span>Question 2.6</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 2.6: The Alliance Scroll</h3>
     <p><strong>Are you funding anyone else's trip (such as your spouse)?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3177,11 +3223,19 @@
 
 <div class="section-divider"></div>
 
-<h2>Section 3: Ties to Home Country</h2>
-<p><em>Showing strong reasons to return</em></p>
+<div style="background: linear-gradient(135deg, #228B22 0%, #32CD32 100%); color: white; padding: 20px; border-radius: 15px; margin: 20px 0; border: 3px solid #FFD700; box-shadow: 0 8px 25px rgba(34, 139, 34, 0.3);">
+    <h2 style="margin: 0; text-align: center; font-size: 2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🏰 Chapter 3: The Homeland Fortress</h2>
+    <p style="text-align: center; margin: 10px 0; font-size: 1.2em; color: #FFD700;">⚔️ Quest: Master the Art of Homeland Loyalty ⚔️</p>
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
+        <span style="font-size: 2em;">🏠</span>
+        <span style="font-size: 2em;">⚔️</span>
+        <span style="font-size: 2em;">🛡️</span>
+        <span style="font-size: 2em;">🏆</span>
+    </div>
+</div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">🏠</span>Question 3.1</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 3.1: The Homeland Scroll</h3>
     <p><strong>What do you do in your home country?</strong></p>
     
     <div style="text-align: center; margin: 15px 0;">
@@ -3220,7 +3274,7 @@
 </div>
 
 <div class="question-box">
-    <h3>Question 3.2</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 3.2: The Treasure Chest</h3>
     <p><strong>What assets or property do you own in your home country?</strong></p>
     
     <div style="background-color: #f8f9fa; padding: 15px; border-radius: 10px;">
@@ -3243,7 +3297,7 @@
 </div>
 
 <div class="question-box">
-    <h3>Question 3.3</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 3.3: The Guardian Scroll</h3>
     <p><strong>Who will take care of your responsibilities while you're away?</strong></p>
     
     <p><em>Your plan:</em></p>
@@ -3308,11 +3362,19 @@
 
 <div class="section-divider"></div>
 
-<h2>Section 4: Questions About Your Son in the U.S.</h2>
-<p><em>Demonstrating family connection without immigration intent</em></p>
+<div style="background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%); color: white; padding: 20px; border-radius: 15px; margin: 20px 0; border: 3px solid #FFD700; box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);">
+    <h2 style="margin: 0; text-align: center; font-size: 2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🏰 Chapter 4: The Family Alliance</h2>
+    <p style="text-align: center; margin: 10px 0; font-size: 1.2em; color: #FFD700;">⚔️ Quest: Master the Art of Family Connection ⚔️</p>
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
+        <span style="font-size: 2em;">👨‍👩‍👧‍👦</span>
+        <span style="font-size: 2em;">⚔️</span>
+        <span style="font-size: 2em;">🛡️</span>
+        <span style="font-size: 2em;">🏆</span>
+    </div>
+</div>
 
 <div class="question-box">
-    <h3>Question 4.1</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 4.1: The Son's Scroll</h3>
     <p><strong>What does your son do in the United States?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3320,7 +3382,7 @@
 </div>
 
 <div class="question-box">
-    <h3>Question 4.2</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 4.2: The Visa Scroll</h3>
     <p><strong>What visa does your son hold and where does he work?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3352,7 +3414,7 @@
 </div>
 
 <div class="question-box">
-    <h3>Question 4.3</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 4.3: The Lodging Scroll</h3>
     <p><strong>Will you be staying with your son during your visit?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3364,7 +3426,7 @@
 </div>
 
 <div class="question-box">
-    <h3>Question 4.4</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 4.4: The Future Scroll</h3>
     <p><strong>What are your son's future plans in the U.S.?</strong></p>
     
     <p><em>Your careful response:</em></p>
@@ -3376,7 +3438,7 @@
 </div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">📞</span>Question 4.5</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 4.5: The Communication Scroll</h3>
     <p><strong>How often do you communicate with your son?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3388,7 +3450,7 @@
 </div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">🏠</span>Question 4.6</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 4.6: The Address Scroll</h3>
     <p><strong>Where does your son live? Can you provide his address?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3402,7 +3464,7 @@
 </div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">👨‍👩‍👧‍👦</span>Question 4.7</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 4.7: The Family Scroll</h3>
     <p><strong>Is your son married? Does he have children?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3414,7 +3476,7 @@
 </div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">🎓</span>Question 4.8</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 4.8: The University Scroll</h3>
     <p><strong>Which University did your son study at?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3427,11 +3489,19 @@
 
 <div class="section-divider"></div>
 
-<h2>Section 5: Immigration History</h2>
-<p><em>Building credibility through honest disclosure</em></p>
+<div style="background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%); color: white; padding: 20px; border-radius: 15px; margin: 20px 0; border: 3px solid #FFD700; box-shadow: 0 8px 25px rgba(139, 69, 19, 0.3);">
+    <h2 style="margin: 0; text-align: center; font-size: 2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🏰 Chapter 5: The History Chronicles</h2>
+    <p style="text-align: center; margin: 10px 0; font-size: 1.2em; color: #FFD700;">⚔️ Quest: Master the Art of Honest Disclosure ⚔️</p>
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
+        <span style="font-size: 2em;">📜</span>
+        <span style="font-size: 2em;">⚔️</span>
+        <span style="font-size: 2em;">🛡️</span>
+        <span style="font-size: 2em;">🏆</span>
+    </div>
+</div>
 
 <div class="question-box">
-    <h3>Question 5.1</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 5.1: The Travel Scroll</h3>
     <p><strong>Have you traveled outside your country before?</strong></p>
     
     <div style="background-color: #f8f9fa; padding: 15px; border-radius: 10px;">
@@ -3452,7 +3522,7 @@
 </div>
 
 <div class="question-box">
-    <h3>Question 5.2</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 5.2: The Denial Scroll</h3>
     <p><strong>Have you ever been denied a visa?</strong></p>
     
     <p><em>Your honest answer:</em></p>
@@ -3464,7 +3534,7 @@
 </div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">⏰</span>Question 5.3</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 5.3: The Time Scroll</h3>
     <p><strong>Have you visited the U.S. before? If so, when and for how long?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3476,7 +3546,7 @@
 </div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">🚫</span>Question 5.4</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 5.4: The Overstay Scroll</h3>
     <p><strong>Have you ever overstayed a visa anywhere?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3488,7 +3558,7 @@
 </div>
 
 <div class="question-box">
-    <h3><span class="emoji-icon">🌍</span>Question 5.5</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 5.5: The Refusal Scroll</h3>
     <p><strong>Have you ever been refused a visa by any country before?</strong></p>
     
     <p><em>Your answer:</em></p>
@@ -3501,10 +3571,19 @@
 
 <div class="section-divider"></div>
 
-<h2>Final Preparation Section</h2>
+<div style="background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); color: white; padding: 20px; border-radius: 15px; margin: 20px 0; border: 3px solid #FFD700; box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);">
+    <h2 style="margin: 0; text-align: center; font-size: 2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🏰 Chapter 6: The Final Battle Preparation</h2>
+    <p style="text-align: center; margin: 10px 0; font-size: 1.2em; color: #FFD700;">⚔️ Quest: Master the Art of Ultimate Preparation ⚔️</p>
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
+        <span style="font-size: 2em;">⚔️</span>
+        <span style="font-size: 2em;">🛡️</span>
+        <span style="font-size: 2em;">🗡️</span>
+        <span style="font-size: 2em;">🏆</span>
+    </div>
+</div>
 
 <div class="question-box">
-    <h3>Mock Interview Practice</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 6.1: The Mock Battle</h3>
     <p><strong>Practice with a family member - time yourself (2-3 minutes per answer):</strong></p>
     
     <div style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
@@ -3532,7 +3611,7 @@
 </div>
 
 <div class="checklist">
-    <h3>Document Checklist</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 6.2: The Equipment Checklist</h3>
     <p><strong>Day before interview - check all items:</strong></p>
     
     <input type="checkbox"> Passport (valid for 6+ months)<br>
@@ -3549,7 +3628,7 @@
 </div>
 
 <div class="question-box">
-    <h3>Emergency Phrases</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 6.3: The Emergency Scroll</h3>
     <p><strong>If you don't understand a question:</strong></p>
     <ul>
         <li>"Could you please repeat the question?"</li>
@@ -3559,18 +3638,56 @@
 </div>
 
 <div class="question-box">
-    <h3>Success Mantras</h3>
-    <p>Write your confidence-building statements:</p>
-    <div style="background-color: #f8f9fa; padding: 10px;">
-        1. _________________________________________________<br>
-        2. _________________________________________________<br>
-        3. _________________________________________________
+    <h3><span class="emoji-icon">⚔️</span>Quest 6.4: The Confidence Scroll</h3>
+    <p><strong>Write your confidence-building statements:</strong></p>
+    
+    <div style="text-align: center; margin: 15px 0;">
+        <span style="font-size: 3em;">🌟</span>
+        <p style="margin: 5px 0; font-size: 0.9em; color: #666;">Repeat these daily for confidence!</p>
     </div>
-    <p><strong>Example:</strong> "I have strong ties to my home country and will definitely return after my visit."</p>
+    
+    <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 20px; border-radius: 15px; margin: 15px 0; border-left: 5px solid #ff9800;">
+        <h4 style="margin: 0 0 15px 0; color: #e65100;">🎯 Your Confidence Statements:</h4>
+        
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight: bold; color: #e65100;">1. I am confident because:</label>
+            <div class="answer-space" style="margin-top: 8px;"></div>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight: bold; color: #e65100;">2. I will succeed because:</label>
+            <div class="answer-space" style="margin-top: 8px;"></div>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight: bold; color: #e65100;">3. My strongest point is:</label>
+            <div class="answer-space" style="margin-top: 8px;"></div>
+        </div>
+    </div>
+    
+    <div class="tip-box">
+        <strong>💡 Examples:</strong>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>"I have strong ties to my home country and will definitely return after my visit."</li>
+            <li>"I am financially independent and can afford this trip myself."</li>
+            <li>"I have a stable job and family responsibilities that require my return."</li>
+        </ul>
+    </div>
+    
+    <div style="background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%); padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 5px solid #4caf50;">
+        <strong>🎯 Daily Practice:</strong>
+        <div style="display: flex; justify-content: space-around; margin-top: 10px;">
+            <span style="font-size: 1.5em;">🌅</span>
+            <span style="font-size: 1.5em;">📝</span>
+            <span style="font-size: 1.5em;">🗣️</span>
+            <span style="font-size: 1.5em;">💪</span>
+        </div>
+        <p style="text-align: center; margin-top: 10px; font-size: 0.9em; color: #2e7d32;">Read these statements aloud every morning!</p>
+    </div>
 </div>
 
 <div class="checklist">
-    <h3>Interview Day Strategy</h3>
+    <h3><span class="emoji-icon">⚔️</span>Quest 6.5: The Battle Day Strategy</h3>
     <p><strong>Morning of interview:</strong></p>
     
     <input type="checkbox"> Good breakfast<br>
@@ -3582,14 +3699,22 @@
 
 <div class="section-divider"></div>
 
-<h2>🎯 Random Quiz Challenge</h2>
-<p><em>Test your preparation with 4 random questions!</em></p>
+<div style="background: linear-gradient(135deg, #9C27B0 0%, #673AB7 100%); color: white; padding: 20px; border-radius: 15px; margin: 20px 0; border: 3px solid #FFD700; box-shadow: 0 8px 25px rgba(156, 39, 176, 0.3);">
+    <h2 style="margin: 0; text-align: center; font-size: 2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🏰 Chapter 7: The Ultimate Boss Battle</h2>
+    <p style="text-align: center; margin: 10px 0; font-size: 1.2em; color: #FFD700;">⚔️ Quest: Test your preparation with 4 random questions! ⚔️</p>
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px;">
+        <span style="font-size: 2em;">🎯</span>
+        <span style="font-size: 2em;">⚔️</span>
+        <span style="font-size: 2em;">🛡️</span>
+        <span style="font-size: 2em;">🏆</span>
+    </div>
+</div>
 
 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 20px; margin: 30px 0; color: white; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1);">
     <div id="quiz-container">
         <div id="quiz-intro" style="text-align: center;">
-            <h3 style="color: white; margin: 0 0 20px 0; font-size: 2em;">🎲 Ready for Your Quiz?</h3>
-            <p style="font-size: 1.2em; margin-bottom: 30px;">I'll ask you 4 random interview questions.<br>Try to answer each one out loud!</p>
+            <h3 style="color: white; margin: 0 0 20px 0; font-size: 2em;">⚔️ Ready for Your Boss Battle?</h3>
+            <p style="font-size: 1.2em; margin-bottom: 30px;">I'll ask you 4 random interview questions.<br>Try to answer each one out loud, brave warrior!</p>
             
             <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
                 <span style="font-size: 3em;">🎯</span>
@@ -3599,13 +3724,13 @@
             </div>
             
             <button onclick="startQuiz()" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 15px 30px; border-radius: 25px; font-size: 1.2em; font-weight: bold; cursor: pointer; transition: all 0.3s ease;">
-                🚀 Start Random Quiz
+                ⚔️ Start Boss Battle
             </button>
             
             <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 15px;">
-                <h4 style="color: white; margin: 0 0 10px 0;">Quiz Rules:</h4>
+                <h4 style="color: white; margin: 0 0 10px 0;">⚔️ Battle Rules:</h4>
                 <ul style="text-align: left; color: white; margin: 0;">
-                    <li>4 random questions from your workbook</li>
+                    <li>4 random questions from your quest</li>
                     <li>30 seconds thinking time per question</li>
                     <li>Speak your answer out loud</li>
                     <li>Rate yourself honestly</li>
@@ -3675,27 +3800,27 @@
     </div>
 </div>
 
-<div style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 20px; margin: 40px 0; color: white; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1);">
-    <div style="position: absolute; top: -20px; left: -20px; font-size: 4em; opacity: 0.1;">🌟</div>
-    <div style="position: absolute; top: -20px; right: -20px; font-size: 4em; opacity: 0.1;">🎯</div>
-    <div style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 4em; opacity: 0.1;">💪</div>
+    <div style="text-align: center; background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%); padding: 30px; border-radius: 20px; margin: 40px 0; color: white; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(139, 69, 19, 0.3); border: 3px solid #FFD700;">
+    <div style="position: absolute; top: -20px; left: -20px; font-size: 4em; opacity: 0.1;">⚔️</div>
+    <div style="position: absolute; top: -20px; right: -20px; font-size: 4em; opacity: 0.1;">🏆</div>
+    <div style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 4em; opacity: 0.1;">🗡️</div>
     
-    <h2 style="color: white; margin: 0; font-size: 2em;">💪 Final Motivation</h2>
-    <p style="font-size: 20px; margin: 15px 0;">The officer wants to approve you if you meet the requirements.<br>Be honest, be prepared, and stay confident!</p>
+    <h2 style="color: white; margin: 0; font-size: 2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🏰 Final Battle Preparation</h2>
+    <p style="font-size: 20px; margin: 15px 0;">The Interview Boss wants to approve you if you meet the requirements.<br>Be honest, be prepared, and stay confident, brave warrior!</p>
     
     <div style="display: flex; justify-content: space-around; margin: 20px 0;">
-        <span style="font-size: 3em;">🎯</span>
-        <span style="font-size: 3em;">💼</span>
-        <span style="font-size: 3em;">✈️</span>
-        <span style="font-size: 3em;">🇺🇸</span>
+        <span style="font-size: 3em;">⚔️</span>
+        <span style="font-size: 3em;">🛡️</span>
+        <span style="font-size: 3em;">🗡️</span>
+        <span style="font-size: 3em;">🏆</span>
     </div>
     
-    <p style="font-size: 28px; font-weight: bold; color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Good luck with your B1/B2 visa interview!</p>
-    <p style="font-size: 24px; color: #ffffff; margin-top: 10px;">頑張って！ (Ganbatte!)</p>
+    <p style="font-size: 28px; font-weight: bold; color: #FFD700; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Good luck with your visa quest, brave adventurer!</p>
+    <p style="font-size: 24px; color: #FFD700; margin-top: 10px;">⚔️ 頑張って！ (Ganbatte!) ⚔️</p>
     
     <div style="margin-top: 20px;">
         <button class="interactive-button" onclick="window.print()" style="background: rgba(255,255,255,0.2); border: 2px solid white;">
-            🖨️ Print Your Workbook
+            🗺️ Print Your Quest Map
         </button>
     </div>
 </div>
