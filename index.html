@@ -1116,14 +1116,24 @@
 
       var locations = [
         { name: "Waikiki Beach Marriott (Hotel)", coords: [21.2721, -157.8217], desc: "Home base! Schedule starts here." },
+        { name: "Honolulu Airport (HNL)", coords: [21.3245, -157.9251], desc: "Arrivals & Departures" },
+        { name: "International Market Place", coords: [21.2790, -157.8242], desc: "Shopping & Souvenirs" },
+        { name: "Ala Moana Center", coords: [21.2910, -157.8436], desc: "Massive Hawaiian Mall" },
+        { name: "Duke's Waikiki", coords: [21.2766, -157.8280], desc: "Dinner & Hula Show (Thursday)" },
         { name: "Coral Crater Adventure Park", coords: [21.3283, -158.0583], desc: "Zipline & West Side Adventure" },
         { name: "Wet'n'Wild Hawaii", coords: [21.3364, -158.0847], desc: "Waterpark" },
-        { name: "Kualoa Ranch", coords: [21.5206, -157.8373], desc: "Secret Island Beach" },
-        { name: "Polynesian Cultural Center", coords: [21.6385, -157.9202], desc: "Villages & Cultural Tours" },
+        { name: "Costco Kapolei", coords: [21.3256, -158.0874], desc: "Macadamia nuts & souvenirs bulk shopping" },
+        { name: "Hawaiian Style Rentals", coords: [21.2721, -157.8211], desc: "Friday & Monday Bike Rentals" },
+        { name: "Tim Ho Wan", coords: [21.2783, -157.8285], desc: "Dim Sum Dinner option" },
+        { name: "Twin Fin Hotel", coords: [21.2718, -157.8209], desc: "Shuttle pickup point (Kualoa & Diamond Head)" },
+        { name: "Kualoa Ranch", coords: [21.5206, -157.8373], desc: "Secret Island Beach (Saturday)" },
+        { name: "Polynesian Cultural Center", coords: [21.6385, -157.9202], desc: "Villages & Cultural Tours (Saturday)" },
+        { name: "Yoshitsune", coords: [21.2718, -157.8210], desc: "Authentic Japanese Dinner option" },
+        { name: "Kewalo Basin Harbor", coords: [21.2924, -157.8595], desc: "Waikiki Snorkel Tour Check-in (Sunday)" },
         { name: "Sea Life Park (Aloha Kai Luau)", coords: [21.3140, -157.6537], desc: "Sunday Evening Luau" },
         { name: "Diamond Head State Monument", coords: [21.2630, -157.8037], desc: "Monday Hike" },
-        { name: "Ala Moana Center", coords: [21.2910, -157.8436], desc: "Massive Hawaiian Mall" },
-        { name: "Honolulu Airport (HNL)", coords: [21.3245, -157.9251], desc: "Arrivals & Departures" }
+        { name: "Leonard's Bakery", coords: [21.2846, -157.8136], desc: "Famous Malasadas must-try!" },
+        { name: "Tonkatsu Tamafuji", coords: [21.2774, -157.8164], desc: "Delicious Tonkatsu to try" }
       ];
 
       locations.forEach(loc => { L.marker(loc.coords).addTo(map).bindPopup("<b>" + loc.name + "</b><br>" + loc.desc); });
