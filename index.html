@@ -321,6 +321,33 @@ function renderToday(){
       html+=`</div>`;
     }
 
+    const HOTEL_CHECK=[
+      {icon:"🔑",name:"Room key in pocket"},
+      {icon:"🔒",name:"Room safe locked"},
+      {icon:"🔋",name:"Phone charged"},
+      {icon:"💡",name:"AC off / lights off"},
+      {icon:"🧴",name:"Sunscreen applied"},
+      {icon:"💳",name:"Wallet + cards"},
+      {icon:"🎒",name:"Bag double-checked"},
+      {icon:"📱",name:"Boarding pass on phone"}
+    ];
+    const hotelDone=HOTEL_CHECK.filter((_,hi)=>state.checked['hotel-'+tripIdx+'-'+hi]).length;
+    html+=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;margin-top:4px">
+      <div style="font-size:13px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em">Before you leave the hotel 🏨</div>
+      <div style="font-size:11px;color:var(--text3)">${hotelDone}/${HOTEL_CHECK.length} done</div>
+    </div>`;
+    html+=`<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:16px">`;
+    HOTEL_CHECK.forEach((h,hi)=>{
+      const key='hotel-'+tripIdx+'-'+hi;
+      const done=state.checked[key];
+      html+=`<div style="background:${done?'var(--palm-light)':'var(--bg2)'};border:0.5px solid ${done?'var(--palm)':'var(--border)'};border-radius:var(--radius);padding:8px 6px;text-align:center;cursor:pointer" onclick="packChk('hotel-${tripIdx}-${hi}')">
+        <div style="font-size:16px;margin-bottom:3px">${h.icon}</div>
+        <div style="font-size:10px;font-weight:500;color:${done?'var(--palm-text)':'var(--text2)'};line-height:1.3${done?';text-decoration:line-through':''}">${h.name}</div>
+        ${done?'<div style="color:var(--palm);font-size:12px;margin-top:2px">✓</div>':''}
+      </div>`;
+    });
+    html+=`</div>`;
+
     html+=`<div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em">Today's schedule</div>`;
     html+=`<div class="day-card">`;
     day.items.forEach((item,ii)=>{
@@ -482,7 +509,7 @@ const DAYS=[
     {icon:"🧢",name:"Cap / hat",must:true,note:"No shade at all on the Diamond Head trail"},
     {icon:"📷",name:"Camera",must:true,note:"360° panoramic views of Waikiki from the summit"},
     {icon:"🕶️",name:"Sunglasses",must:true,note:"Exposed ridge hike + bright summit"},
-    {icon:"🛂",name:"Passport + boarding pass",must:true,note:"MUST — double check before leaving hotel"},
+    {icon:"🪪",name:"Driving license",must:true,note:"ID for the flight — driving license is fine. Boarding pass is on your phone."},
     {icon:"🔋",name:"Power bank",must:true,note:"Long travel day HNL→IAH→ABQ"},
     {icon:"🎧",name:"Earphones",must:false,note:"11h 49m total flight time — don't forget these"},
     {icon:"📋",name:"Diamond Head waiver",must:true,note:"Must be signed before Monday — check email"}
