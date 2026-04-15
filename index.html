@@ -297,8 +297,29 @@ function renderToday(){
       </div>
     </div>`;
 
-    html+=`<div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em">Today's bag 🎒</div>`;
-    html+=`<div class="bag-bar" style="border-radius:var(--radius);margin-bottom:14px"><b>Pack:</b> ${day.bag}</div>`;
+    html+=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div style="font-size:13px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em">Today's pack list 🎒</div>
+      ${day.pack?`<div style="font-size:11px;color:var(--text3)">${day.pack.filter((_,pi)=>state.checked['pack-'+tripIdx+'-'+pi]).length}/${day.pack.length} packed</div>`:''}
+    </div>`;
+    if(day.pack&&day.pack.length){
+      html+=`<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:16px">`;
+      day.pack.forEach((p,pi)=>{
+        const key='pack-'+tripIdx+'-'+pi;
+        const done=state.checked[key];
+        const bg=done?'var(--palm-light)':p.must?'var(--coral-light)':'var(--bg2)';
+        const border=done?'var(--palm)':p.must?'var(--coral)':'var(--border)';
+        const nameColor=done?'var(--palm-text)':p.must?'var(--coral-text)':'var(--text)';
+        html+=`<div style="background:${bg};border:0.5px solid ${border};border-radius:var(--radius);padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="packChk('pack-${tripIdx}-${pi}')">
+          <div style="font-size:18px;flex-shrink:0">${p.icon}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12px;font-weight:500;color:${nameColor}${done?';text-decoration:line-through':''}">${p.name}${p.must&&!done?' <span style="font-size:9px;font-weight:600;background:var(--coral);color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle">must</span>':''}</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px;line-height:1.3">${p.note}</div>
+          </div>
+          ${done?'<div style="color:var(--palm);font-size:16px;flex-shrink:0">✓</div>':''}
+        </div>`;
+      });
+      html+=`</div>`;
+    }
 
     html+=`<div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em">Today's schedule</div>`;
     html+=`<div class="day-card">`;
@@ -342,6 +363,15 @@ const DAYS=[
     {t:"",name:"Uber back ~$10",sub:"Drop bags, freshen up for sunset and dinner.",tags:["drive"],tx:true},
     {t:"6:00 PM",name:"FREE — Waikiki Beach sunset 🌅",sub:"Walk from hotel. First Pacific sunset ~7:10pm. Sit on the sand, breathe it all in.",tags:["free"],rm:false,free:true},
     {t:"7:15 PM",name:"DINNER — Duke's Waikiki + free hula show 🌺",sub:"Free hula show every Thursday night on the beach bar stage. Book at dukeswaikiki.com. Huli Huli chicken, coconut shrimp, Mai Tai.",tags:["food","book","dinner"],rm:false,dinner:true}
+  ],pack:[
+    {icon:"🕶️",name:"Sunglasses",must:true,note:"Every day essential"},
+    {icon:"👟",name:"Walking shoes",must:true,note:"Waikiki streets + Ala Moana shopping"},
+    {icon:"📷",name:"Camera",must:true,note:"First Pacific sunset + Duke's hula show"},
+    {icon:"🔋",name:"Power bank",must:true,note:"Long travel day — keep phone alive"},
+    {icon:"🎫",name:"Go City pass",must:true,note:"Don't activate yet — saves it for Friday"},
+    {icon:"💳",name:"Cards + cash",must:true,note:"Souvenirs, tips, dinner"},
+    {icon:"🎧",name:"Earphones",must:false,note:"Nice for the arrival journey"},
+    {icon:"👕",name:"Change of clothes",must:false,note:"Freshen up before Duke's dinner"}
   ]},
   {date:"Fri Apr 17",label:"Day 2",color:"#d8f3dc",tc:"#2d6a4f",title:"Pass Activates — West Side Adventure Day",
    wake:"⏰ Wake up 6:30 AM — Uber to Coral Crater by 8am",
@@ -361,6 +391,19 @@ const DAYS=[
     {t:"5:30 PM",name:"FREE — rest + shower at hotel",sub:"Recharge. You've earned it after a big physical day.",tags:["free"],rm:false,free:true},
     {t:"7:00 PM",name:"Bike Rental — Hawaiian Style Rentals 🚲",sub:"Pass included. Walk from hotel on Lemon Rd. Cruise Diamond Head coastal road + Kapiolani Park at sunset.",tags:["pass","bike"],rm:true},
     {t:"8:30 PM",name:"DINNER — Tim Ho Wan or Yoshitsune 🍜",sub:"Tim Ho Wan: Michelin dim sum, Royal Hawaiian Center 3F, no reservations. Yoshitsune: authentic Japanese, reserve ahead.",tags:["food","dinner"],rm:false,dinner:true}
+  ],pack:[
+    {icon:"👟",name:"Closed toe shoes",must:true,note:"MANDATORY — turned away at Coral Crater without them"},
+    {icon:"🩱",name:"Swimwear",must:true,note:"Wet'n'Wild — wear under clothes or pack it"},
+    {icon:"🏊",name:"Towel",must:true,note:"Grab from hotel — Wet'n'Wild water park"},
+    {icon:"🧴",name:"Sunscreen",must:true,note:"Full day outdoors in the sun"},
+    {icon:"🪲",name:"Bug spray",must:true,note:"Coral Crater outdoor adventure course"},
+    {icon:"💧",name:"Water bottle",must:true,note:"Stay hydrated — big active day"},
+    {icon:"🎫",name:"Go City pass",must:true,note:"Day 1 of 4 — activates today"},
+    {icon:"📷",name:"Camera",must:true,note:"Aerial course + water park action shots"},
+    {icon:"🕶️",name:"Sunglasses",must:true,note:"Full day in the Kapolei sun"},
+    {icon:"🔋",name:"Power bank",must:true,note:"Long day out — far from the hotel"},
+    {icon:"💵",name:"Cash for tips",must:false,note:"Guides at Coral Crater"},
+    {icon:"👕",name:"Spare change of clothes",must:false,note:"After Wet'n'Wild — dry off for the ride back"}
   ]},
   {date:"Sat Apr 18",label:"Day 3",color:"#faeeda",tc:"#854f0b",title:"Secret Island Beach + Polynesian Cultural Center",
    wake:"⏰ Wake up 6:00 AM — Kualoa shuttle departs Twin Fin at 7am",
@@ -376,6 +419,18 @@ const DAYS=[
     {t:"1:50–6:00 PM",name:"Polynesian Cultural Center 🎭",sub:"Day pass. 6 island villages, canoe rides, spear throwing, fishing, 40-min tram tour. Villages open till 5:30.",tags:["pass"],rm:false},
     {t:"6:00 PM",name:"PCC bus back to Waikiki 🚌",sub:"Order #953509. Call PCC box office for exact pickup location instructions.",tags:["booked"],rm:false},
     {t:"7:30 PM",name:"DINNER — Waikiki 🍣",sub:"Yoshitsune (authentic Japanese, reserve ahead), Barefoot Beach Cafe, or explore a Waikiki restaurant.",tags:["food","dinner"],rm:false,dinner:true}
+  ],pack:[
+    {icon:"🩱",name:"Swimwear",must:true,note:"Secret Island Beach — you're in the water"},
+    {icon:"🏊",name:"Towel",must:true,note:"Grab from hotel — beach + kayaking"},
+    {icon:"🧴",name:"Reef-safe sunscreen",must:true,note:"Open beach, no shade — must be mineral-based"},
+    {icon:"💧",name:"Water bottle",must:true,note:"Long day from 6am to 8pm"},
+    {icon:"👟",name:"Walking shoes",must:true,note:"PCC village walking — comfortable flats"},
+    {icon:"🎫",name:"Go City pass",must:true,note:"Day 2 of 4 — PCC entry + Kualoa"},
+    {icon:"📷",name:"Camera",must:true,note:"Secret Island is stunning — best photo day of the trip"},
+    {icon:"🕶️",name:"Sunglasses",must:true,note:"Beach + open-air PCC villages all day"},
+    {icon:"🔋",name:"Power bank",must:true,note:"6am to 8pm — very long day"},
+    {icon:"🎧",name:"Earphones",must:false,note:"45 min shuttle ride each way"},
+    {icon:"🥪",name:"Light snack",must:false,note:"Early 6am start — grab from 7-Eleven on the way"}
   ]},
   {date:"Sun Apr 19",label:"Day 4",color:"#eeedfe",tc:"#534ab7",title:"Snorkel + Aloha Kai Luau at Sea Life Park",
    wake:"⏰ Wake up 8:30 AM — snorkel check-in at 9:45am",
@@ -392,6 +447,16 @@ const DAYS=[
     {t:"3:55 PM",name:"Luau transport departs 🚌",sub:"Booking #343911769. Drives you to Sea Life Park and brings you back after the show.",tags:["drive"],tx:true},
     {t:"5:00–8:00 PM",name:"Aloha Kai Luau — Sea Life Park 🌺🔥",sub:"Booking #343829315. Silver Package. Shell lei, buffet dinner, open bar, full hula show, fire knife dancing. 41-202 Kalanianaole Hwy #7.",tags:["pass","anchor","booked"],rm:false},
     {t:"~8:30 PM",name:"Transport back to Waikiki",sub:"Luau bus drops you back. Luau dinner covers tonight — grab a drink if you want.",tags:["relax"],rm:false}
+  ],pack:[
+    {icon:"🧴",name:"Reef-safe mineral sunscreen",must:true,note:"MANDATORY for snorkel — regular sunscreen is banned"},
+    {icon:"🩱",name:"Swimwear",must:true,note:"Snorkel tour — wear to the harbor"},
+    {icon:"🏊",name:"Towel",must:true,note:"Grab from hotel — post-snorkel dry off"},
+    {icon:"👗",name:"Luau outfit",must:true,note:"Separate change of clothes — look good for the Silver Package show"},
+    {icon:"🎫",name:"Go City pass",must:true,note:"Day 3 of 4"},
+    {icon:"📷",name:"Camera",must:true,note:"Sea turtles + fire knife dancing at the luau"},
+    {icon:"🕶️",name:"Sunglasses",must:true,note:"Morning snorkel + afternoon on Waikiki beach"},
+    {icon:"🔋",name:"Power bank",must:true,note:"All day out — snorkel then luau"},
+    {icon:"🎧",name:"Earphones",must:false,note:"Afternoon free chill block on the beach"}
   ]},
   {date:"Mon Apr 20",label:"Day 5",color:"#e1f5ee",tc:"#0f6e56",title:"Diamond Head + Shopping + Fly Home",
    wake:"⏰ Wake up 8:30 AM — store bags before walking to Twin Fin at 9:40am",
@@ -410,6 +475,17 @@ const DAYS=[
     {t:"",name:"Departure transfer to HNL",sub:"Aloha VIP Tours — reconfirm Sunday by calling 808-955-5900. Shared transfer, allow time for stops.",tags:["drive"],tx:true},
     {t:"~5:30 PM",name:"Arrive HNL — The Club lounge",sub:"Priority Pass accepted with Capital One Venture X. Food, drinks, wifi before the long flight home.",tags:["relax"],rm:false},
     {t:"7:40 PM",name:"Flight UA 252 departs ✈️",sub:"HNL→IAH→ABQ. Seat 37L. Total 11h 49m. Mahalo nui loa, Oahu! 🤙",tags:["relax"],rm:false}
+  ],pack:[
+    {icon:"💧",name:"Water bottle",must:true,note:"CRITICAL — hike has no water, zero shade on trail"},
+    {icon:"🧴",name:"Sunscreen",must:true,note:"Diamond Head summit is fully exposed"},
+    {icon:"👟",name:"Closed toe shoes",must:true,note:"MANDATORY for Diamond Head trail — no sandals"},
+    {icon:"🧢",name:"Cap / hat",must:true,note:"No shade at all on the Diamond Head trail"},
+    {icon:"📷",name:"Camera",must:true,note:"360° panoramic views of Waikiki from the summit"},
+    {icon:"🕶️",name:"Sunglasses",must:true,note:"Exposed ridge hike + bright summit"},
+    {icon:"🛂",name:"Passport + boarding pass",must:true,note:"MUST — double check before leaving hotel"},
+    {icon:"🔋",name:"Power bank",must:true,note:"Long travel day HNL→IAH→ABQ"},
+    {icon:"🎧",name:"Earphones",must:false,note:"11h 49m total flight time — don't forget these"},
+    {icon:"📋",name:"Diamond Head waiver",must:true,note:"Must be signed before Monday — check email"}
   ]}
 ];
 
@@ -641,6 +717,7 @@ function renderFlights(){
 }
 
 function tog(di,ii){const key=`${di}-${ii}`;state.removed[key]=!state.removed[key];save();renderSchedule();}
+function packChk(key){state.checked[key]=!state.checked[key];save();renderToday();}
 function chk(key,el){
   state.checked[key]=!state.checked[key];save();
   const item=el.closest('.list-item');
