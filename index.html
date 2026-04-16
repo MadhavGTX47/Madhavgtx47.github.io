@@ -8,7 +8,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <style>
     :root {
@@ -202,11 +202,15 @@
       overflow-x: auto;
       margin-bottom: 2rem;
       padding-bottom: 4px;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE/Edge */
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE/Edge */
     }
+
     .tabs::-webkit-scrollbar {
-      display: none; /* WebKit */
+      display: none;
+      /* WebKit */
     }
 
     .tab {
@@ -831,37 +835,176 @@
         font-size: 32px
       }
     }
-    .route-btn {
-      padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text2); white-space: nowrap; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); margin-right: 2px;
-    }
-    .route-btn.active {
-      background: var(--ocean); color: #fff; border-color: var(--ocean); box-shadow: 0 2px 8px rgba(14,165,233,0.3);
-    }
-    .route-btn-container::-webkit-scrollbar { display: none; }
-    
-    .grid-pack { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-bottom: 24px; }
-    .pack-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; gap: 12px; align-items: center; cursor: pointer; transition: 0.15s; position: relative; overflow: hidden; }
-    .pack-card.done { background: var(--palm-light); border-color: var(--palm); }
-    .pack-icon { font-size: 24px; flex-shrink: 0; }
-    .pack-info { flex: 1; }
-    .pack-title { font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .pack-card.done .pack-title { color: var(--palm-text); text-decoration: line-through; }
-    .must-badge { background: var(--coral); color: #fff; font-size: 9px; padding: 3px 6px; border-radius: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
-    .pack-card.done .must-badge { opacity: 0.5; }
-    .pack-sub { font-size: 11px; color: var(--text3); margin-top: 4px; line-height: 1.3; }
-    .pack-card.done .pack-sub { color: var(--palm-text); opacity: 0.8; }
-    .pack-check { position: absolute; right: 14px; font-size: 18px; color: var(--palm); display: none; font-weight: bold; }
-    .pack-card.done .pack-check { display: block; }
 
-    .grid-hotel { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 24px; }
-    .hotel-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 6px; text-align: center; cursor: pointer; transition: 0.15s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90px; }
-    .hotel-card.done { background: var(--palm-light); border-color: var(--palm); }
-    .hotel-icon { font-size: 24px; margin-bottom: 8px; }
-    .hotel-title { font-size: 11px; font-weight: 600; color: var(--text2); line-height: 1.3; }
-    .hotel-card.done .hotel-title { color: var(--palm-text); text-decoration: line-through; }
+    .route-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      color: var(--text2);
+      white-space: nowrap;
+      transition: 0.2s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      margin-right: 2px;
+    }
+
+    .route-btn.active {
+      background: var(--ocean);
+      color: #fff;
+      border-color: var(--ocean);
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+    }
+
+    .route-btn-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .grid-pack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .pack-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pack-card.done {
+      background: var(--palm-light);
+      border-color: var(--palm);
+    }
+
+    .pack-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .pack-info {
+      flex: 1;
+    }
+
+    .pack-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pack-card.done .pack-title {
+      color: var(--palm-text);
+      text-decoration: line-through;
+    }
+
+    .must-badge {
+      background: var(--coral);
+      color: #fff;
+      font-size: 9px;
+      padding: 3px 6px;
+      border-radius: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+
+    .pack-card.done .must-badge {
+      opacity: 0.5;
+    }
+
+    .pack-sub {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    .pack-card.done .pack-sub {
+      color: var(--palm-text);
+      opacity: 0.8;
+    }
+
+    .pack-check {
+      position: absolute;
+      right: 14px;
+      font-size: 18px;
+      color: var(--palm);
+      display: none;
+      font-weight: bold;
+    }
+
+    .pack-card.done .pack-check {
+      display: block;
+    }
+
+    .grid-hotel {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .hotel-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 90px;
+    }
+
+    .hotel-card.done {
+      background: var(--palm-light);
+      border-color: var(--palm);
+    }
+
+    .hotel-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .hotel-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text2);
+      line-height: 1.3;
+    }
+
+    .hotel-card.done .hotel-title {
+      color: var(--palm-text);
+      text-decoration: line-through;
+    }
+
     @media(max-width: 400px) {
-      .grid-hotel { grid-template-columns: repeat(3, minmax(0,1fr)); }
-      .grid-pack { grid-template-columns: 1fr; }
+      .grid-hotel {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid-pack {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -900,20 +1043,27 @@
       </div>
     </div>
 
-    <div class="clocks" style="display:flex;justify-content:space-between;gap:12px;margin-bottom:20px;background:var(--bg2);padding:14px 20px;border-radius:var(--radius-lg);border:0.5px solid var(--border)">
+    <div class="clocks"
+      style="display:flex;justify-content:space-between;gap:12px;margin-bottom:20px;background:var(--bg2);padding:14px 20px;border-radius:var(--radius-lg);border:0.5px solid var(--border)">
       <div style="flex:1">
         <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em">Hawaii (HST)</div>
-        <div id="clock-hi" style="font-size:20px;font-family:'Playfair Display',serif;font-weight:600;color:var(--text);margin-top:2px">--:--</div>
+        <div id="clock-hi"
+          style="font-size:20px;font-family:'Playfair Display',serif;font-weight:600;color:var(--text);margin-top:2px">
+          --:--</div>
       </div>
       <div style="width:1px;background:var(--border)"></div>
       <div style="flex:1;text-align:center">
         <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em">ABQ (Home)</div>
-        <div id="clock-abq" style="font-size:20px;font-family:'Playfair Display',serif;font-weight:600;color:var(--text);margin-top:2px">--:--</div>
+        <div id="clock-abq"
+          style="font-size:20px;font-family:'Playfair Display',serif;font-weight:600;color:var(--text);margin-top:2px">
+          --:--</div>
       </div>
       <div style="width:1px;background:var(--border)"></div>
       <div style="flex:1;text-align:right">
         <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em">India (IST)</div>
-        <div id="clock-in" style="font-size:20px;font-family:'Playfair Display',serif;font-weight:600;color:var(--text);margin-top:2px">--:--</div>
+        <div id="clock-in"
+          style="font-size:20px;font-family:'Playfair Display',serif;font-weight:600;color:var(--text);margin-top:2px">
+          --:--</div>
       </div>
     </div>
 
@@ -944,7 +1094,8 @@
       <div id="shop-list"></div>
     </div>
     <div id="map" class="section">
-      <div class="route-btn-container" style="display:flex;gap:4px;overflow-x:auto;padding-bottom:12px;margin-bottom:4px;scrollbar-width:none;-ms-overflow-style:none;">
+      <div class="route-btn-container"
+        style="display:flex;gap:4px;overflow-x:auto;padding-bottom:12px;margin-bottom:4px;scrollbar-width:none;-ms-overflow-style:none;">
         <button class="route-btn active" onclick="showRoute('all', event)">All Pins</button>
         <button class="route-btn" onclick="showRoute('day1', event)">Day 1</button>
         <button class="route-btn" onclick="showRoute('day2', event)">Day 2</button>
@@ -952,10 +1103,12 @@
         <button class="route-btn" onclick="showRoute('day4', event)">Day 4</button>
         <button class="route-btn" onclick="showRoute('day5', event)">Day 5</button>
       </div>
-      <div class="list-card" style="padding:0;overflow:hidden;border:none;border-radius:12px;background:var(--bg);position:relative">
+      <div class="list-card"
+        style="padding:0;overflow:hidden;border:none;border-radius:12px;background:var(--bg);position:relative">
         <div id="oahu-map" style="width: 100%; height: 540px; z-index:1;"></div>
       </div>
-      <div style="font-size:12px;color:var(--text2);text-align:center;margin-top:12px">Custom Oahu Explorer Map — Tap pins for details</div>
+      <div style="font-size:12px;color:var(--text2);text-align:center;margin-top:12px">Custom Oahu Explorer Map — Tap
+        pins for details</div>
     </div>
     <div id="contacts" class="section">
       <div id="contact-list"></div>
@@ -1078,11 +1231,11 @@
         const packList = [];
         const bagClean = day.bag.replace(/\+/g, ',');
         const bagTokens = bagClean.split(/[.,](?=\s|$)/).map(s => s.trim()).filter(s => s);
-        
+
         bagTokens.forEach(s => {
           let e = "🎒", m = true;
           const ls = s.toLowerCase();
-          
+
           if (ls.includes("flip flop") || ls.includes("slipper")) e = "🩴";
           else if (ls.includes("sunglass")) e = "🕶️";
           else if (ls.includes("shoe") || ls.includes("sneaker")) e = "👟";
@@ -1097,7 +1250,7 @@
           else if (ls.includes("medication") || ls.includes("tablet")) e = "💊";
           else if (ls.includes("water") || ls.includes("hydro")) e = "💧";
           else if (ls.includes("bug") || ls.includes("mosquito")) e = "🦟";
-          else m = false; 
+          else m = false;
 
           let n = s.charAt(0).toUpperCase() + s.slice(1);
           if (ls.includes("towel") && !ls.includes("hotel")) {
@@ -1107,7 +1260,7 @@
           packList.push({ n, sub: "Daily item", e, m });
         });
 
-        const addP = (n, sub, e, m) => { if (!packList.some(p => p.n.toLowerCase().includes(n.toLowerCase()))) packList.push({n,sub,e,m}); };
+        const addP = (n, sub, e, m) => { if (!packList.some(p => p.n.toLowerCase().includes(n.toLowerCase()))) packList.push({ n, sub, e, m }); };
         addP("Take daily tablets / medication", "Regular dose", "💊", true);
         addP("Wallet & ID", "Must have on you", "💳", true);
         addP("Sunglasses", "Every day essential", "🕶️", true);
@@ -1120,10 +1273,10 @@
           const lsn = packList[i].n.toLowerCase();
           if (lsn.includes("charger") || lsn.includes("power bank")) packList.splice(i, 1);
         }
-        
+
         html += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
           <div style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.1em;border-bottom:none">Today's pack list 🎒</div>
-          <div style="font-size:11px;color:var(--text3);font-weight:600">${packList.filter((_,ii) => state.checked[`pack-${tripIdx}-${ii}`]).length}/${packList.length} packed</div>
+          <div style="font-size:11px;color:var(--text3);font-weight:600">${packList.filter((_, ii) => state.checked[`pack-${tripIdx}-${ii}`]).length}/${packList.length} packed</div>
         </div>`;
         html += `<div class="grid-pack">`;
         packList.forEach((item, ii) => {
@@ -1155,7 +1308,7 @@
 
         html += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
           <div style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.1em;border-bottom:none">Before you leave the hotel 🏨</div>
-          <div style="font-size:11px;color:var(--text3);font-weight:600">${hotelList.filter((_,ii) => state.checked[`hotel-${tripIdx}-${ii}`]).length}/${hotelList.length} done</div>
+          <div style="font-size:11px;color:var(--text3);font-weight:600">${hotelList.filter((_, ii) => state.checked[`hotel-${tripIdx}-${ii}`]).length}/${hotelList.length} done</div>
         </div>`;
         html += `<div class="grid-hotel">`;
         hotelList.forEach((item, ii) => {
@@ -1177,7 +1330,7 @@
           } else if (!item.tx && !item.free && !item.name.includes("FREE") && !item.name.includes("ransport") && !item.name.includes("Wake up") && !item.name.includes("Arrive HNL") && !item.name.includes("Figure out")) {
             let rawName = item.name.split("—")[0].replace(/[🐕🌺🏖🏝🏄‍♂️🌋🍍🥥🛍🛒🧗🌊🎭🐢🔥✈️🍱🍜🍣]/g, "").trim();
             if (rawName && rawName.length > 2) {
-               linksHtml = `<div style="margin-top:8px"><a href="https://maps.google.com/?q=${encodeURIComponent(rawName + ' Oahu')}" target="_blank" style="display:inline-block;padding:6px 14px;background:var(--bg3);border:0.5px solid var(--border);color:var(--text);border-radius:20px;text-decoration:none;font-size:12px;font-weight:600">🗺️ Google Maps</a></div>`;
+              linksHtml = `<div style="margin-top:8px"><a href="https://maps.google.com/?q=${encodeURIComponent(rawName + ' Oahu')}" target="_blank" style="display:inline-block;padding:6px 14px;background:var(--bg3);border:0.5px solid var(--border);color:var(--text);border-radius:20px;text-decoration:none;font-size:12px;font-weight:600">🗺️ Google Maps</a></div>`;
             }
           }
 
@@ -1416,41 +1569,41 @@
 
     const state = { removed: {}, checked: {}, custom: { book: [], food: [], shop: [], contacts: [] } };
     function save() { try { localStorage.setItem('oahu2026v4', JSON.stringify(state)) } catch (e) { } }
-    function load() { 
-      try { 
-        const d = JSON.parse(localStorage.getItem('oahu2026v4') || '{}'); 
-        if (d.removed) Object.assign(state.removed, d.removed); 
+    function load() {
+      try {
+        const d = JSON.parse(localStorage.getItem('oahu2026v4') || '{}');
+        if (d.removed) Object.assign(state.removed, d.removed);
         if (d.checked) Object.assign(state.checked, d.checked);
         if (d.custom) Object.assign(state.custom, d.custom);
-      } catch (e) { } 
+      } catch (e) { }
       if (!state.custom) state.custom = { book: [], food: [], shop: [], contacts: [] };
       if (!state.custom.contacts) state.custom.contacts = [];
-      if (state.custom.book) state.custom.book.forEach(c => { if(!c.section) c.section = TODOS[0].section; if(!c.id) c.id = Math.random().toString(36).substr(2,9); });
-      if (state.custom.food) state.custom.food.forEach(c => { if(!c.section) c.section = FOODS[0].section; if(!c.id) c.id = Math.random().toString(36).substr(2,9); });
-      if (state.custom.shop) state.custom.shop.forEach(c => { if(!c.section) c.section = SHOPS[0].section; if(!c.id) c.id = Math.random().toString(36).substr(2,9); });
-      if (state.custom.contacts) state.custom.contacts.forEach(c => { if(!c.id) c.id = Math.random().toString(36).substr(2,9); });
+      if (state.custom.book) state.custom.book.forEach(c => { if (!c.section) c.section = TODOS[0].section; if (!c.id) c.id = Math.random().toString(36).substr(2, 9); });
+      if (state.custom.food) state.custom.food.forEach(c => { if (!c.section) c.section = FOODS[0].section; if (!c.id) c.id = Math.random().toString(36).substr(2, 9); });
+      if (state.custom.shop) state.custom.shop.forEach(c => { if (!c.section) c.section = SHOPS[0].section; if (!c.id) c.id = Math.random().toString(36).substr(2, 9); });
+      if (state.custom.contacts) state.custom.contacts.forEach(c => { if (!c.id) c.id = Math.random().toString(36).substr(2, 9); });
     }
-    window.addToList = function(t) {
-       const secEl = document.getElementById('new-' + t + '-sec');
-       const nameEl = document.getElementById('new-' + t + '-name');
-       const subEl = document.getElementById('new-' + t + '-sub');
-       if (!nameEl.value.trim()) return;
-       const itemObj = { id: Date.now().toString() + Math.random().toString(36).substr(2,5), name: nameEl.value.trim(), sub: subEl.value.trim() };
-       if (secEl) itemObj.section = secEl.value;
-       state.custom[t].push(itemObj);
-       nameEl.value = ""; if (subEl) subEl.value = "";
-       save();
-       if (t==='book') renderBook(); else if (t==='food') renderFood(); else if (t==='shop') renderShop(); else if (t==='contacts') renderContacts();
+    window.addToList = function (t) {
+      const secEl = document.getElementById('new-' + t + '-sec');
+      const nameEl = document.getElementById('new-' + t + '-name');
+      const subEl = document.getElementById('new-' + t + '-sub');
+      if (!nameEl.value.trim()) return;
+      const itemObj = { id: Date.now().toString() + Math.random().toString(36).substr(2, 5), name: nameEl.value.trim(), sub: subEl.value.trim() };
+      if (secEl) itemObj.section = secEl.value;
+      state.custom[t].push(itemObj);
+      nameEl.value = ""; if (subEl) subEl.value = "";
+      save();
+      if (t === 'book') renderBook(); else if (t === 'food') renderFood(); else if (t === 'shop') renderShop(); else if (t === 'contacts') renderContacts();
     };
-    window.delFromList = function(t, id) {
-       if (id.startsWith('custom-') || (!id.includes('-') && id.match(/^[a-z0-9]+$/i))) {
-         const rawId = id.replace('custom-', '');
-         state.custom[t] = state.custom[t].filter(c => c.id !== rawId);
-       } else {
-         state.removed[id] = true;
-       }
-       save();
-       if (t==='book') renderBook(); else if (t==='food') renderFood(); else if (t==='shop') renderShop(); else if (t==='contacts') renderContacts();
+    window.delFromList = function (t, id) {
+      if (id.startsWith('custom-') || (!id.includes('-') && id.match(/^[a-z0-9]+$/i))) {
+        const rawId = id.replace('custom-', '');
+        state.custom[t] = state.custom[t].filter(c => c.id !== rawId);
+      } else {
+        state.removed[id] = true;
+      }
+      save();
+      if (t === 'book') renderBook(); else if (t === 'food') renderFood(); else if (t === 'shop') renderShop(); else if (t === 'contacts') renderContacts();
     };
 
     function tagEl(t) {
@@ -1486,8 +1639,8 @@
             const btn = item.rm ? (removed ? `<button class="btn-sm btn-restore" onclick="tog(${di},${ii})">restore</button>` : `<button class="btn-sm" onclick="tog(${di},${ii})">remove</button>`) : "";
             let mapBtn = "";
             if (!item.free && !item.name.includes("Back") && !item.name.includes("Collect") && !item.name.includes("Pack") && !item.name.includes("Wake")) {
-               const cleanName = encodeURIComponent(item.name.replace(/[^\x00-\x7F]/g, "").split('—')[0].trim() + ' Oahu Hawaii');
-               mapBtn = `<a href="https://maps.google.com/?q=${cleanName}" target="_blank" style="background:var(--bg2);color:var(--text2);border:0.5px solid var(--border2);text-decoration:none;padding:3px 8px;border-radius:12px;font-size:9px;font-weight:600;margin-left:8px;transition:0.2s">MAP 📍</a>`;
+              const cleanName = encodeURIComponent(item.name.replace(/[^\x00-\x7F]/g, "").split('—')[0].trim() + ' Oahu Hawaii');
+              mapBtn = `<a href="https://maps.google.com/?q=${cleanName}" target="_blank" style="background:var(--bg2);color:var(--text2);border:0.5px solid var(--border2);text-decoration:none;padding:3px 8px;border-radius:12px;font-size:9px;font-weight:600;margin-left:8px;transition:0.2s">MAP 📍</a>`;
             }
             const ec = item.free ? " free-block" : item.lunch ? " lunch-block" : item.dinner ? " dinner-block" : "";
             rows += `<div class="item${ec}${removed ? ' removed' : ''}"><div class="item-time">${item.t}</div><div class="item-dot"><div class="dot" style="background:${dotColor(item.tags)}"></div><div class="vline"></div></div><div class="item-body"><div class="item-name"><span style="display:flex;align-items:center">${item.name}${mapBtn}</span><span style="display:flex;gap:6px;align-items:center">${btn}</span></div><div class="item-tags">${item.tags.map(tagEl).join("")}</div><div class="item-sub">${item.sub}</div></div></div>`;
@@ -1515,7 +1668,7 @@
           // Empty check handled below
         } else {
           allItems.forEach((item, i) => {
-            const key = item.id ? "custom-" + item.id : "todo-" + sec.section + i; 
+            const key = item.id ? "custom-" + item.id : "todo-" + sec.section + i;
             if (state.removed[key]) return;
             count++;
             const done = state.checked[key];
@@ -1545,7 +1698,7 @@
         let allItems = [...sec.items];
         if (state.custom && state.custom.food) allItems = [...allItems, ...state.custom.food.filter(c => c.section === sec.section)];
         allItems.forEach((f, i) => {
-          const key = f.id ? "custom-" + f.id : "food-" + sec.section + i; 
+          const key = f.id ? "custom-" + f.id : "food-" + sec.section + i;
           if (state.removed[key]) return;
           const done = state.checked[key];
           const subHTML = f.sub ? `<div class="li-sub">${f.sub}</div>` : "";
@@ -1566,7 +1719,7 @@
         let allItems = [...sec.items];
         if (state.custom && state.custom.shop) allItems = [...allItems, ...state.custom.shop.filter(c => c.section === sec.section)];
         allItems.forEach((s, i) => {
-          const key = s.id ? "custom-" + s.id : "shop-" + sec.section + i; 
+          const key = s.id ? "custom-" + s.id : "shop-" + sec.section + i;
           if (state.removed[key]) return;
           const done = state.checked[key];
           const subHTML = s.sub ? `<div class="li-sub">${s.sub}</div>` : "";
@@ -1584,13 +1737,13 @@
       let html = `<div class="contact-grid">`;
       let allItems = [...CONTACTS];
       if (state.custom && state.custom.contacts) allItems = [...allItems, ...state.custom.contacts];
-      allItems.forEach((c, i) => { 
+      allItems.forEach((c, i) => {
         const key = c.id ? "custom-" + c.id : "contact-" + i;
         if (state.removed[key]) return;
         const isCustom = !!c.id;
         const delBtn = `<button onclick="delFromList('contacts', '${key}')" style="position:absolute;top:10px;right:10px;background:var(--bg);border:1px solid var(--border);color:var(--text2);border-radius:6px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer" title="Delete contact">🗑</button>`;
         const numText = isCustom ? (c.sub || "") : c.num;
-        html += `<div class="contact-box" style="position:relative">${delBtn}<div class="contact-name" style="margin-right:24px;margin-bottom:4px">${c.name}</div><div class="contact-num">${numText}</div>${isCustom?'':`<div class="li-sub" style="margin-top:4px">${c.note}</div>`}</div>`; 
+        html += `<div class="contact-box" style="position:relative">${delBtn}<div class="contact-name" style="margin-right:24px;margin-bottom:4px">${c.name}</div><div class="contact-num">${numText}</div>${isCustom ? '' : `<div class="li-sub" style="margin-top:4px">${c.note}</div>`}</div>`;
       });
       html += `</div>`;
       html += `<div class="list-card" style="margin-top:16px;background:var(--bg2);padding:14px"><div style="font-size:11px;font-weight:700;color:var(--text3);margin-bottom:12px;letter-spacing:0.05em">ADD NEW CONTACT</div><div style="display:flex;flex-direction:column;gap:8px"><input id="new-contacts-name" type="text" placeholder="Name or business..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none"><input id="new-contacts-sub" type="text" placeholder="Phone # or Details..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none"><button onclick="addToList('contacts')" style="background:var(--palm);color:#000;border:none;padding:12px;border-radius:8px;font-weight:700;font-size:14px;margin-top:4px;cursor:pointer">Add to contacts</button></div></div>`;
@@ -1637,12 +1790,12 @@
       state.checked[key] = !state.checked[key]; save();
       const item = (el.classList.contains('list-item') || el.classList.contains('pack-card') || el.classList.contains('hotel-card')) ? el : el.closest('.list-item');
       if (item) {
-        if (state.checked[key]) { 
-           if(el.classList.contains('cb')) el.classList.add('checked'); 
-           item.classList.add('done'); 
-        } else { 
-           if(el.classList.contains('cb')) el.classList.remove('checked'); 
-           item.classList.remove('done'); 
+        if (state.checked[key]) {
+          if (el.classList.contains('cb')) el.classList.add('checked');
+          item.classList.add('done');
+        } else {
+          if (el.classList.contains('cb')) el.classList.remove('checked');
+          item.classList.remove('done');
         }
       }
       if (document.getElementById('today').classList.contains('active')) renderToday();
@@ -1653,7 +1806,7 @@
       document.getElementById(id).classList.add('active'); el.classList.add('active');
       if (id === 'map') setTimeout(initMap, 50);
     }
-    
+
     let mapInitialized = false;
     function initMap() {
       if (mapInitialized) return;
@@ -1664,24 +1817,24 @@
       }).addTo(map);
 
       const locs = [
-          {name: "Waikiki Beach Marriott", loc: [21.2721, -157.8222]},
-          {name: "Diamond Head", loc: [21.2619, -157.8045]},
-          {name: "Pearl Harbor Visitor Center", loc: [21.3649, -157.9397]},
-          {name: "Kualoa Ranch (Secret Island)", loc: [21.5208, -157.8373]},
-          {name: "Coral Crater Park", loc: [21.3255, -158.0673]},
-          {name: "Dole Plantation", loc: [21.5256, -158.0378]},
-          {name: "Polynesian Cultural Center", loc: [21.6393, -157.9205]},
-          {name: "Sea Life Park (Luau)", loc: [21.3146, -157.6534]},
-          {name: "Ho'omaluhia Botanical Garden", loc: [21.3852, -157.8049]},
-          {name: "Byodo-In Temple", loc: [21.4308, -157.8317]},
-          {name: "Haleiwa Town", loc: [21.5901, -158.1065]},
-          {name: "Ala Moana Center", loc: [21.2911, -157.8435]},
-          {name: "Leonard's Bakery", loc: [21.2847, -157.8130]},
-          {name: "Don Quijote (Grocery)", loc: [21.2931, -157.8407]},
-          {name: "Honolulu (HNL) Airport", loc: [21.3245, -157.9251]},
-          {name: "Giovanni's Shrimp Truck", loc: [21.6775, -157.9548]},
-          {name: "Matsumoto Shave Ice", loc: [21.5903, -158.1026]},
-          {name: "Kewalo Basin Harbor (Snorkel)", loc: [21.2933, -157.8582]}
+        { name: "Waikiki Beach Marriott", loc: [21.2721, -157.8222] },
+        { name: "Diamond Head", loc: [21.2619, -157.8045] },
+        { name: "Pearl Harbor Visitor Center", loc: [21.3649, -157.9397] },
+        { name: "Kualoa Ranch (Secret Island)", loc: [21.5208, -157.8373] },
+        { name: "Coral Crater Park", loc: [21.3255, -158.0673] },
+        { name: "Dole Plantation", loc: [21.5256, -158.0378] },
+        { name: "Polynesian Cultural Center", loc: [21.6393, -157.9205] },
+        { name: "Sea Life Park (Luau)", loc: [21.3146, -157.6534] },
+        { name: "Ho'omaluhia Botanical Garden", loc: [21.3852, -157.8049] },
+        { name: "Byodo-In Temple", loc: [21.4308, -157.8317] },
+        { name: "Haleiwa Town", loc: [21.5901, -158.1065] },
+        { name: "Ala Moana Center", loc: [21.2911, -157.8435] },
+        { name: "Leonard's Bakery", loc: [21.2847, -157.8130] },
+        { name: "Don Quijote (Grocery)", loc: [21.2931, -157.8407] },
+        { name: "Honolulu (HNL) Airport", loc: [21.3245, -157.9251] },
+        { name: "Giovanni's Shrimp Truck", loc: [21.6775, -157.9548] },
+        { name: "Matsumoto Shave Ice", loc: [21.5903, -158.1026] },
+        { name: "Kewalo Basin Harbor (Snorkel)", loc: [21.2933, -157.8582] }
       ];
 
       window.oahuMap = map;
@@ -1703,7 +1856,7 @@
       'day5': ["Waikiki Beach Marriott", "Diamond Head", "Waikiki Beach Marriott", "Honolulu (HNL) Airport"]
     };
 
-    window.showRoute = function(dayId, event) {
+    window.showRoute = function (dayId, event) {
       document.querySelectorAll('.route-btn').forEach(b => b.classList.remove('active'));
       event.target.classList.add('active');
       if (window.oahuLine) { window.oahuMap.removeLayer(window.oahuLine); }
@@ -1712,21 +1865,21 @@
         return;
       }
       const pathPoints = mapRoutes[dayId].map(n => window.locsIndex[n]);
-      window.oahuLine = L.polyline(pathPoints, {color: '#0ea5e9', weight: 4, opacity: 0.9, dashArray: '8, 8', lineJoin: 'round'}).addTo(window.oahuMap);
-      window.oahuMap.fitBounds(window.oahuLine.getBounds(), {padding: [40, 40]});
+      window.oahuLine = L.polyline(pathPoints, { color: '#0ea5e9', weight: 4, opacity: 0.9, dashArray: '8, 8', lineJoin: 'round' }).addTo(window.oahuMap);
+      window.oahuMap.fitBounds(window.oahuLine.getBounds(), { padding: [40, 40] });
     }
     function updateClocks() {
-    const now = new Date();
-    const o = { hour: 'numeric', minute: '2-digit', hour12: true };
-    if(document.getElementById('clock-hi')) {
-      document.getElementById('clock-hi').textContent = now.toLocaleTimeString('en-US', { ...o, timeZone: 'Pacific/Honolulu' });
-      document.getElementById('clock-abq').textContent = now.toLocaleTimeString('en-US', { ...o, timeZone: 'America/Denver' });
-      document.getElementById('clock-in').textContent = now.toLocaleTimeString('en-US', { ...o, timeZone: 'Asia/Kolkata' });
+      const now = new Date();
+      const o = { hour: 'numeric', minute: '2-digit', hour12: true };
+      if (document.getElementById('clock-hi')) {
+        document.getElementById('clock-hi').textContent = now.toLocaleTimeString('en-US', { ...o, timeZone: 'Pacific/Honolulu' });
+        document.getElementById('clock-abq').textContent = now.toLocaleTimeString('en-US', { ...o, timeZone: 'America/Denver' });
+        document.getElementById('clock-in').textContent = now.toLocaleTimeString('en-US', { ...o, timeZone: 'Asia/Kolkata' });
+      }
     }
-  }
-  setInterval(updateClocks, 1000);
-  updateClocks();
-  load(); renderToday(); renderSchedule(); renderBook(); renderFood(); renderShop(); renderContacts(); renderFlights();
+    setInterval(updateClocks, 1000);
+    updateClocks();
+    load(); renderToday(); renderSchedule(); renderBook(); renderFood(); renderShop(); renderContacts(); renderFlights();
   </script>
 </body>
 
