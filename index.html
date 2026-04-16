@@ -1,217 +1,995 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oahu 2026 — Sai Madhav</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --ocean:#0077b6;--ocean-light:#caf0f8;--ocean-mid:#90e0ef;
-  --sand:#f4e4c1;--sand-dark:#e8c97a;--sand-text:#7a5c1e;
-  --palm:#2d6a4f;--palm-light:#d8f3dc;--palm-text:#1b4332;
-  --sunset:#f77f00;--sunset-light:#ffecd2;--sunset-text:#7c3a00;
-  --coral:#e63946;--coral-light:#fde8ea;--coral-text:#7c0e14;
-  --hibiscus:#c9184a;--hibiscus-light:#fce4ec;
-  --bg:#fdf8f0;--bg2:#f5ede0;--bg3:#ecdcc8;
-  --text:#1a1208;--text2:#5c4a2a;--text3:#9c8060;
-  --border:rgba(90,60,10,0.1);--border2:rgba(90,60,10,0.18);
-  --radius:10px;--radius-lg:16px;
-}
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#110e08;--bg2:#1c1710;--bg3:#262018;
-    --text:#f5ead8;--text2:#b09070;--text3:#6b5840;
-    --border:rgba(255,220,150,0.08);--border2:rgba(255,220,150,0.15);
-    --ocean:#48cae4;--ocean-light:#023e8a;--ocean-mid:#0096c7;
-    --sand:#7a5c1e;--sand-dark:#5c4010;--sand-text:#f4e4c1;
-    --palm:#52b788;--palm-light:#1b4332;--palm-text:#d8f3dc;
-    --sunset:#f77f00;--sunset-light:#3d1c00;--sunset-text:#ffecd2;
-    --coral:#e63946;--coral-light:#2d080a;--coral-text:#fde8ea;
-  }
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oahu 2026 — Sai Madhav</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <style>
+    :root {
+      --ocean: #0ea5e9;
+      --ocean-light: #e0f2fe;
+      --ocean-mid: #38bdf8;
+      --sand: #fbbf24;
+      --sand-light: #fef3c7;
+      --sand-dark: #d97706;
+      --sand-text: #b45309;
+      --palm: #10b981;
+      --palm-light: #d1fae5;
+      --palm-text: #047857;
+      --sunset: #f97316;
+      --sunset-light: #ffedd5;
+      --sunset-text: #c2410c;
+      --coral: #f43f5e;
+      --coral-light: #ffe4e6;
+      --coral-text: #be123c;
+      --hibiscus: #d946ef;
+      --hibiscus-light: #fae8ff;
+      --bg: #f8fafc;
+      --bg2: #ffffff;
+      --bg3: #f1f5f9;
+      --app-bg: rgba(248, 250, 252, 0.82);
+      --text: #0f172a;
+      --text2: #475569;
+      --text3: #94a3b8;
+      --border: rgba(15, 23, 42, 0.08);
+      --border2: rgba(15, 23, 42, 0.15);
+      --radius: 16px;
+      --radius-lg: 24px;
+    }
 
-/* Hawaii wave header */
-.hero{background:linear-gradient(135deg,#0077b6 0%,#023e8a 40%,#0096c7 70%,#48cae4 100%);padding:2.5rem 1.5rem 4rem;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
-.hero-inner{max-width:920px;margin:0 auto;position:relative;z-index:1}
-.hero h1{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:#fff;letter-spacing:-0.01em;text-shadow:0 2px 12px rgba(0,0,0,0.2)}
-.hero h1 em{font-style:italic;color:#caf0f8}
-.hero p{font-size:13px;color:rgba(255,255,255,0.75);margin-top:8px;font-weight:300;letter-spacing:0.02em}
-.aloha{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:rgba(255,255,255,0.6);margin-top:4px}
+    @media(prefers-color-scheme:dark) {
+      :root {
+        --bg: #0f172a;
+        --bg2: #1e293b;
+        --bg3: #334155;
+        --app-bg: rgba(15, 23, 42, 0.82);
+        --text: #f8fafc;
+        --text2: #94a3b8;
+        --text3: #64748b;
+        --border: rgba(255, 255, 255, 0.08);
+        --border2: rgba(255, 255, 255, 0.15);
+        --ocean: #38bdf8;
+        --ocean-light: rgba(14, 165, 233, 0.15);
+        --ocean-mid: #0ea5e9;
+        --sand: #fbbf24;
+        --sand-light: rgba(251, 191, 36, 0.15);
+        --sand-dark: #f59e0b;
+        --sand-text: #fde68a;
+        --palm: #34d399;
+        --palm-light: rgba(16, 185, 129, 0.15);
+        --palm-text: #d1fae5;
+        --sunset: #fb923c;
+        --sunset-light: rgba(249, 115, 22, 0.15);
+        --sunset-text: #ffedd5;
+        --coral: #fb7185;
+        --coral-light: rgba(244, 63, 94, 0.15);
+        --coral-text: #ffe4e6;
+        --hibiscus: #e879f9;
+        --hibiscus-light: rgba(217, 70, 239, 0.15);
+      }
+    }
 
-.app{max-width:920px;margin:0 auto;padding:1.5rem 1.5rem 5rem}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-/* Stats */
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:2rem;margin-top:-1rem}
-.stat{background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--radius);padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
-.stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
-.stat-val{font-family:'Playfair Display',serif;font-size:18px;color:var(--text)}
-.stat-sub{font-size:11px;color:var(--text3);margin-top:3px}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg) url('https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80&w=2600&auto=format&fit=crop') center top/cover fixed no-repeat;
+      color: var(--text);
+      min-height: 100vh
+    }
 
-/* Tabs */
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
-.tab{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);transition:all 0.15s;letter-spacing:0.02em}
-.tab:hover{background:var(--bg2)}
-.tab.active{background:var(--ocean);color:#fff;border-color:var(--ocean)}
-.section{display:none}.section.active{display:block}
+    /* Hawaii wave header */
+    .hero {
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.4) 0%, transparent 100%);
+      padding: 4.5rem 1.5rem 7.5rem;
+      position: relative;
+      overflow: hidden
+    }
 
-/* Day cards */
-.day-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:16px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,0.05)}
-.day-head{padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:0.5px solid var(--border);background:var(--bg2)}
-.day-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:10px;font-family:'Inter',sans-serif}
-.day-title{font-size:14px;color:var(--text);flex:1;font-family:'Playfair Display',serif;font-weight:400}
-.day-meta{font-size:11px;color:var(--text3)}
-.wake-bar{font-size:12px;color:var(--palm-text);background:var(--palm-light);border-left:3px solid var(--palm);padding:8px 16px;font-weight:500;display:flex;align-items:center;gap:6px}
-.bag-bar{font-size:11px;color:var(--text2);background:var(--sand);border-left:3px solid var(--sand-dark);padding:8px 16px;line-height:1.6}
-.bag-bar b{color:var(--sand-text);font-weight:500}
-.note-bar{font-size:12px;color:var(--ocean);background:var(--ocean-light);border-left:3px solid var(--ocean);padding:9px 16px;line-height:1.5}
-.warn-bar{font-size:12px;color:var(--sunset-text);background:var(--sunset-light);border-left:3px solid var(--sunset);padding:9px 16px;font-weight:500;line-height:1.5}
+    .hero::before {
+      display: none
+    }
 
-/* Timeline */
-.item{display:flex;align-items:stretch;padding:10px 18px;border-bottom:0.5px solid var(--border)}
-.item:last-child{border-bottom:none}
-.item.removed{opacity:0.25}
-.item.transport{background:var(--bg2)}
-.item.free-block{background:linear-gradient(90deg,rgba(83,74,183,0.06),transparent)}
-.item.lunch-block{background:linear-gradient(90deg,rgba(133,79,11,0.07),transparent)}
-.item.dinner-block{background:linear-gradient(90deg,rgba(15,110,86,0.07),transparent)}
-.item-time{width:62px;min-width:62px;font-size:11px;color:var(--text3);padding-top:3px;font-variant-numeric:tabular-nums}
-.item-dot{width:18px;min-width:18px;display:flex;flex-direction:column;align-items:center;padding-top:6px}
-.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.vline{width:1px;background:var(--border2);flex:1;margin-top:4px}
-.item-body{flex:1;padding-left:12px}
-.item-name{font-size:13px;font-weight:500;color:var(--text);display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.item-sub{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5}
-.item-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
-.tag{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:500}
-.tag-pass{background:var(--palm-light);color:var(--palm-text)}
-.tag-book{background:var(--coral-light);color:var(--coral-text)}
-.tag-food{background:var(--sunset-light);color:var(--sunset-text)}
-.tag-shop{background:var(--ocean-light);color:var(--ocean)}
-.tag-relax{background:#eeedfe;color:#534ab7}
-.tag-sep{background:var(--hibiscus-light);color:var(--hibiscus)}
-.tag-anchor{background:var(--ocean);color:#fff}
-.tag-alert{background:var(--coral-light);color:var(--coral-text)}
-.tag-booked{background:var(--palm-light);color:var(--palm-text)}
-.tag-free{background:#eeedfe;color:#534ab7}
-.tag-lunch{background:var(--sand);color:var(--sand-text)}
-.tag-dinner{background:var(--palm-light);color:var(--palm-text)}
-.tag-bike{background:var(--ocean-light);color:var(--ocean)}
-.btn-sm{font-size:11px;padding:2px 8px;border-radius:6px;border:0.5px solid var(--border2);background:none;color:var(--text3);cursor:pointer;white-space:nowrap;flex-shrink:0}
-.btn-sm:hover{color:var(--coral);border-color:var(--coral)}
-.btn-restore{color:var(--ocean);border-color:var(--ocean)}
+    .hero-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      text-align: center
+    }
 
-/* Lists */
-.list-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
-.list-head{padding:11px 18px;font-size:11px;font-weight:500;color:var(--text2);border-bottom:0.5px solid var(--border);background:var(--bg2);text-transform:uppercase;letter-spacing:0.07em}
-.list-item{display:flex;align-items:flex-start;gap:12px;padding:12px 18px;border-bottom:0.5px solid var(--border)}
-.list-item:last-child{border-bottom:none}
-.list-item.done .li-name{text-decoration:line-through;color:var(--text3)}
-.list-item.done .li-sub{color:var(--text3)}
-.cb{width:16px;height:16px;min-width:16px;border:0.5px solid var(--border2);border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:2px;background:var(--bg);flex-shrink:0}
-.cb.checked{background:var(--palm);border-color:var(--palm)}
-.cb.checked::after{content:'';display:block;width:4px;height:7px;border:1.5px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px)}
-.li-body{flex:1}
-.li-name{font-size:13px;color:var(--text);font-weight:500;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.li-sub{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5}
-.li-when{font-size:11px;color:var(--text3);margin-top:3px}
-.urg-red{font-size:10px;font-weight:500;color:var(--coral-text);background:var(--coral-light);padding:2px 7px;border-radius:8px}
-.urg-amber{font-size:10px;font-weight:500;color:var(--sunset-text);background:var(--sunset-light);padding:2px 7px;border-radius:8px}
-.urg-green{font-size:10px;font-weight:500;color:var(--palm-text);background:var(--palm-light);padding:2px 7px;border-radius:8px}
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.01em;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4)
+    }
 
-/* Flights & contacts */
-.conf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
-.conf-box{background:var(--bg2);border-radius:var(--radius);padding:12px 14px;border:0.5px solid var(--border)}
-.conf-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px}
-.conf-val{font-size:14px;font-weight:500;color:var(--text);font-variant-numeric:tabular-nums}
-.conf-sub{font-size:11px;color:var(--text2);margin-top:2px}
-.flight-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:18px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
-.frow{display:flex;align-items:center;gap:14px;margin-bottom:10px}
-.ftime{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);min-width:66px}
-.fline{flex:1;border-top:0.5px solid var(--border2);position:relative}
-.fbadge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:10px;background:var(--bg);padding:0 8px;color:var(--text3);white-space:nowrap}
-.fcity{font-size:12px;color:var(--text2)}
-.fmeta{font-size:12px;color:var(--text2);margin-bottom:12px}
-.contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.contact-box{background:var(--bg2);border-radius:var(--radius);padding:12px 14px;border:0.5px solid var(--border)}
-.contact-name{font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px}
-.contact-num{font-size:13px;color:var(--ocean);font-weight:500}
+    .hero h1 em {
+      font-style: italic;
+      color: #e0f2fe;
+      font-weight: 400
+    }
 
-/* Divider */
-.sect-divider{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--text3);text-align:center;padding:12px 0 6px;letter-spacing:0.04em}
+    .hero p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 12px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5)
+    }
 
-@media(max-width:600px){
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .conf-grid,.contact-grid{grid-template-columns:1fr}
-  .hero h1{font-size:26px}
-}
-</style>
+    .aloha {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: #e0f2fe;
+      margin-top: 6px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5)
+    }
+
+    .app {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+      background: var(--app-bg);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border-radius: 40px 40px 0 0;
+      margin-top: -3rem;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.1), 0 -1px 0 rgba(255, 255, 255, 0.05) inset;
+      min-height: 100vh
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 2.5rem;
+      margin-top: -1rem
+    }
+
+    .stat {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02), 0 1px 4px rgba(0, 0, 0, 0.03)
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      font-weight: 600
+    }
+
+    .stat-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--text);
+      font-weight: 600
+    }
+
+    .stat-sub {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 4px
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 2rem;
+      padding-bottom: 4px;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+    }
+    .tabs::-webkit-scrollbar {
+      display: none; /* WebKit */
+    }
+
+    .tab {
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 0.5px solid var(--border);
+      background: var(--bg2);
+      color: var(--text2);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: 0.02em;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .tab:hover {
+      background: var(--bg3);
+      transform: translateY(-1px);
+      color: var(--text)
+    }
+
+    .tab.active {
+      background: var(--ocean);
+      color: #fff;
+      border-color: var(--ocean);
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3)
+    }
+
+    .section {
+      display: none;
+      animation: fadeIn 0.3s ease-out forwards
+    }
+
+    .section.active {
+      display: block
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* Day cards */
+    .day-card {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02), 0 1px 4px rgba(0, 0, 0, 0.03)
+    }
+
+    .day-head {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 0.5px solid var(--border);
+      background: var(--bg2)
+    }
+
+    .day-badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif
+    }
+
+    .day-title {
+      font-size: 16px;
+      color: var(--text);
+      flex: 1;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600
+    }
+
+    .day-meta {
+      font-size: 12px;
+      color: var(--text3);
+      font-weight: 500
+    }
+
+    .wake-bar {
+      font-size: 13px;
+      color: var(--palm-text);
+      background: var(--palm-light);
+      border-bottom: 1px solid var(--border);
+      border-left: 4px solid var(--palm);
+      padding: 12px 20px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .bag-bar {
+      font-size: 12px;
+      background: var(--sand-light);
+      border-bottom: 1px solid var(--border);
+      border-left: 4px solid var(--sand-dark);
+      padding: 12px 20px;
+      line-height: 1.6;
+      color: var(--sand-text)
+    }
+
+    .bag-bar b {
+      color: var(--sand-text);
+      font-weight: 600
+    }
+
+    .note-bar {
+      font-size: 13px;
+      color: var(--ocean);
+      background: var(--ocean-light);
+      border-bottom: 1px solid var(--border);
+      border-left: 4px solid var(--ocean);
+      padding: 12px 20px;
+      line-height: 1.6
+    }
+
+    .warn-bar {
+      font-size: 13px;
+      color: var(--coral-text);
+      background: var(--coral-light);
+      border-bottom: 1px solid var(--border);
+      border-left: 4px solid var(--coral);
+      padding: 12px 20px;
+      font-weight: 500;
+      line-height: 1.6
+    }
+
+    /* Timeline */
+    .item {
+      display: flex;
+      align-items: stretch;
+      padding: 12px 20px;
+      border-bottom: 0.5px solid var(--border)
+    }
+
+    .item:last-child {
+      border-bottom: none
+    }
+
+    .item.removed {
+      opacity: 0.35
+    }
+
+    .item.transport {
+      background: var(--bg)
+    }
+
+    .item.free-block {
+      background: linear-gradient(90deg, var(--ocean-light), transparent)
+    }
+
+    .item.lunch-block {
+      background: linear-gradient(90deg, var(--sunset-light), transparent)
+    }
+
+    .item.dinner-block {
+      background: linear-gradient(90deg, var(--palm-light), transparent)
+    }
+
+    .item-time {
+      width: 68px;
+      min-width: 68px;
+      font-size: 12px;
+      color: var(--text3);
+      padding-top: 4px;
+      font-variant-numeric: tabular-nums;
+      font-weight: 500
+    }
+
+    .item-dot {
+      width: 20px;
+      min-width: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 7px
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 3px var(--bg2)
+    }
+
+    .vline {
+      width: 2px;
+      background: var(--border);
+      flex: 1;
+      margin-top: 6px;
+      border-radius: 2px
+    }
+
+    .item-body {
+      flex: 1;
+      padding-left: 16px
+    }
+
+    .item-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px
+    }
+
+    .item-sub {
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 4px;
+      line-height: 1.6
+    }
+
+    .item-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em
+    }
+
+    .tag-pass {
+      background: var(--palm);
+      color: #fff
+    }
+
+    .tag-book {
+      background: var(--coral);
+      color: #fff
+    }
+
+    .tag-food {
+      background: var(--sunset);
+      color: #fff
+    }
+
+    .tag-shop {
+      background: var(--ocean);
+      color: #fff
+    }
+
+    .tag-relax {
+      background: var(--hibiscus);
+      color: #fff
+    }
+
+    .tag-sep {
+      background: var(--coral-light);
+      color: var(--coral-text)
+    }
+
+    .tag-anchor {
+      background: var(--ocean-mid);
+      color: #fff
+    }
+
+    .tag-alert {
+      background: var(--coral);
+      color: #fff
+    }
+
+    .tag-booked {
+      background: var(--palm-light);
+      color: var(--palm-text)
+    }
+
+    .tag-free {
+      background: var(--ocean-light);
+      color: var(--ocean-mid)
+    }
+
+    .tag-lunch {
+      background: var(--sand);
+      color: var(--sand-text)
+    }
+
+    .tag-dinner {
+      background: var(--palm-light);
+      color: var(--palm-text)
+    }
+
+    .tag-bike {
+      background: var(--ocean-light);
+      color: var(--ocean)
+    }
+
+    .btn-sm {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      background: var(--bg2);
+      color: var(--text3);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-weight: 500;
+      transition: all 0.2s
+    }
+
+    .btn-sm:hover {
+      color: var(--coral);
+      border-color: var(--coral);
+      background: var(--coral-light)
+    }
+
+    .btn-restore {
+      color: var(--ocean);
+      border-color: var(--ocean)
+    }
+
+    .btn-restore:hover {
+      background: var(--ocean-light)
+    }
+
+    /* Lists */
+    .list-card {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02)
+    }
+
+    .list-head {
+      padding: 14px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text2);
+      border-bottom: 0.5px solid var(--border);
+      background: var(--bg3);
+      text-transform: uppercase;
+      letter-spacing: 0.1em
+    }
+
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 20px;
+      border-bottom: 0.5px solid var(--border);
+      transition: background 0.2s
+    }
+
+    .list-item:hover {
+      background: var(--bg)
+    }
+
+    .list-item:last-child {
+      border-bottom: none
+    }
+
+    .list-item.done .li-name {
+      text-decoration: line-through;
+      color: var(--text3)
+    }
+
+    .list-item.done .li-sub {
+      color: var(--text3)
+    }
+
+    .cb {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      border: 1.5px solid var(--border2);
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      background: var(--bg2);
+      flex-shrink: 0;
+      transition: all 0.2s
+    }
+
+    .cb:hover {
+      border-color: var(--palm)
+    }
+
+    .cb.checked {
+      background: var(--palm);
+      border-color: var(--palm)
+    }
+
+    .cb.checked::after {
+      content: '';
+      display: block;
+      width: 5px;
+      height: 9px;
+      border: 2px solid #fff;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg) translate(-1px, -2px)
+    }
+
+    .li-body {
+      flex: 1
+    }
+
+    .li-name {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .li-sub {
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 4px;
+      line-height: 1.6
+    }
+
+    .li-when {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 4px;
+      font-weight: 500
+    }
+
+    .urg-red {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--coral-text);
+      background: var(--coral-light);
+      padding: 3px 8px;
+      border-radius: 10px
+    }
+
+    .urg-amber {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--sunset-text);
+      background: var(--sunset-light);
+      padding: 3px 8px;
+      border-radius: 10px
+    }
+
+    .urg-green {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--palm-text);
+      background: var(--palm-light);
+      padding: 3px 8px;
+      border-radius: 10px
+    }
+
+    /* Flights & contacts */
+    .conf-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px
+    }
+
+    .conf-box {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      border: 0.5px solid var(--border)
+    }
+
+    .conf-label {
+      font-size: 11px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+      font-weight: 600
+    }
+
+    .conf-val {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      font-variant-numeric: tabular-nums
+    }
+
+    .conf-sub {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 4px
+    }
+
+    .flight-card {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02)
+    }
+
+    .frow {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px
+    }
+
+    .ftime {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--text);
+      min-width: 70px;
+      font-weight: 600
+    }
+
+    .fline {
+      flex: 1;
+      border-top: 1.5px dashed var(--border2);
+      position: relative
+    }
+
+    .fbadge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--bg2);
+      padding: 2px 10px;
+      border-radius: 12px;
+      border: 0.5px solid var(--border);
+      color: var(--text3);
+      white-space: nowrap
+    }
+
+    .fcity {
+      font-size: 13px;
+      color: var(--text2);
+      font-weight: 500
+    }
+
+    .fmeta {
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 16px
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px
+    }
+
+    .contact-box {
+      background: var(--bg2);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      border: 0.5px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02)
+    }
+
+    .contact-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px
+    }
+
+    .contact-num {
+      font-size: 14px;
+      color: var(--ocean);
+      font-weight: 600
+    }
+
+    /* Divider */
+    .sect-divider {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--text3);
+      text-align: center;
+      padding: 16px 0 8px;
+      letter-spacing: 0.04em
+    }
+
+    @media(max-width:600px) {
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
+      .conf-grid,
+      .contact-grid {
+        grid-template-columns: 1fr
+      }
+
+      .hero h1 {
+        font-size: 32px
+      }
+    }
+    .route-btn {
+      padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--bg2); color: var(--text2); white-space: nowrap; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); margin-right: 2px;
+    }
+    .route-btn.active {
+      background: var(--ocean); color: #fff; border-color: var(--ocean); box-shadow: 0 2px 8px rgba(14,165,233,0.3);
+    }
+    .route-btn-container::-webkit-scrollbar { display: none; }
+    
+    .grid-pack { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-bottom: 24px; }
+    .pack-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; gap: 12px; align-items: center; cursor: pointer; transition: 0.15s; position: relative; overflow: hidden; }
+    .pack-card.done { background: var(--palm-light); border-color: var(--palm); }
+    .pack-icon { font-size: 24px; flex-shrink: 0; }
+    .pack-info { flex: 1; }
+    .pack-title { font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .pack-card.done .pack-title { color: var(--palm-text); text-decoration: line-through; }
+    .must-badge { background: var(--coral); color: #fff; font-size: 9px; padding: 3px 6px; border-radius: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1; }
+    .pack-card.done .must-badge { opacity: 0.5; }
+    .pack-sub { font-size: 11px; color: var(--text3); margin-top: 4px; line-height: 1.3; }
+    .pack-card.done .pack-sub { color: var(--palm-text); opacity: 0.8; }
+    .pack-check { position: absolute; right: 14px; font-size: 18px; color: var(--palm); display: none; font-weight: bold; }
+    .pack-card.done .pack-check { display: block; }
+
+    .grid-hotel { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 24px; }
+    .hotel-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 6px; text-align: center; cursor: pointer; transition: 0.15s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90px; }
+    .hotel-card.done { background: var(--palm-light); border-color: var(--palm); }
+    .hotel-icon { font-size: 24px; margin-bottom: 8px; }
+    .hotel-title { font-size: 11px; font-weight: 600; color: var(--text2); line-height: 1.3; }
+    .hotel-card.done .hotel-title { color: var(--palm-text); text-decoration: line-through; }
+    @media(max-width: 400px) {
+      .grid-hotel { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .grid-pack { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="hero">
-  <div class="hero-inner">
-    <h1>🌺 <em>Aloha,</em> Oahu</h1>
-    <p>Sai Madhav Kolluri &nbsp;·&nbsp; Solo traveler &nbsp;·&nbsp; Apr 16–20, 2026</p>
-    <p class="aloha">Waikiki Beach Marriott &nbsp;·&nbsp; Go City 4-Day Pass (activates Fri Apr 17)</p>
-  </div>
-</div>
-
-<div class="app">
-  <div class="stats">
-    <div class="stat"><div class="stat-label">Activities</div><div class="stat-val" id="s-act">—</div><div class="stat-sub">planned</div></div>
-    <div class="stat"><div class="stat-label">Pass activates</div><div class="stat-val">Fri Apr 17</div><div class="stat-sub">Day 1 of 4</div></div>
-    <div class="stat"><div class="stat-label">Luau 🌺</div><div class="stat-val">Sun Apr 19</div><div class="stat-sub">Aloha Kai · Sea Life Park</div></div>
-    <div class="stat"><div class="stat-label">Departure ✈️</div><div class="stat-val">7:40 PM</div><div class="stat-sub">Mon Apr 20 · HNL</div></div>
+  <div class="hero">
+    <div class="hero-inner">
+      <h1>🌺 <em>Aloha,</em> Oahu</h1>
+      <p>Sai Madhav Kolluri &nbsp;·&nbsp; Solo traveler &nbsp;·&nbsp; Apr 16–20, 2026</p>
+      <p class="aloha">Waikiki Beach Marriott &nbsp;·&nbsp; Go City 4-Day Pass (activates Fri Apr 17)</p>
+    </div>
   </div>
 
-  <div class="tabs">
-    <div class="tab active" onclick="showTab('today',this)">📍 Today</div>
-    <div class="tab" onclick="showTab('schedule',this)">🗓 Schedule</div>
-    <div class="tab" onclick="showTab('book',this)">✅ To-do</div>
-    <div class="tab" onclick="showTab('food',this)">🍽 Food</div>
-    <div class="tab" onclick="showTab('shop',this)">🛍 Shopping</div>
-    <div class="tab" onclick="showTab('contacts',this)">📞 Contacts</div>
-    <div class="tab" onclick="showTab('flights',this)">✈️ Flights</div>
+  <div class="app">
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Activities</div>
+        <div class="stat-val" id="s-act">—</div>
+        <div class="stat-sub">planned</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Pass activates</div>
+        <div class="stat-val">Fri Apr 17</div>
+        <div class="stat-sub">Day 1 of 4</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Luau 🌺</div>
+        <div class="stat-val">Sun Apr 19</div>
+        <div class="stat-sub">Aloha Kai · Sea Life Park</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Departure ✈️</div>
+        <div class="stat-val">7:40 PM</div>
+        <div class="stat-sub">Mon Apr 20 · HNL</div>
+      </div>
+    </div>
+
+    <div class="clocks" style="display:flex;justify-content:space-between;gap:12px;margin-bottom:20px;background:var(--bg2);padding:14px 20px;border-radius:var(--radius-lg);border:0.5px solid var(--border)">
+      <div style="flex:1">
+        <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em">Hawaii (HST)</div>
+        <div id="clock-hi" style="font-size:20px;font-family:'Playfair Display',serif;font-weight:600;color:var(--text);margin-top:2px">--:--</div>
+      </div>
+      <div style="width:1px;background:var(--border)"></div>
+      <div style="flex:1;text-align:center">
+        <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em">ABQ (Home)</div>
+        <div id="clock-abq" style="font-size:20px;font-family:'Playfair Display',serif;font-weight:600;color:var(--text);margin-top:2px">--:--</div>
+      </div>
+      <div style="width:1px;background:var(--border)"></div>
+      <div style="flex:1;text-align:right">
+        <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em">India (IST)</div>
+        <div id="clock-in" style="font-size:20px;font-family:'Playfair Display',serif;font-weight:600;color:var(--text);margin-top:2px">--:--</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="showTab('today',this)">📍 Today</div>
+      <div class="tab" onclick="showTab('schedule',this)">🗓 Schedule</div>
+      <div class="tab" onclick="showTab('book',this)">✅ To-do</div>
+      <div class="tab" onclick="showTab('food',this)">🍽 Food</div>
+      <div class="tab" onclick="showTab('shop',this)">🛍 Shopping</div>
+      <div class="tab" onclick="showTab('map',this)">🗺 Map</div>
+      <div class="tab" onclick="showTab('contacts',this)">📞 Contacts</div>
+      <div class="tab" onclick="showTab('flights',this)">✈️ Flights</div>
+    </div>
+
+    <div id="today" class="section active">
+      <div id="today-panel"></div>
+    </div>
+    <div id="schedule" class="section">
+      <div id="day-list"></div>
+    </div>
+    <div id="book" class="section">
+      <div id="book-list"></div>
+    </div>
+    <div id="food" class="section">
+      <div id="food-list"></div>
+    </div>
+    <div id="shop" class="section">
+      <div id="shop-list"></div>
+    </div>
+    <div id="map" class="section">
+      <div class="route-btn-container" style="display:flex;gap:4px;overflow-x:auto;padding-bottom:12px;margin-bottom:4px;scrollbar-width:none;-ms-overflow-style:none;">
+        <button class="route-btn active" onclick="showRoute('all', event)">All Pins</button>
+        <button class="route-btn" onclick="showRoute('day1', event)">Day 1</button>
+        <button class="route-btn" onclick="showRoute('day2', event)">Day 2</button>
+        <button class="route-btn" onclick="showRoute('day3', event)">Day 3</button>
+        <button class="route-btn" onclick="showRoute('day4', event)">Day 4</button>
+        <button class="route-btn" onclick="showRoute('day5', event)">Day 5</button>
+      </div>
+      <div class="list-card" style="padding:0;overflow:hidden;border:none;border-radius:12px;background:var(--bg);position:relative">
+        <div id="oahu-map" style="width: 100%; height: 540px; z-index:1;"></div>
+      </div>
+      <div style="font-size:12px;color:var(--text2);text-align:center;margin-top:12px">Custom Oahu Explorer Map — Tap pins for details</div>
+    </div>
+    <div id="contacts" class="section">
+      <div id="contact-list"></div>
+    </div>
+    <div id="flights" class="section">
+      <div id="flight-list"></div>
+    </div>
   </div>
 
-  <div id="today" class="section active"><div id="today-panel"></div></div>
-  <div id="schedule" class="section"><div id="day-list"></div></div>
-  <div id="book" class="section"><div id="book-list"></div></div>
-  <div id="food" class="section"><div id="food-list"></div></div>
-  <div id="shop" class="section"><div id="shop-list"></div></div>
-  <div id="contacts" class="section"><div id="contact-list"></div></div>
-  <div id="flights" class="section"><div id="flight-list"></div></div>
-</div>
+  <script>
 
-<script>
+    const WEATHER = [
+      { date: "2026-04-16", day: "Thu", high: 77, rain: 10, icon: "☀️", desc: "Sunny" },
+      { date: "2026-04-17", day: "Fri", high: 77, rain: 10, icon: "🌤", desc: "Mostly sunny" },
+      { date: "2026-04-18", day: "Sat", high: 77, rain: 10, icon: "🌤", desc: "Mostly sunny" },
+      { date: "2026-04-19", day: "Sun", high: 76, rain: 20, icon: "⛅", desc: "Partly cloudy" },
+      { date: "2026-04-20", day: "Mon", high: 76, rain: 10, icon: "☀️", desc: "Sunny" }
+    ];
 
-const WEATHER=[
-  {date:"2026-04-16",day:"Thu",high:77,rain:10,icon:"☀️",desc:"Sunny"},
-  {date:"2026-04-17",day:"Fri",high:77,rain:10,icon:"🌤",desc:"Mostly sunny"},
-  {date:"2026-04-18",day:"Sat",high:77,rain:10,icon:"🌤",desc:"Mostly sunny"},
-  {date:"2026-04-19",day:"Sun",high:76,rain:20,icon:"⛅",desc:"Partly cloudy"},
-  {date:"2026-04-20",day:"Mon",high:76,rain:10,icon:"☀️",desc:"Sunny"}
-];
+    const TRIP_DATES = ["2026-04-16", "2026-04-17", "2026-04-18", "2026-04-19", "2026-04-20"];
 
-const TRIP_DATES=["2026-04-16","2026-04-17","2026-04-18","2026-04-19","2026-04-20"];
+    function renderToday() {
+      const now = new Date();
+      const todayStr = now.toISOString().split("T")[0];
+      const tripIdx = TRIP_DATES.indexOf(todayStr);
+      const isBefore = now < new Date("2026-04-16");
+      const isAfter = now > new Date("2026-04-20T23:59:59");
+      const w = WEATHER[tripIdx] || null;
+      const day = tripIdx >= 0 ? DAYS[tripIdx] : null;
 
-function renderToday(){
-  const now=new Date();
-  const todayStr=now.toISOString().split("T")[0];
-  const tripIdx=TRIP_DATES.indexOf(todayStr);
-  const isBefore=now<new Date("2026-04-16");
-  const isAfter=now>new Date("2026-04-20T23:59:59");
-  const w=WEATHER[tripIdx]||null;
-  const day=tripIdx>=0?DAYS[tripIdx]:null;
+      let html = "";
 
-  let html="";
-
-  if(isBefore){
-    html+=`<div style="background:linear-gradient(135deg,#0077b6,#023e8a);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:16px;color:#fff;display:flex;justify-content:space-between;align-items:center">
+      if (isBefore) {
+        html += `<div style="background:linear-gradient(135deg,var(--ocean-mid),var(--ocean));border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:16px;color:#fff;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 12px rgba(0,0,0,0.1)">
       <div>
         <div style="font-family:'Playfair Display',serif;font-size:18px">Tomorrow: ABQ → SFO → HNL ✈️</div>
         <div style="font-size:12px;opacity:0.75;margin-top:4px">UA 5286 departs 6:28 AM · Arrive Honolulu ~11:48 AM</div>
@@ -223,388 +1001,616 @@ function renderToday(){
       </div>
     </div>`;
 
-    html+=`<div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em">5-day Oahu forecast</div>`;
-    html+=`<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:20px">`;
-    WEATHER.forEach((w,i)=>{
-      html+=`<div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 6px;text-align:center">
+        html += `<div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em">5-day Oahu forecast</div>`;
+        html += `<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:20px">`;
+        WEATHER.forEach((w, i) => {
+          html += `<div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 6px;text-align:center">
         <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em">${w.day}</div>
         <div style="font-size:22px;margin:5px 0">${w.icon}</div>
         <div style="font-size:13px;font-weight:500;color:var(--text)">${w.high}°F</div>
         <div style="font-size:10px;color:var(--text3);margin-top:2px">💧${w.rain}%</div>
       </div>`;
-    });
-    html+=`</div>`;
+        });
+        html += `</div>`;
 
-    html+=`<div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em">Tonight's packing list 🎒</div>`;
-    html+=`<div class="list-card"><div class="list-head">Pack tonight — clothes + gear</div>`;
-    const packItems=[
-      {k:"pk0",n:"Sunglasses",s:"Every day. Don't forget these."},
-      {k:"pk1",n:"Cap or hat",s:"Essential for Diamond Head hike (Mon) — zero shade on the trail."},
-      {k:"pk2",n:"Camera",s:"Secret Island Beach, Diamond Head summit, luau — you'll want it."},
-      {k:"pk3",n:"Spare clothes — 2–3 sets",s:"Sun especially: separate outfit for snorkel + change into something nice for the luau."},
-      {k:"pk4",n:"Reef-safe mineral sunscreen",s:"MANDATORY for Sunday snorkel. Not regular sunscreen. Can also grab at Costco Friday."},
-      {k:"pk5",n:"Closed toe shoes",s:"MANDATORY for Coral Crater on Friday. Sneakers or hiking shoes."},
-      {k:"pk6",n:"Comfortable walking shoes",s:"For PCC, Diamond Head, general walking days."},
-      {k:"pk7",n:"Swimwear x2",s:"You'll be in water Fri (Wet'n'Wild), Sat (Secret Island), Sun (snorkel). Two sets so one can dry."},
-      {k:"pk8",n:"Flip flops",s:"Buy Day 1 in Waikiki or bring a pair. Don't wear closed toe shoes to the beach."},
-      {k:"pk9",n:"Bug spray",s:"For Coral Crater outdoor adventure course on Friday."},
-      {k:"pk10",n:"Portable phone charger / power bank",s:"Long travel day Thursday + full days out — essential."},
-      {k:"pk11",n:"Phone charger + adapters",s:"Standard US plug. Bring a multi-port USB charger."}
-    ];
-    packItems.forEach(item=>{
-      const done=state.checked[item.k];
-      html+=`<div class="list-item${done?' done':''}"><div class="cb${done?' checked':''}" onclick="chk('${item.k}',this)"></div><div class="li-body"><div class="li-name">${item.n}</div><div class="li-sub">${item.s}</div></div></div>`;
-    });
-    html+=`</div>`;
+        html += `<div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em">Tonight's packing list 🎒</div>`;
+        html += `<div class="list-card"><div class="list-head">Pack tonight — clothes + gear</div>`;
+        const packItems = [
+          { k: "pk0", n: "Sunglasses", s: "Every day. Don't forget these." },
+          { k: "pk1", n: "Cap or hat", s: "Essential for Diamond Head hike (Mon) — zero shade on the trail." },
+          { k: "pk2", n: "Camera", s: "Secret Island Beach, Diamond Head summit, luau — you'll want it." },
+          { k: "pk3", n: "Spare clothes — 2–3 sets", s: "Sun especially: separate outfit for snorkel + change into something nice for the luau." },
+          { k: "pk4", n: "Reef-safe mineral sunscreen", s: "MANDATORY for Sunday snorkel. Not regular sunscreen. Can also grab at Costco Friday." },
+          { k: "pk5", n: "Closed toe shoes", s: "MANDATORY for Coral Crater on Friday. Sneakers or hiking shoes." },
+          { k: "pk6", n: "Comfortable walking shoes", s: "For PCC, Diamond Head, general walking days." },
+          { k: "pk7", n: "Swimwear x2", s: "You'll be in water Fri (Wet'n'Wild), Sat (Secret Island), Sun (snorkel). Two sets so one can dry." },
+          { k: "pk8", n: "Flip flops", s: "Buy Day 1 in Waikiki or bring a pair. Don't wear closed toe shoes to the beach." },
+          { k: "pk9", n: "Bug spray", s: "For Coral Crater outdoor adventure course on Friday." },
+          { k: "pk10", n: "Portable phone charger / power bank", s: "Long travel day Thursday + full days out — essential." },
+          { k: "pk11", n: "Phone charger + adapters", s: "Standard US plug. Bring a multi-port USB charger." }
+        ];
+        packItems.forEach(item => {
+          const done = state.checked[item.k];
+          html += `<div class="list-item${done ? ' done' : ''}"><div class="cb${done ? ' checked' : ''}" onclick="chk('${item.k}',this)"></div><div class="li-body"><div class="li-name">${item.n}</div><div class="li-sub">${item.s}</div></div></div>`;
+        });
+        html += `</div>`;
 
-    html+=`<div class="list-card" style="margin-top:4px"><div class="list-head">Tonight's to-do checklist</div>`;
-    const preDep=[
-      {k:"pre0",n:"Book Turo or decide on Friday transport",s:"Check turo.com for Honolulu listings. Decide tonight before prices go up."},
-      {k:"pre1",n:"Book Restaurant SUNTORY",s:"OpenTable or call 808-922-5511. Pick any free evening — Friday is best."},
-      {k:"pre2",n:"Download Uber app + add payment method",s:"You'll use this every day. Make sure it's set up and working."},
-      {k:"pre3",n:"Download Go City pass to phone",s:"Have it ready to scan offline before you land."},
-      {k:"pre4",n:"Download this dashboard for offline use",s:"Save the HTML file to your phone — works fully offline on any browser."},
-      {k:"pre5",n:"Charge all devices + power bank",s:"Long travel day tomorrow — phone needs to last ABQ→SFO→HNL."},
-      {k:"pre6",n:"Screenshot all confirmation numbers",s:"Backup in case you lose internet at any point."},
-      {k:"pre7",n:"Set alarm for 5:15 AM",s:"Flight UA 5286 departs ABQ at 6:28 AM. Be at the airport by 5:45 AM."}
-    ];
-    preDep.forEach(item=>{
-      const done=state.checked[item.k];
-      html+=`<div class="list-item${done?' done':''}"><div class="cb${done?' checked':''}" onclick="chk('${item.k}',this)"></div><div class="li-body"><div class="li-name">${item.n}</div><div class="li-sub">${item.s}</div></div></div>`;
-    });
-    html+=`</div>`;
-  } else if(isAfter){
-    html+=`<div style="background:var(--bg2);border-radius:var(--radius-lg);padding:2rem;text-align:center;margin-bottom:16px">
+        html += `<div class="list-card" style="margin-top:4px"><div class="list-head">Tonight's to-do checklist</div>`;
+        const preDep = [
+          { k: "pre0", n: "Book Turo or decide on Friday transport", s: "Check turo.com for Honolulu listings. Decide tonight before prices go up." },
+          { k: "pre1", n: "Book Restaurant SUNTORY", s: "OpenTable or call 808-922-5511. Pick any free evening — Friday is best." },
+          { k: "pre2", n: "Download Uber app + add payment method", s: "You'll use this every day. Make sure it's set up and working." },
+          { k: "pre3", n: "Download Go City pass to phone", s: "Have it ready to scan offline before you land." },
+          { k: "pre4", n: "Download this dashboard for offline use", s: "Save the HTML file to your phone — works fully offline on any browser." },
+          { k: "pre5", n: "Charge all devices + power bank", s: "Long travel day tomorrow — phone needs to last ABQ→SFO→HNL." },
+          { k: "pre6", n: "Screenshot all confirmation numbers", s: "Backup in case you lose internet at any point." },
+          { k: "pre7", n: "Set alarm for 5:15 AM", s: "Flight UA 5286 departs ABQ at 6:28 AM. Be at the airport by 5:45 AM." }
+        ];
+        preDep.forEach(item => {
+          const done = state.checked[item.k];
+          html += `<div class="list-item${done ? ' done' : ''}"><div class="cb${done ? ' checked' : ''}" onclick="chk('${item.k}',this)"></div><div class="li-body"><div class="li-name">${item.n}</div><div class="li-sub">${item.s}</div></div></div>`;
+        });
+        html += `</div>`;
+      } else if (isAfter) {
+        html += `<div style="background:var(--bg2);border-radius:var(--radius-lg);padding:2rem;text-align:center;margin-bottom:16px">
       <div style="font-size:48px;margin-bottom:12px">🤙</div>
       <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--text);margin-bottom:8px">Mahalo nui loa</div>
       <div style="font-size:14px;color:var(--text2)">Trip complete. Hope it was incredible, Sai.</div>
     </div>`;
-  } else if(day){
-    const wdata=WEATHER[tripIdx];
-    html+=`<div class="today-hero" style="background:linear-gradient(135deg,${day.color},${day.color}cc);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:14px;border:0.5px solid ${day.tc}33">
+      } else if (day) {
+        const wdata = WEATHER[tripIdx];
+        html += `<div class="today-hero" style="background:${day.color};border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:16px;border:0.5px solid var(--border)">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
         <div>
-          <div style="font-size:11px;font-weight:500;color:${day.tc};text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px">${day.label} · ${day.date}</div>
-          <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--text)">${day.title}</div>
-          <div style="font-size:12px;color:var(--text2);margin-top:6px">${day.wake.replace("⏰ ","").replace("🌅 ","")}</div>
+          <div style="font-size:11px;font-weight:700;color:${day.tc};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">${day.label} · ${day.date}</div>
+          <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--text);font-weight:600">${day.title}</div>
+          <div style="font-size:13px;color:var(--text2);margin-top:8px;line-height:1.5">${day.wake.replace("⏰ ", "").replace("🌅 ", "")}</div>
         </div>
         <div style="text-align:right;flex-shrink:0;margin-left:12px">
           <div style="font-size:32px">${wdata.icon}</div>
-          <div style="font-size:16px;font-weight:500;color:var(--text)">${wdata.high}°F</div>
-          <div style="font-size:11px;color:var(--text3)">${wdata.desc}</div>
-          <div style="font-size:11px;color:var(--ocean)">💧${wdata.rain}% rain</div>
+          <div style="font-size:16px;font-weight:600;color:var(--text)">${wdata.high}°F</div>
+          <div style="font-size:12px;color:var(--text3)">${wdata.desc}</div>
+          <div style="font-size:12px;color:var(--ocean);font-weight:500">💧${wdata.rain}% rain</div>
         </div>
       </div>
     </div>`;
 
-    html+=`<div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em">Today's bag 🎒</div>`;
-    html+=`<div class="bag-bar" style="border-radius:var(--radius);margin-bottom:14px"><b>Pack:</b> ${day.bag}</div>`;
+        const packList = [];
+        const bagClean = day.bag.replace(/\+/g, ',');
+        const bagTokens = bagClean.split(/[.,](?=\s|$)/).map(s => s.trim()).filter(s => s);
+        
+        bagTokens.forEach(s => {
+          let e = "🎒", m = true;
+          const ls = s.toLowerCase();
+          
+          if (ls.includes("flip flop") || ls.includes("slipper")) e = "🩴";
+          else if (ls.includes("sunglass")) e = "🕶️";
+          else if (ls.includes("shoe") || ls.includes("sneaker")) e = "👟";
+          else if (ls.includes("camera")) e = "📷";
+          else if (ls.includes("power") || ls.includes("charger")) e = "🔋";
+          else if (ls.includes("sunscreen")) e = "🧴";
+          else if (ls.includes("card") || ls.includes("wallet")) e = "💳";
+          else if (ls.includes("earphone")) e = "🎧";
+          else if (ls.includes("cloth") || ls.includes("outfit") || ls.includes("shirt") || ls.includes("short")) e = "👕";
+          else if (ls.includes("swim") || ls.includes("trunk") || ls.includes("bathing")) e = "🩳";
+          else if (ls.includes("towel")) e = "🤿";
+          else if (ls.includes("medication") || ls.includes("tablet")) e = "💊";
+          else if (ls.includes("water") || ls.includes("hydro")) e = "💧";
+          else if (ls.includes("bug") || ls.includes("mosquito")) e = "🦟";
+          else m = false; 
 
-    html+=`<div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em">Today's schedule</div>`;
-    html+=`<div class="day-card">`;
-    day.items.forEach((item,ii)=>{
-      if(item.tx){
-        html+=`<div class="item transport"><div class="item-time"></div><div class="item-dot"><div class="dot" style="background:var(--border2);width:6px;height:6px;margin-top:3px"></div><div class="vline" style="border-left:1.5px dashed var(--border2);background:none;width:0;margin:3px auto 0"></div></div><div class="item-body" style="padding-left:12px"><div class="item-name" style="font-size:12px;color:var(--text2);font-weight:400">${item.name}</div>${item.sub?`<div class="item-sub">${item.sub}</div>`:""}</div></div>`;
-      } else {
-        const removed=state.removed[tripIdx+"-"+ii];
-        const ec=item.free?" free-block":item.lunch?" lunch-block":item.dinner?" dinner-block":"";
-        html+=`<div class="item${ec}${removed?" removed":""}"><div class="item-time">${item.t}</div><div class="item-dot"><div class="dot" style="background:${dotColor(item.tags)}"></div><div class="vline"></div></div><div class="item-body"><div class="item-name">${item.name}</div><div class="item-tags">${item.tags.map(tagEl).join("")}</div><div class="item-sub">${item.sub}</div></div></div>`;
-      }
-    });
-    html+=`</div>`;
+          let n = s.charAt(0).toUpperCase() + s.slice(1);
+          if (ls.includes("towel") && !ls.includes("hotel")) {
+            n = n.replace(/towel/gi, "Towel (Grab from hotel)");
+          }
 
-    html+=`<div style="font-size:13px;font-weight:500;color:var(--text2);margin:14px 0 8px;text-transform:uppercase;letter-spacing:0.06em">Rest of trip weather</div>`;
-    html+=`<div style="display:grid;grid-template-columns:repeat(${5-tripIdx},minmax(0,1fr));gap:8px">`;
-    WEATHER.slice(tripIdx).forEach((w,i)=>{
-      const isToday=i===0;
-      html+=`<div style="background:${isToday?"var(--ocean)":"var(--bg2)"};border:0.5px solid ${isToday?"var(--ocean)":"var(--border)"};border-radius:var(--radius);padding:10px 8px;text-align:center">
-        <div style="font-size:10px;color:${isToday?"rgba(255,255,255,0.8)":"var(--text3)"};text-transform:uppercase;letter-spacing:0.05em">${i===0?"Today":w.day}</div>
+          packList.push({ n, sub: "Daily item", e, m });
+        });
+
+        const addP = (n, sub, e, m) => { if (!packList.some(p => p.n.toLowerCase().includes(n.toLowerCase()))) packList.push({n,sub,e,m}); };
+        addP("Take daily tablets / medication", "Regular dose", "💊", true);
+        addP("Wallet & ID", "Must have on you", "💳", true);
+        addP("Sunglasses", "Every day essential", "🕶️", true);
+        addP("Camera", "Capture memories", "📷", true);
+        addP("Sunscreen (reef-safe)", "MANDATORY", "🧴", true);
+        addP("Earphones", "For transit/travel", "🎧", false);
+        if (tripIdx > 0 && tripIdx < 4) addP("Go City pass", "Have it ready to scan", "🎫", true);
+
+        for (let i = packList.length - 1; i >= 0; i--) {
+          const lsn = packList[i].n.toLowerCase();
+          if (lsn.includes("charger") || lsn.includes("power bank")) packList.splice(i, 1);
+        }
+        
+        html += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.1em;border-bottom:none">Today's pack list 🎒</div>
+          <div style="font-size:11px;color:var(--text3);font-weight:600">${packList.filter((_,ii) => state.checked[`pack-${tripIdx}-${ii}`]).length}/${packList.length} packed</div>
+        </div>`;
+        html += `<div class="grid-pack">`;
+        packList.forEach((item, ii) => {
+          const key = `pack-${tripIdx}-${ii}`;
+          const done = state.checked[key];
+          const mustHtml = item.m ? `<span class="must-badge">must</span>` : '';
+          html += `<div class="pack-card${done ? ' done' : ''}" onclick="chk('${key}',this)">
+            <div class="pack-icon">${item.e}</div>
+            <div class="pack-info">
+              <div class="pack-title">${item.n} ${mustHtml}</div>
+              <div class="pack-sub">${item.sub}</div>
+            </div>
+            <div class="pack-check">✓</div>
+          </div>`;
+        });
+        html += `</div>`;
+
+        const hotelList = [
+          { n: "Room key<br>in pocket", e: "🔑" },
+          { n: "Room safe<br>locked", e: "🔒" },
+          { n: "Phone<br>charged", e: "📱" },
+          { n: "AC off /<br>lights off", e: "💡" },
+          { n: "Sunscreen<br>applied", e: "🧴" },
+          { n: "Wallet +<br>cards", e: "💳" },
+          { n: "Bag double-<br>checked", e: "🎒" }
+        ];
+        if (tripIdx === 0 || tripIdx === 4) hotelList.push({ n: "Boarding pass<br>on phone", e: "✈️" });
+        else hotelList.push({ n: "Water<br>bottle", e: "💧" });
+
+        html += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.1em;border-bottom:none">Before you leave the hotel 🏨</div>
+          <div style="font-size:11px;color:var(--text3);font-weight:600">${hotelList.filter((_,ii) => state.checked[`hotel-${tripIdx}-${ii}`]).length}/${hotelList.length} done</div>
+        </div>`;
+        html += `<div class="grid-hotel">`;
+        hotelList.forEach((item, ii) => {
+          const key = `hotel-${tripIdx}-${ii}`;
+          const done = state.checked[key];
+          html += `<div class="hotel-card${done ? ' done' : ''}" onclick="chk('${key}',this)">
+            <div class="hotel-icon">${item.e}</div>
+            <div class="hotel-title">${item.n}</div>
+          </div>`;
+        });
+        html += `</div>`;
+
+        html += `<div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.1em">Today's schedule</div>`;
+        html += `<div class="day-card">`;
+        day.items.forEach((item, ii) => {
+          let linksHtml = "";
+          if (item.tx && item.name.toLowerCase().includes("uber")) {
+            linksHtml = `<div style="margin-top:8px"><a href="https://m.uber.com/ul/" target="_blank" style="display:inline-block;padding:6px 14px;background:#000;color:#fff;border-radius:20px;text-decoration:none;font-size:12px;font-weight:600">🚗 Open Uber</a></div>`;
+          } else if (!item.tx && !item.free && !item.name.includes("FREE") && !item.name.includes("ransport") && !item.name.includes("Wake up") && !item.name.includes("Arrive HNL") && !item.name.includes("Figure out")) {
+            let rawName = item.name.split("—")[0].replace(/[🐕🌺🏖🏝🏄‍♂️🌋🍍🥥🛍🛒🧗🌊🎭🐢🔥✈️🍱🍜🍣]/g, "").trim();
+            if (rawName && rawName.length > 2) {
+               linksHtml = `<div style="margin-top:8px"><a href="https://maps.google.com/?q=${encodeURIComponent(rawName + ' Oahu')}" target="_blank" style="display:inline-block;padding:6px 14px;background:var(--bg3);border:0.5px solid var(--border);color:var(--text);border-radius:20px;text-decoration:none;font-size:12px;font-weight:600">🗺️ Google Maps</a></div>`;
+            }
+          }
+
+          const removed = state.removed[tripIdx + "-" + ii];
+          if (item.tx) {
+            html += `<div class="item transport${removed ? " removed" : ""}"><div class="item-time"></div><div class="item-dot"><div class="dot" style="background:var(--border2);width:6px;height:6px;margin-top:3px"></div><div class="vline" style="border-left:1.5px dashed var(--border2);background:none;width:0;margin:3px auto 0"></div></div><div class="item-body" style="padding-left:12px"><div class="item-name" style="font-size:12px;color:var(--text2);font-weight:400">${item.name}</div>${item.sub ? `<div class="item-sub">${item.sub}</div>` : ""}${linksHtml}</div></div>`;
+          } else {
+            const ec = item.free ? " free-block" : item.lunch ? " lunch-block" : item.dinner ? " dinner-block" : "";
+            html += `<div class="item${ec}${removed ? " removed" : ""}"><div class="item-time">${item.t}</div><div class="item-dot"><div class="dot" style="background:${dotColor(item.tags)}"></div><div class="vline"></div></div><div class="item-body"><div class="item-name">${item.name}</div><div class="item-tags">${item.tags.map(tagEl).join("")}</div><div class="item-sub">${item.sub}</div>${linksHtml}</div></div>`;
+          }
+        });
+        html += `</div>`;
+
+        html += `<div style="font-size:13px;font-weight:500;color:var(--text2);margin:14px 0 8px;text-transform:uppercase;letter-spacing:0.06em">Rest of trip weather</div>`;
+        html += `<div style="display:grid;grid-template-columns:repeat(${5 - tripIdx},minmax(0,1fr));gap:8px">`;
+        WEATHER.slice(tripIdx).forEach((w, i) => {
+          const isToday = i === 0;
+          html += `<div style="background:${isToday ? "var(--ocean)" : "var(--bg2)"};border:0.5px solid ${isToday ? "var(--ocean)" : "var(--border)"};border-radius:var(--radius);padding:10px 8px;text-align:center">
+        <div style="font-size:10px;color:${isToday ? "rgba(255,255,255,0.8)" : "var(--text3)"};text-transform:uppercase;letter-spacing:0.05em">${i === 0 ? "Today" : w.day}</div>
         <div style="font-size:22px;margin:5px 0">${w.icon}</div>
-        <div style="font-size:13px;font-weight:500;color:${isToday?"#fff":"var(--text)"}">${w.high}°F</div>
-        <div style="font-size:10px;color:${isToday?"rgba(255,255,255,0.7)":"var(--text3)"};margin-top:2px">💧${w.rain}%</div>
+        <div style="font-size:13px;font-weight:500;color:${isToday ? "#fff" : "var(--text)"}">${w.high}°F</div>
+        <div style="font-size:10px;color:${isToday ? "rgba(255,255,255,0.7)" : "var(--text3)"};margin-top:2px">💧${w.rain}%</div>
       </div>`;
-    });
-    html+=`</div>`;
-  }
-  document.getElementById("today-panel").innerHTML=html;
-}
-
-const DAYS=[
-  {date:"Thu Apr 16",label:"Day 1",color:"#caf0f8",tc:"#0077b6",title:"Arrive + Shopping + Hula Night",
-   wake:"🌅 No alarm — flight lands 11:48am. Chill arrival day.",
-   bag:"Carry-on only. Comfortable walking shoes. Phone charger. Go City pass (don't activate yet).",
-   note:"Easy day. Explore Waikiki at your own pace. No rush. Let Hawaii sink in.",
-   items:[
-    {t:"11:48 AM",name:"Arrive HNL",sub:"Flight UA 1175 lands. Aloha VIP transfer to Marriott (included). Check in 3pm — store bags if early.",tags:["relax"],rm:false},
-    {t:"",name:"Walk to Waikiki",sub:"Get oriented. Grab something from ABC Store or 7-Eleven.",tags:["drive"],tx:true},
-    {t:"2:30 PM",name:"International Market Place + ABC Store",sub:"Walk from hotel. Souvenir stalls, lilikoi butter, hula girl ornament. Good first browse.",tags:["shop"],rm:true},
-    {t:"4:00 PM",name:"Ala Moana Center",sub:"Short Uber ~$10. Uniqlo Hawaii exclusive, Reyn Spooner aloha shirts, Nordstrom Rack.",tags:["shop"],rm:true},
-    {t:"",name:"Uber back ~$10",sub:"Drop bags, freshen up for sunset and dinner.",tags:["drive"],tx:true},
-    {t:"6:00 PM",name:"FREE — Waikiki Beach sunset 🌅",sub:"Walk from hotel. First Pacific sunset ~7:10pm. Sit on the sand, breathe it all in.",tags:["free"],rm:false,free:true},
-    {t:"7:15 PM",name:"DINNER — Duke's Waikiki + free hula show 🌺",sub:"Free hula show every Thursday night on the beach bar stage. Book at dukeswaikiki.com. Huli Huli chicken, coconut shrimp, Mai Tai.",tags:["food","book","dinner"],rm:false,dinner:true}
-  ]},
-  {date:"Fri Apr 17",label:"Day 2",color:"#d8f3dc",tc:"#2d6a4f",title:"Pass Activates — West Side Adventure Day",
-   wake:"⏰ Wake up 6:30 AM — Uber to Coral Crater by 8am",
-   bag:"Closed toe shoes (MANDATORY for Coral Crater). Swimwear + towel from hotel for Wet'n'Wild. Sunscreen, bug spray, water bottle, Go City pass, cash for tips.",
-   note:"Go City pass activates today — Day 1 of 4. Coral Crater + Wet'n'Wild + Costco all within 10 min of each other in Kapolei. One big Uber out (~$55), one back. 🚗 Still deciding on transport — figure out car rental vs Uber vs Turo before Friday!",
-   items:[
-    {t:"Tonight/Thu",name:"🚗 Figure out transport for Friday",sub:"Car rental (~$60-80/day + $30-50 parking) vs Uber both ways (~$110) vs Turo (peer-to-peer, often cheaper). Rental saves flexibility but parking in Waikiki is painful. Turo is the sweet spot if available.",tags:["relax"],rm:true},
-    {t:"6:30 AM",name:"Wake up + quick breakfast",sub:"Musubi Cafe IYASUME opens 7am (walk from hotel). Or grab from 7-Eleven. Keep it light — big active day ahead.",tags:["food"],rm:false},
-    {t:"",name:"Uber to Coral Crater ~$55",sub:"91-1780 Midway Rd, Kapolei. ~40 min ride.",tags:["drive"],tx:true},
-    {t:"8:45 AM",name:"Arrive Coral Crater — check in",sub:"Arrive 15 min early. Closed toe shoes required. Sign waiver BEFORE Friday!",tags:["relax"],rm:false},
-    {t:"9:00–10:00 AM",name:"Coral Crater Adventure Course 🧗",sub:"Booking #343947796. Aerial sky bridges, drops, harnesses. Code GOCITYZIP = 35% off zipline add-on!",tags:["pass","booked"],rm:false},
-    {t:"",name:"Uber to Wet'n'Wild ~$10",sub:"10 min away in Kapolei.",tags:["drive"],tx:true},
-    {t:"10:30 AM",name:"Wet'n'Wild Hawaii 🌊",sub:"Pass included. Closes 3:30pm — arrive early for max time. Slides, lazy river, wave pool.",tags:["pass"],rm:false},
-    {t:"12:30 PM",name:"LUNCH — Wet'n'Wild food court",sub:"Eat inside the park. Saves time. Stay in the water after.",tags:["food","lunch"],rm:false,lunch:true},
-    {t:"3:30 PM",name:"Costco Kapolei 🛒",sub:"~5 min Uber. Kona coffee, macadamia chocolates, snacks. Open till 6pm.",tags:["shop"],rm:true},
-    {t:"",name:"Uber back to Waikiki ~$55",sub:"~40 min. Long physical day — you'll want to rest.",tags:["drive"],tx:true},
-    {t:"5:30 PM",name:"FREE — rest + shower at hotel",sub:"Recharge. You've earned it after a big physical day.",tags:["free"],rm:false,free:true},
-    {t:"7:00 PM",name:"Bike Rental — Hawaiian Style Rentals 🚲",sub:"Pass included. Walk from hotel on Lemon Rd. Cruise Diamond Head coastal road + Kapiolani Park at sunset.",tags:["pass","bike"],rm:true},
-    {t:"8:30 PM",name:"DINNER — Tim Ho Wan or Yoshitsune 🍜",sub:"Tim Ho Wan: Michelin dim sum, Royal Hawaiian Center 3F, no reservations. Yoshitsune: authentic Japanese, reserve ahead.",tags:["food","dinner"],rm:false,dinner:true}
-  ]},
-  {date:"Sat Apr 18",label:"Day 3",color:"#faeeda",tc:"#854f0b",title:"Secret Island Beach + Polynesian Cultural Center",
-   wake:"⏰ Wake up 6:00 AM — Kualoa shuttle departs Twin Fin at 7am",
-   bag:"Swimwear, towel from hotel, reef-safe sunscreen, water bottle, comfortable walking shoes, Go City pass, PCC bus return Order #953509 info.",
-   note:"Twin Fin Hotel pickup is a 5 min walk from Marriott. Skip the Kualoa return shuttle — Uber directly north to PCC (~$20, 20 min). Call Kualoa to confirm finish time.",
-   items:[
-    {t:"6:00 AM",name:"Wake up + light breakfast",sub:"Grab from 7-Eleven on the way to Twin Fin. Long day ahead — don't skip breakfast.",tags:["food"],rm:false},
-    {t:"6:50 AM",name:"Walk to Twin Fin Hotel",sub:"5 min walk along Kalakaua Ave. Be there before 7am.",tags:["drive"],tx:true},
-    {t:"7:00 AM",name:"Kualoa Ranch shuttle departs 🚌",sub:"Pickup at Twin Fin Waikiki. ~45 min drive to Kualoa Ranch.",tags:["drive"],tx:true},
-    {t:"9:30–1:00 PM",name:"Secret Island Beach Half-Day 🏝",sub:"Order #KRHI012604150464. Kayaking, swimming, beach games in a stunning hidden bay. Skip return shuttle.",tags:["pass","booked"],rm:false},
-    {t:"1:00 PM",name:"LUNCH — Kualoa Ranch cafe",sub:"Grab a quick bite at the on-site cafe before heading out to PCC.",tags:["food","lunch"],rm:false,lunch:true},
-    {t:"",name:"Uber to PCC ~$20",sub:"Leave ~1:30pm. 20 min north up the beautiful windward coast.",tags:["drive"],tx:true},
-    {t:"1:50–6:00 PM",name:"Polynesian Cultural Center 🎭",sub:"Day pass. 6 island villages, canoe rides, spear throwing, fishing, 40-min tram tour. Villages open till 5:30.",tags:["pass"],rm:false},
-    {t:"6:00 PM",name:"PCC bus back to Waikiki 🚌",sub:"Order #953509. Call PCC box office for exact pickup location instructions.",tags:["booked"],rm:false},
-    {t:"7:30 PM",name:"DINNER — Waikiki 🍣",sub:"Yoshitsune (authentic Japanese, reserve ahead), Barefoot Beach Cafe, or explore a Waikiki restaurant.",tags:["food","dinner"],rm:false,dinner:true}
-  ]},
-  {date:"Sun Apr 19",label:"Day 4",color:"#eeedfe",tc:"#534ab7",title:"Snorkel + Aloha Kai Luau at Sea Life Park",
-   wake:"⏰ Wake up 8:30 AM — snorkel check-in at 9:45am",
-   bag:"Reef-safe mineral sunscreen (MANDATORY — not regular sunscreen!), towel from hotel, change of clothes for luau, Go City pass, snorkel + luau transport confirmations.",
-   warn:"🚌 LUAU TRANSPORT: Pickup 3:55 PM at Marriott Paoakalani Gate. Be there by 3:45 PM — bus leaves with no waiting.",
-   items:[
-    {t:"8:30 AM",name:"Wake up + breakfast",sub:"Barefoot Beach Cafe (acai bowl, Queen's Surf Beach) or Musubi Cafe IYASUME (spam musubi, open 7am).",tags:["food"],rm:false},
-    {t:"",name:"Uber to Kewalo Basin Harbor ~$10",sub:"1085 Ala Moana Blvd Suite 104. Enter Kewalo harbor and make a left.",tags:["drive"],tx:true},
-    {t:"9:45 AM",name:"Arrive Kewalo Basin Harbor",sub:"Check in 30 min before departure. Sign waiver BEFORE Sunday! No full-face masks. Reef-safe sunscreen only.",tags:["relax"],rm:false},
-    {t:"10:15–12:15 PM",name:"Waikiki Snorkel Tour 🐢",sub:"Booking #343631396. Wild sea turtles at Turtle Canyon. Snorkel gear provided.",tags:["sep","booked"],rm:false},
-    {t:"12:30 PM",name:"LUNCH — Tim Ho Wan or near hotel",sub:"Tim Ho Wan: Michelin dim sum, Royal Hawaiian Center 3F, no reservations. Or grab something casual.",tags:["food","lunch"],rm:false,lunch:true},
-    {t:"1:00–3:30 PM",name:"FREE — biggest chill block of the trip 🏖",sub:"Beach, nap, shave ice, wander Waikiki. No plans whatsoever. You'll be well fed at the luau tonight.",tags:["free"],rm:false,free:true},
-    {t:"3:45 PM",name:"Walk to Marriott Paoakalani Gate",sub:"Your actual hotel entrance! Be there by 3:45 PM — bus leaves at 3:55 PM sharp.",tags:["alert"],rm:false},
-    {t:"3:55 PM",name:"Luau transport departs 🚌",sub:"Booking #343911769. Drives you to Sea Life Park and brings you back after the show.",tags:["drive"],tx:true},
-    {t:"5:00–8:00 PM",name:"Aloha Kai Luau — Sea Life Park 🌺🔥",sub:"Booking #343829315. Silver Package. Shell lei, buffet dinner, open bar, full hula show, fire knife dancing. 41-202 Kalanianaole Hwy #7.",tags:["pass","anchor","booked"],rm:false},
-    {t:"~8:30 PM",name:"Transport back to Waikiki",sub:"Luau bus drops you back. Luau dinner covers tonight — grab a drink if you want.",tags:["relax"],rm:false}
-  ]},
-  {date:"Mon Apr 20",label:"Day 5",color:"#e1f5ee",tc:"#0f6e56",title:"Diamond Head + Shopping + Fly Home",
-   wake:"⏰ Wake up 8:30 AM — store bags before walking to Twin Fin at 9:40am",
-   bag:"Water (critical for hike!), sunscreen, closed toe shoes, light snack, camera, passport + boarding pass, signed Diamond Head waiver.",
-   note:"Check out 11am — store bags at front desk BEFORE Diamond Head. Tour ends 12:30pm, back by 12:45pm. Loads of time for final shopping.",
-   items:[
-    {t:"8:30 AM",name:"Pack + 7-Eleven run 🍙",sub:"Store bags at front desk. Last Hawaii convenience store run! Spam musubi, egg sandwich, matcha drink. Walk from hotel.",tags:["food","shop"],rm:false},
-    {t:"9:40 AM",name:"Walk to Twin Fin Hotel trolley stop",sub:"Paoakalani Ave. Arrive 10 min early — bus leaves exactly on time, no exceptions.",tags:["relax"],rm:false},
-    {t:"9:50 AM",name:"Diamond Head shuttle departs 🚌",sub:"Booking #343945516. MUST use their shuttle — no Uber/taxi, turned away at tunnel. Sign waiver before Monday!",tags:["pass","booked"],rm:false},
-    {t:"10:00–12:30 PM",name:"Diamond Head Hike 🏔",sub:"360° panoramic views of Waikiki and coast from the summit. ~1 mile, some stairs. Worth every step.",tags:["relax"],rm:false},
-    {t:"",name:"Back near Twin Fin / Waikiki",sub:"Collect bags from hotel front desk.",tags:["drive"],tx:true},
-    {t:"12:30 PM",name:"ABC Store + last shopping run 🛍",sub:"Walk from hotel. Last chance for aloha shirt, flip flops, lilikoi butter, missed souvenirs.",tags:["shop"],rm:true},
-    {t:"1:00 PM",name:"LUNCH — last Waikiki meal 🍱",sub:"Tim Ho Wan, Musubi Cafe, or just grab something easy and walkable. Keep it casual.",tags:["food","lunch"],rm:false,lunch:true},
-    {t:"2:00 PM",name:"Bike Rental — optional final cruise 🚲",sub:"Pass included. Hawaiian Style Rentals on Lemon Rd (walk). Quick coastal spin before heading to airport.",tags:["pass","bike"],rm:true},
-    {t:"3:30 PM",name:"Collect bags + freshen up",sub:"Pick up stored bags. Double check: passport, boarding pass, Go City pass, phone charger.",tags:["relax"],rm:false},
-    {t:"",name:"Departure transfer to HNL",sub:"Aloha VIP Tours — reconfirm Sunday by calling 808-955-5900. Shared transfer, allow time for stops.",tags:["drive"],tx:true},
-    {t:"~5:30 PM",name:"Arrive HNL — The Club lounge",sub:"Priority Pass accepted with Capital One Venture X. Food, drinks, wifi before the long flight home.",tags:["relax"],rm:false},
-    {t:"7:40 PM",name:"Flight UA 252 departs ✈️",sub:"HNL→IAH→ABQ. Seat 37L. Total 11h 49m. Mahalo nui loa, Oahu! 🤙",tags:["relax"],rm:false}
-  ]}
-];
-
-const TODOS=[
-  {section:"🚗 Transport to figure out",items:[
-    {name:"Figure out Friday transport — car rental vs Uber vs Turo",sub:"Uber both ways ~$110 total (easiest). Car rental ~$60-80/day but add $30-50 parking at Marriott. Turo (turo.com) peer-to-peer ~$40-60/day, someone drops at hotel — best value if available. Check Turo listings for Honolulu before Thursday night.",urg:"amber",when:"Before Fri Apr 17"}
-  ]},
-  {section:"Calls to make",items:[
-    {name:"Call Kualoa Ranch — (808) 237-7321",sub:"Confirm Secret Island Beach exact finish time. Tell them you're skipping return shuttle, going to PCC yourself.",urg:"amber",when:"Before Sat Apr 18"},
-    {name:"Call PCC box office",sub:"Get exact pickup location instructions for bus return Order #953509.",urg:"amber",when:"Before Sat Apr 18"},
-    {name:"Call Aloha VIP Tours — 808-955-5900",sub:"Reconfirm departure transfer for Monday flight. Confirm pickup time and hotel name.",urg:"amber",when:"Sunday Apr 19"}
-  ]},
-  {section:"Still to book",items:[
-    {name:"Duke's Waikiki dinner",sub:"dukeswaikiki.com — free hula show every Thursday. Book dinner reservation in advance.",urg:"amber",when:"Thu Apr 16, 7:15 PM"},
-    {name:"Restaurant SUNTORY farewell dinner",sub:"OpenTable or call 808-922-5511. Friday evening is the best open slot.",urg:"green",when:"Any free evening"}
-  ]}
-];
-
-const FOODS=[
-  {section:"🍽 Dinners — reserve ahead",items:[
-    {name:"Duke's Waikiki",sub:"Thu Apr 16 — Free hula show every Thursday night. Huli Huli chicken, Mai Tai. Book at dukeswaikiki.com."},
-    {name:"Yoshitsune",sub:"Fri or Sat — Authentic Japanese multi-course. Butterfish misoyaki is the standout dish. Reserve ahead."},
-    {name:"Aloha Kai Luau",sub:"Sun Apr 19 — BOOKED (#343829315). Silver Package. Buffet + open bar. Pickup 3:55pm at Marriott Paoakalani Gate."},
-    {name:"Restaurant SUNTORY",sub:"Any evening — Teppanyaki cooked in front of you. Wagyu, Japanese whisky wall. OpenTable or 808-922-5511."}
-  ]},
-  {section:"🌟 Restaurants to try",items:[
-    {name:"Leonard's Bakery",sub:"Famous for malasadas — hot, fresh, sugar-coated Portuguese donuts. 933 Kapahulu Ave. Open daily. Get them hot off the fryer."},
-    {name:"Tonkatsu Tamafuji",sub:"Acclaimed Japanese pork cutlet spot. Crispy panko tonkatsu, miso soup, unlimited cabbage. Reserve ahead."},
-    {name:"Curry House Coco Ichibanya",sub:"Japanese curry chain. Huge customizable menu. Mild to wild spice levels. Multiple Waikiki locations."},
-    {name:"Orchids at Halekulani",sub:"Upscale oceanfront dining. Sunday brunch is legendary. Dress code applies."}
-  ]},
-  {section:"🍜 Lunch + casual",items:[
-    {name:"Tim Ho Wan",sub:"Any day — World's cheapest Michelin star. Royal Hawaiian Center 3F. Pork buns, har gow, sticky rice. No reservations."},
-    {name:"Barefoot Beach Cafe",sub:"Any morning — Breakfast on Queen's Surf Beach. Acai bowl, breakfast burrito, ocean view."},
-    {name:"Musubi Cafe IYASUME",sub:"Any time — Best spam musubi in Waikiki. Open 7am. Walk from hotel. Perfect for early morning pickups."}
-  ]},
-  {section:"🍙 Snacks + quick bites",items:[
-    {name:"7-Eleven / Family Mart",sub:"Any time — Hawaii exclusive onigiri, egg sandwich, fried chicken, matcha drinks. Don't skip this."},
-    {name:"Spam musubi + egg sandwich from 7-Eleven",sub:"Monday morning ritual. Last Hawaii food before heading to airport. Non-negotiable."},
-    {name:"Shave ice 🍧",sub:"Any afternoon — Rainbow with ice cream inside. Best during Sunday's free block."},
-    {name:"Costco Kapolei food court",sub:"Friday — $1.50 hot dog + soda while you're already there."}
-  ]},
-  {section:"🌺 Foods to try in Hawaii",items:[
-    {name:"Spam Musubi",sub:"Hawaii's iconic snack — seasoned spam on rice, wrapped in nori. Get it from 7-Eleven or Musubi Cafe IYASUME."},
-    {name:"Poke Bowl",sub:"Fresh ahi tuna or salmon cubed and seasoned. Order a bowl from any grocery deli or poke shop."},
-    {name:"Loco Moco",sub:"Rice + burger patty + fried egg + brown gravy. Classic Hawaiian comfort food. Heavy but worth it."},
-    {name:"Malasada",sub:"Portuguese sugar donut, Hawaii-style. Best from Leonard's Bakery — get them hot off the fryer."},
-    {name:"Fresh Sushi",sub:"Hawaii has exceptional fresh fish — try omakase or a conveyor belt spot for local quality."},
-    {name:"Tonkatsu",sub:"Crispy breaded pork cutlet. Try at Tonkatsu Tamafuji for the real deal."}
-  ]}
-];
-
-const SHOPS=[
-  {section:"🗺 Where to shop",items:[
-    {name:"International Market Place",sub:"Walk from hotel. Souvenir stalls, ABC Store, banyan tree courtyard. Good for last-minute gifts."},
-    {name:"Ala Moana Center",sub:"Short Uber ~$10, Thu afternoon. Biggest mall in Hawaii — 4 floors."},
-    {name:"Nordstrom Rack (Ward Village / near Ala Moana)",sub:"Discounted brands. Worth a browse Thursday on the way back from Ala Moana."},
-    {name:"ABC Store",sub:"Everywhere in Waikiki. Flip flops, lilikoi butter, sunscreen, snacks, ornaments."},
-    {name:"Uniqlo Hawaii (Ala Moana)",sub:"Hawaii-exclusive artist collection. Only at this Ala Moana location."},
-    {name:"7-Eleven",sub:"Monday morning. Last Hawaii snack run before airport — spam musubi + egg sandwich."},
-    {name:"Costco Kapolei",sub:"Friday only. Cheapest Kona coffee and macadamia chocolates on the island."}
-  ]},
-  {section:"🛍 Souvenir checklist — tick as you buy",items:[
-    {name:"Aloha shirt — Reyn Spooner",sub:"Ala Moana Center or Waikiki Beach Walk. Buy early so you can wear it the whole trip!"},
-    {name:"Flip flops",sub:"ABC Store or Ala Moana. Buy Day 1 — wear them the whole trip."},
-    {name:"Uniqlo Hawaii exclusive shirt",sub:"Ala Moana only. Local artist collab. Can't get it anywhere else."},
-    {name:"Lilikoi (passion fruit) butter",sub:"ABC Store or International Market Place. Best gift for people back home."},
-    {name:"Dancing hula girl car ornament",sub:"ABC Store ~$5. Classic Hawaii keepsake."},
-    {name:"100% Kona Coffee",sub:"Costco Kapolei (Friday, cheapest) or ABC Store."},
-    {name:"Hawaiian Host macadamia chocolates",sub:"Costco or airport. Classic gift for people back home."},
-    {name:"Fresh flower lei",sub:"International Market Place or ABC Store."},
-    {name:"Sea turtle / Hawaiian art print",sub:"Hidden stall at International Market Place. Buy local."},
-    {name:"Shave ice fridge magnet",sub:"Any ABC Store ~$3-5."},
-    {name:"Spam musubi + egg sandwich from 7-Eleven",sub:"Monday morning — eat it, don't pack it. Last Hawaii food moment."}
-  ]}
-];
-
-const CONTACTS=[
-  {name:"Waikiki Beach Marriott",num:"808-922-6611",note:"Ask about bag storage on checkout day"},
-  {name:"Kualoa Ranch",num:"(808) 237-7321",note:"Confirm Secret Island Beach time + skip shuttle"},
-  {name:"Aloha VIP Tours",num:"808-955-5900",note:"Reconfirm departure transfer — call Sunday Apr 19"},
-  {name:"Honolulu Snorkel Company",num:"(808) 556-7557",note:"Snorkel tour #343631396"},
-  {name:"Sea Life Park (Luau)",num:"(808) 259-2500",note:"Aloha Kai Luau #343829315"},
-  {name:"Go Tours Hawaii (Diamond Head)",num:"808-926-3090",note:"Diamond Head #343945516"},
-  {name:"Coral Crater",num:"(808) 626-5773",note:"Adventure Course #343947796"},
-  {name:"PCC Box Office",num:"Call for instructions",note:"Bus return Order #953509 — get pickup spot"},
-  {name:"Restaurant SUNTORY",num:"808-922-5511",note:"Book farewell dinner — any free evening"},
-  {name:"Duke's Waikiki",num:"dukeswaikiki.com",note:"Book Thu dinner — free hula show night"}
-];
-
-const state={removed:{},checked:{"todo-Sign waivers — do these NOW0":true,"todo-Sign waivers — do these NOW1":true,"todo-Sign waivers — do these NOW2":true}};
-function save(){try{localStorage.setItem('oahu2026v4',JSON.stringify(state))}catch(e){}}
-function load(){try{const d=JSON.parse(localStorage.getItem('oahu2026v4')||'{}');if(d.removed)Object.assign(state.removed,d.removed);if(d.checked)Object.assign(state.checked,d.checked)}catch(e){}}
-
-function tagEl(t){
-  const m={pass:"pass",book:"book",food:"food",shop:"shop",relax:"activity",sep:"book separately",anchor:"ANCHOR 🌺",alert:"pickup alert ⚠️",booked:"booked ✓",free:"free time",lunch:"lunch",dinner:"dinner",bike:"biking",drive:""};
-  if(t==="drive")return "";
-  return `<span class="tag tag-${t}">${m[t]||t}</span>`;
-}
-function dotColor(tags){
-  if(tags.includes("alert"))return "#e63946";
-  if(tags.includes("anchor"))return "#0077b6";
-  if(tags.includes("booked"))return "#2d6a4f";
-  if(tags.includes("free"))return "#7F77DD";
-  if(tags.includes("lunch")||tags.includes("dinner")||tags.includes("food"))return "#f77f00";
-  if(tags.includes("sep"))return "#c9184a";
-  if(tags.includes("shop")||tags.includes("bike"))return "#0096c7";
-  return "#ccc";
-}
-
-function renderSchedule(){
-  let html="",active=0,total=0;
-  DAYS.forEach((day,di)=>{
-    let rows="";
-    day.items.forEach((item,ii)=>{
-      const key=`${di}-${ii}`;const removed=state.removed[key];
-      if(!item.tx){total++;if(!removed)active++;}
-      if(item.tx){
-        rows+=`<div class="item transport"><div class="item-time"></div><div class="item-dot"><div class="dot" style="background:var(--border2);width:6px;height:6px;margin-top:3px"></div><div class="vline" style="border-left:1.5px dashed var(--border2);background:none;width:0;margin:3px auto 0"></div></div><div class="item-body" style="padding-left:12px"><div class="item-name" style="font-size:12px;color:var(--text2);font-weight:400">${item.name}</div>${item.sub?`<div class="item-sub">${item.sub}</div>`:''}</div></div>`;
-      } else {
-        const btn=item.rm?(removed?`<button class="btn-sm btn-restore" onclick="tog(${di},${ii})">restore</button>`:`<button class="btn-sm" onclick="tog(${di},${ii})">remove</button>`):"";
-        const ec=item.free?" free-block":item.lunch?" lunch-block":item.dinner?" dinner-block":"";
-        rows+=`<div class="item${ec}${removed?' removed':''}"><div class="item-time">${item.t}</div><div class="item-dot"><div class="dot" style="background:${dotColor(item.tags)}"></div><div class="vline"></div></div><div class="item-body"><div class="item-name"><span>${item.name}</span><span style="display:flex;gap:6px;align-items:center">${btn}</span></div><div class="item-tags">${item.tags.map(tagEl).join("")}</div><div class="item-sub">${item.sub}</div></div></div>`;
+        });
+        html += `</div>`;
       }
-    });
-    const wakeHtml=`<div class="wake-bar">${day.wake}</div>`;
-    const bagHtml=`<div class="bag-bar"><b>🎒 Bag today:</b> ${day.bag}</div>`;
-    const noteHtml=day.note?`<div class="note-bar">${day.note}</div>`:"";
-    const warnHtml=day.warn?`<div class="warn-bar">${day.warn}</div>`:"";
-    html+=`<div class="day-card"><div class="day-head"><span class="day-badge" style="background:${day.color};color:${day.tc}">${day.label}</span><span class="day-title">${day.title}</span><span class="day-meta">${day.date}</span></div>${wakeHtml}${bagHtml}${noteHtml}${warnHtml}<div>${rows}</div></div>`;
-  });
-  document.getElementById('day-list').innerHTML=html;
-  document.getElementById('s-act').textContent=active+"/"+total;
-}
+      document.getElementById("today-panel").innerHTML = html;
+    }
 
-function renderBook(){
-  let html="";
-  TODOS.forEach(sec=>{
-    html+=`<div class="list-card"><div class="list-head">${sec.section}</div>`;
-    sec.items.forEach((item,i)=>{
-      const key="todo-"+sec.section+i;const done=state.checked[key];
-      html+=`<div class="list-item${done?' done':''}"><div class="cb${done?' checked':''}" onclick="chk('${key}',this)"></div><div class="li-body"><div class="li-name">${item.name}<span class="urg-${item.urg}">${item.urg==='red'?'urgent':item.urg==='amber'?'this week':'when ready'}</span></div><div class="li-sub">${item.sub}</div><div class="li-when">${item.when}</div></div></div>`;
-    });
-    html+="</div>";
-  });
-  document.getElementById('book-list').innerHTML=html;
-}
+    const DAYS = [
+      {
+        date: "Thu Apr 16", label: "Day 1", color: "var(--ocean-light)", tc: "var(--ocean)", title: "Arrive + Shopping + Hula Night",
+        wake: "🌅 No alarm — flight lands 11:48am. Chill arrival day.",
+        bag: "Carry-on only. Wear comfortable walking shoes. Wear casual shorts & shirt. Phone charger.",
+        note: "Easy day. Explore Waikiki at your own pace. No rush. Let Hawaii sink in.",
+        items: [
+          { t: "11:48 AM", name: "Arrive HNL", sub: "Flight UA 1175 lands. Aloha VIP transfer to Marriott (included). Check in 3pm — store bags if early.", tags: ["relax"], rm: false },
+          { t: "", name: "Walk to Waikiki", sub: "Get oriented. Grab something from ABC Store or 7-Eleven.", tags: ["drive"], tx: true },
+          { t: "2:30 PM", name: "International Market Place + ABC Store", sub: "Walk from hotel. Souvenir stalls, lilikoi butter, hula girl ornament. Good first browse.", tags: ["shop"], rm: true },
+          { t: "4:00 PM", name: "Ala Moana Center", sub: "Short Uber ~$10. Uniqlo Hawaii exclusive, Reyn Spooner aloha shirts, Nordstrom Rack.", tags: ["shop"], rm: true },
+          { t: "", name: "Uber back ~$10", sub: "Drop bags, freshen up for sunset and dinner.", tags: ["drive"], tx: true },
+          { t: "6:00 PM", name: "FREE — Waikiki Beach sunset 🌅", sub: "Walk from hotel. First Pacific sunset ~7:10pm. Sit on the sand, breathe it all in.", tags: ["free"], rm: false, free: true },
+          { t: "7:15 PM", name: "DINNER — Decide on the fly 🍽️", sub: "Options: Duke's Waikiki (iconic, book ahead), Paia Fish Market (casual, great seafood), or Marugame Udon (cheap, fast, long line).", tags: ["food", "dinner"], rm: false, dinner: true }
+        ]
+      },
+      {
+        date: "Fri Apr 17", label: "Day 2", color: "var(--palm-light)", tc: "var(--palm)", title: "Pass Activates — West Side Adventure Day",
+        wake: "⏰ Wake up 6:30 AM — Uber to Coral Crater by 8am",
+        bag: "Wear shorts & T-shirt. Wear closed toe shoes (MANDATORY for Coral Crater). Pack swim trunks + flip flops + towel for Wet'n'Wild. Bug spray, water bottle, cash for tips.",
+        note: "Go City pass activates today — Day 1 of 4. Coral Crater + Wet'n'Wild + Costco all within 10 min of each other in Kapolei. One big Uber out (~$55), one back. 🚗 Still deciding on transport — figure out car rental vs Uber vs Turo before Friday!",
+        items: [
+          { t: "Tonight/Thu", name: "🚗 Figure out transport for Friday", sub: "Car rental (~$60-80/day + $30-50 parking) vs Uber both ways (~$110) vs Turo (peer-to-peer, often cheaper). Rental saves flexibility but parking in Waikiki is painful. Turo is the sweet spot if available.", tags: ["relax"], rm: true },
+          { t: "6:30 AM", name: "Wake up + quick breakfast", sub: "Musubi Cafe IYASUME opens 7am (walk from hotel). Or grab from 7-Eleven. Keep it light — big active day ahead.", tags: ["food"], rm: false },
+          { t: "", name: "Uber to Coral Crater ~$55", sub: "91-1780 Midway Rd, Kapolei. ~40 min ride.", tags: ["drive"], tx: true },
+          { t: "8:45 AM", name: "Arrive Coral Crater — check in", sub: "Arrive 15 min early. Closed toe shoes required. Sign waiver BEFORE Friday!", tags: ["relax"], rm: false },
+          { t: "9:00–10:00 AM", name: "Coral Crater Adventure Course 🧗", sub: "Booking #343947796. Aerial sky bridges, drops, harnesses. Code GOCITYZIP = 35% off zipline add-on!", tags: ["pass", "booked"], rm: false },
+          { t: "", name: "Uber to Wet'n'Wild ~$10", sub: "10 min away in Kapolei.", tags: ["drive"], tx: true },
+          { t: "10:30 AM", name: "Wet'n'Wild Hawaii 🌊", sub: "Pass included. Closes 3:30pm — arrive early for max time. Slides, lazy river, wave pool.", tags: ["pass"], rm: false },
+          { t: "12:30 PM", name: "LUNCH — Wet'n'Wild food court", sub: "Eat inside the park. Saves time. Stay in the water after.", tags: ["food", "lunch"], rm: false, lunch: true },
+          { t: "3:30 PM", name: "Costco Kapolei 🛒", sub: "~5 min Uber. Kona coffee, macadamia chocolates, snacks. Open till 6pm.", tags: ["shop"], rm: true },
+          { t: "", name: "Uber back to Waikiki ~$55", sub: "~40 min. Long physical day — you'll want to rest.", tags: ["drive"], tx: true },
+          { t: "5:30 PM", name: "FREE — rest + shower at hotel", sub: "Recharge. You've earned it after a big physical day.", tags: ["free"], rm: false, free: true },
+          { t: "7:00 PM", name: "Bike Rental — Hawaiian Style Rentals 🚲", sub: "Pass included. Walk from hotel on Lemon Rd. Cruise Diamond Head coastal road + Kapiolani Park at sunset.", tags: ["pass", "bike"], rm: true },
+          { t: "8:30 PM", name: "DINNER — Tim Ho Wan or Yoshitsune 🍜", sub: "Tim Ho Wan: Michelin dim sum, Royal Hawaiian Center 3F, no reservations. Yoshitsune: authentic Japanese, reserve ahead.", tags: ["food", "dinner"], rm: false, dinner: true }
+        ]
+      },
+      {
+        date: "Sat Apr 18", label: "Day 3", color: "var(--sand)", tc: "var(--sand-dark)", title: "Secret Island Beach + Polynesian Cultural Center",
+        wake: "⏰ Wake up 6:00 AM — Kualoa shuttle departs Twin Fin at 7am",
+        bag: "Wear swim trunks under shorts. Wear flip flops. Pack comfortable walking shoes + dry clothes for PCC later. Towel from hotel, water bottle, PCC bus return Order #953509 info.",
+        note: "Twin Fin Hotel pickup is a 5 min walk from Marriott. Skip the Kualoa return shuttle — Uber directly north to PCC (~$20, 20 min). Call Kualoa to confirm finish time.",
+        items: [
+          { t: "6:00 AM", name: "Wake up + light breakfast", sub: "Grab from 7-Eleven on the way to Twin Fin. Long day ahead — don't skip breakfast.", tags: ["food"], rm: false },
+          { t: "6:50 AM", name: "Walk to Twin Fin Hotel", sub: "5 min walk along Kalakaua Ave. Be there before 7am.", tags: ["drive"], tx: true },
+          { t: "7:00 AM", name: "Kualoa Ranch shuttle departs 🚌", sub: "Pickup at Twin Fin Waikiki. ~45 min drive to Kualoa Ranch.", tags: ["drive"], tx: true },
+          { t: "9:30–1:00 PM", name: "Secret Island Beach Half-Day 🏝", sub: "Order #KRHI012604150464. Kayaking, swimming, beach games in a stunning hidden bay. Skip return shuttle.", tags: ["pass", "booked"], rm: false },
+          { t: "1:00 PM", name: "LUNCH — Kualoa Ranch cafe", sub: "Grab a quick bite at the on-site cafe before heading out to PCC.", tags: ["food", "lunch"], rm: false, lunch: true },
+          { t: "", name: "Uber to PCC ~$20", sub: "Leave ~1:30pm. 20 min north up the beautiful windward coast.", tags: ["drive"], tx: true },
+          { t: "1:50–6:00 PM", name: "Polynesian Cultural Center 🎭", sub: "Day pass. 6 island villages, canoe rides, spear throwing, fishing, 40-min tram tour. Villages open till 5:30.", tags: ["pass"], rm: false },
+          { t: "6:00 PM", name: "PCC bus back to Waikiki 🚌", sub: "Order #953509. Call PCC box office for exact pickup location instructions.", tags: ["booked"], rm: false },
+          { t: "7:30 PM", name: "DINNER — Waikiki 🍣", sub: "Yoshitsune (authentic Japanese, reserve ahead), Barefoot Beach Cafe, or explore a Waikiki restaurant.", tags: ["food", "dinner"], rm: false, dinner: true }
+        ]
+      },
+      {
+        date: "Sun Apr 19", label: "Day 4", color: "var(--hibiscus-light)", tc: "var(--hibiscus)", title: "Snorkel + Aloha Kai Luau at Sea Life Park",
+        wake: "⏰ Wake up 8:30 AM — snorkel check-in at 9:45am",
+        bag: "Wear swim trunks + flip flops. Pack nice outfit for evening luau (aloha shirt & nice shorts/slacks) + walking shoes. Towel from hotel, snorkel + luau confirmations.",
+        warn: "🚌 LUAU TRANSPORT: Pickup 3:55 PM at Marriott Paoakalani Gate. Be there by 3:45 PM — bus leaves with no waiting.",
+        items: [
+          { t: "8:30 AM", name: "Wake up + breakfast", sub: "Barefoot Beach Cafe (acai bowl, Queen's Surf Beach) or Musubi Cafe IYASUME (spam musubi, open 7am).", tags: ["food"], rm: false },
+          { t: "", name: "Uber to Kewalo Basin Harbor ~$10", sub: "1085 Ala Moana Blvd Suite 104. Enter Kewalo harbor and make a left.", tags: ["drive"], tx: true },
+          { t: "9:45 AM", name: "Arrive Kewalo Basin Harbor", sub: "Check in 30 min before departure. Sign waiver BEFORE Sunday! No full-face masks. Reef-safe sunscreen only.", tags: ["relax"], rm: false },
+          { t: "10:15–12:15 PM", name: "Waikiki Snorkel Tour 🐢", sub: "Booking #343631396. Wild sea turtles at Turtle Canyon. Snorkel gear provided.", tags: ["sep", "booked"], rm: false },
+          { t: "12:30 PM", name: "LUNCH — Tim Ho Wan or near hotel", sub: "Tim Ho Wan: Michelin dim sum, Royal Hawaiian Center 3F, no reservations. Or grab something casual.", tags: ["food", "lunch"], rm: false, lunch: true },
+          { t: "1:00–3:30 PM", name: "FREE — biggest chill block of the trip 🏖", sub: "Beach, nap, shave ice, wander Waikiki. No plans whatsoever. You'll be well fed at the luau tonight.", tags: ["free"], rm: false, free: true },
+          { t: "3:45 PM", name: "Walk to Marriott Paoakalani Gate", sub: "Your actual hotel entrance! Be there by 3:45 PM — bus leaves at 3:55 PM sharp.", tags: ["alert"], rm: false },
+          { t: "3:55 PM", name: "Luau transport departs 🚌", sub: "Booking #343911769. Drives you to Sea Life Park and brings you back after the show.", tags: ["drive"], tx: true },
+          { t: "5:00–8:00 PM", name: "Aloha Kai Luau — Sea Life Park 🌺🔥", sub: "Booking #343829315. Silver Package. Shell lei, buffet dinner, open bar, full hula show, fire knife dancing. 41-202 Kalanianaole Hwy #7.", tags: ["pass", "anchor", "booked"], rm: false },
+          { t: "~8:30 PM", name: "Transport back to Waikiki", sub: "Luau bus drops you back. Luau dinner covers tonight — grab a drink if you want.", tags: ["relax"], rm: false }
+        ]
+      },
+      {
+        date: "Mon Apr 20", label: "Day 5", color: "var(--coral-light)", tc: "var(--coral)", title: "Diamond Head + Shopping + Fly Home",
+        wake: "⏰ Wake up 8:30 AM — store bags before walking to Twin Fin at 9:40am",
+        bag: "Water (critical for hike!), wear athletic shorts + closed toe shoes for hike. Pack fresh travel clothes for flight. Light snack, passport, signed Diamond Head waiver.",
+        note: "Check out 11am — store bags at front desk BEFORE Diamond Head. Tour ends 12:30pm, back by 12:45pm. Loads of time for final shopping.",
+        items: [
+          { t: "8:30 AM", name: "Pack + 7-Eleven run 🍙", sub: "Store bags at front desk. Last Hawaii convenience store run! Spam musubi, egg sandwich, matcha drink. Walk from hotel.", tags: ["food", "shop"], rm: false },
+          { t: "9:40 AM", name: "Walk to Twin Fin Hotel trolley stop", sub: "Paoakalani Ave. Arrive 10 min early — bus leaves exactly on time, no exceptions.", tags: ["relax"], rm: false },
+          { t: "9:50 AM", name: "Diamond Head shuttle departs 🚌", sub: "Booking #343945516. MUST use their shuttle — no Uber/taxi, turned away at tunnel. Sign waiver before Monday!", tags: ["pass", "booked"], rm: false },
+          { t: "10:00–12:30 PM", name: "Diamond Head Hike 🏔", sub: "360° panoramic views of Waikiki and coast from the summit. ~1 mile, some stairs. Worth every step.", tags: ["relax"], rm: false },
+          { t: "", name: "Back near Twin Fin / Waikiki", sub: "Collect bags from hotel front desk.", tags: ["drive"], tx: true },
+          { t: "12:30 PM", name: "ABC Store + last shopping run 🛍", sub: "Walk from hotel. Last chance for aloha shirt, flip flops, lilikoi butter, missed souvenirs.", tags: ["shop"], rm: true },
+          { t: "1:00 PM", name: "LUNCH — last Waikiki meal 🍱", sub: "Tim Ho Wan, Musubi Cafe, or just grab something easy and walkable. Keep it casual.", tags: ["food", "lunch"], rm: false, lunch: true },
+          { t: "2:00 PM", name: "Bike Rental — optional final cruise 🚲", sub: "Pass included. Hawaiian Style Rentals on Lemon Rd (walk). Quick coastal spin before heading to airport.", tags: ["pass", "bike"], rm: true },
+          { t: "3:30 PM", name: "Collect bags + freshen up", sub: "Pick up stored bags. Double check: passport, boarding pass, Go City pass, phone charger.", tags: ["relax"], rm: false },
+          { t: "", name: "Departure transfer to HNL", sub: "Aloha VIP Tours — reconfirm Sunday by calling 808-955-5900. Shared transfer, allow time for stops.", tags: ["drive"], tx: true },
+          { t: "~5:30 PM", name: "Arrive HNL — The Club lounge", sub: "Priority Pass accepted with Capital One Venture X. Food, drinks, wifi before the long flight home.", tags: ["relax"], rm: false },
+          { t: "7:40 PM", name: "Flight UA 252 departs ✈️", sub: "HNL→IAH→ABQ. Seat 37L. Total 11h 49m. Mahalo nui loa, Oahu! 🤙", tags: ["relax"], rm: false }
+        ]
+      }
+    ];
 
-function renderFood(){
-  let html="";
-  FOODS.forEach(sec=>{
-    html+=`<div class="list-card"><div class="list-head">${sec.section}</div>`;
-    sec.items.forEach((f,i)=>{
-      const key="food-"+i+sec.section;const done=state.checked[key];
-      html+=`<div class="list-item${done?' done':''}"><div class="cb${done?' checked':''}" onclick="chk('${key}',this)"></div><div class="li-body"><div class="li-name">${f.name}</div><div class="li-sub">${f.sub}</div></div></div>`;
-    });
-    html+="</div>";
-  });
-  document.getElementById('food-list').innerHTML=html;
-}
+    const TODOS = [
+      {
+        section: "🚗 Transport to figure out", items: [
+          { name: "Figure out Friday transport — car rental vs Uber vs Turo", sub: "Uber both ways ~$110 total (easiest). Car rental ~$60-80/day but add $30-50 parking at Marriott. Turo (turo.com) peer-to-peer ~$40-60/day, someone drops at hotel — best value if available. Check Turo listings for Honolulu before Thursday night.", urg: "amber", when: "Before Fri Apr 17" }
+        ]
+      },
+      {
+        section: "🛒 Things to buy / get", items: [
+          { name: "Withdraw cash from ATM 💵", sub: "Some food trucks (like North Shore shrimp trucks) or small tips might require cash. Grab some from an ATM before Friday.", urg: "amber", when: "Before Day 2" },
+          { name: "Buy reef-safe mineral sunscreen", sub: "Hawaii bans chemical sunscreens. MANDATORY for Sunday snorkel. Regular sunscreen will not be allowed.", urg: "red", when: "ASAP" },
+          { name: "Get towels from hotel", sub: "Grab them from the pool or front desk. Needed for Wet'n'Wild, Secret Island, and Snorkeling.", urg: "amber", when: "Before water activities" },
+          { name: "Buy slippers (flip flops)", sub: "Essential for the beach and walking around the hotel. Buy these first if you don't have them.", urg: "amber", when: "Day 1 (Thursday)" }
+        ]
+      },
+      {
+        section: "Calls to make", items: [
+          { name: "Call Kualoa Ranch — (808) 237-7321", sub: "Confirm Secret Island Beach exact finish time. Tell them you're skipping return shuttle, going to PCC yourself.", urg: "amber", when: "Before Sat Apr 18" },
+          { name: "Call PCC box office", sub: "Get exact pickup location instructions for bus return Order #953509.", urg: "amber", when: "Before Sat Apr 18" },
+          { name: "Call Aloha VIP Tours — 808-955-5900", sub: "Reconfirm departure transfer for Monday flight. Confirm pickup time and hotel name.", urg: "amber", when: "Sunday Apr 19" }
+        ]
+      },
+      {
+        section: "Still to book", items: []
+      }
+    ];
 
-function renderShop(){
-  let html="";
-  SHOPS.forEach(sec=>{
-    html+=`<div class="list-card"><div class="list-head">${sec.section}</div>`;
-    sec.items.forEach((s,i)=>{
-      const key="shop-"+i+sec.section;const done=state.checked[key];
-      html+=`<div class="list-item${done?' done':''}"><div class="cb${done?' checked':''}" onclick="chk('${key}',this)"></div><div class="li-body"><div class="li-name">${s.name}</div><div class="li-sub">${s.sub}</div></div></div>`;
-    });
-    html+="</div>";
-  });
-  document.getElementById('shop-list').innerHTML=html;
-}
+    const FOODS = [
+      {
+        section: "🍽 Dinners — reserve ahead", items: [
+          { name: "Duke's Waikiki", sub: "Thu Apr 16 — Free hula show every Thursday night. Huli Huli chicken, Mai Tai. Book at dukeswaikiki.com." },
+          { name: "Yoshitsune", sub: "Fri or Sat — Authentic Japanese multi-course. Butterfish misoyaki is the standout dish. Reserve ahead." },
+          { name: "Aloha Kai Luau", sub: "Sun Apr 19 — BOOKED (#343829315). Silver Package. Buffet + open bar. Pickup 3:55pm at Marriott Paoakalani Gate." },
+          { name: "Restaurant SUNTORY", sub: "Any evening — Teppanyaki cooked in front of you. Wagyu, Japanese whisky wall. OpenTable or 808-922-5511." }
+        ]
+      },
+      {
+        section: "🌟 Restaurants to try", items: [
+          { name: "Leonard's Bakery", sub: "Famous for malasadas — hot, fresh, sugar-coated Portuguese donuts. 933 Kapahulu Ave. Open daily. Get them hot off the fryer." },
+          { name: "Tonkatsu Tamafuji", sub: "Acclaimed Japanese pork cutlet spot. Crispy panko tonkatsu, miso soup, unlimited cabbage. Reserve ahead." },
+          { name: "Curry House Coco Ichibanya", sub: "Japanese curry chain. Huge customizable menu. Mild to wild spice levels. Multiple Waikiki locations." },
+          { name: "Orchids at Halekulani", sub: "Upscale oceanfront dining. Sunday brunch is legendary. Dress code applies." }
+        ]
+      },
+      {
+        section: "🍜 Lunch + casual", items: [
+          { name: "Tim Ho Wan", sub: "Any day — World's cheapest Michelin star. Royal Hawaiian Center 3F. Pork buns, har gow, sticky rice. No reservations." },
+          { name: "Barefoot Beach Cafe", sub: "Any morning — Breakfast on Queen's Surf Beach. Acai bowl, breakfast burrito, ocean view." },
+          { name: "Musubi Cafe IYASUME", sub: "Any time — Best spam musubi in Waikiki. Open 7am. Walk from hotel. Perfect for early morning pickups." }
+        ]
+      },
+      {
+        section: "🍙 Snacks + quick bites", items: [
+          { name: "7-Eleven / Family Mart", sub: "Any time — Hawaii exclusive onigiri, egg sandwich, fried chicken, matcha drinks. Don't skip this." },
+          { name: "Spam musubi + egg sandwich from 7-Eleven", sub: "Monday morning ritual. Last Hawaii food before heading to airport. Non-negotiable." },
+          { name: "Shave ice 🍧", sub: "Any afternoon — Rainbow with ice cream inside. Best during Sunday's free block." },
+          { name: "Costco Kapolei food court", sub: "Friday — $1.50 hot dog + soda while you're already there." }
+        ]
+      },
+      {
+        section: "🌺 Foods to try in Hawaii", items: [
+          { name: "Spam Musubi", sub: "Hawaii's iconic snack — seasoned spam on rice, wrapped in nori. Get it from 7-Eleven or Musubi Cafe IYASUME." },
+          { name: "Poke Bowl", sub: "Fresh ahi tuna or salmon cubed and seasoned. Order a bowl from any grocery deli or poke shop." },
+          { name: "Loco Moco", sub: "Rice + burger patty + fried egg + brown gravy. Classic Hawaiian comfort food. Heavy but worth it." },
+          { name: "Malasada", sub: "Portuguese sugar donut, Hawaii-style. Best from Leonard's Bakery — get them hot off the fryer." },
+          { name: "Fresh Sushi", sub: "Hawaii has exceptional fresh fish — try omakase or a conveyor belt spot for local quality." },
+          { name: "Tonkatsu", sub: "Crispy breaded pork cutlet. Try at Tonkatsu Tamafuji for the real deal." }
+        ]
+      }
+    ];
 
-function renderContacts(){
-  let html=`<div class="contact-grid">`;
-  CONTACTS.forEach(c=>{html+=`<div class="contact-box"><div class="contact-name">${c.name}</div><div class="contact-num">${c.num}</div><div class="li-sub" style="margin-top:4px">${c.note}</div></div>`;});
-  html+=`</div>`;
-  document.getElementById('contact-list').innerHTML=html;
-}
+    const SHOPS = [
+      {
+        section: "🗺 Where to shop", items: [
+          { name: "Don Quijote (Donkihote)", sub: "Famous discount store. The absolute best spot for cheap macadamia nuts, Hawaiian chocolates, poke bentos, and souvenirs." },
+          { name: "International Market Place", sub: "Walk from hotel. Souvenir stalls, ABC Store, banyan tree courtyard. Good for last-minute gifts." },
+          { name: "Ala Moana Center", sub: "Short Uber ~$10, Thu afternoon. Biggest mall in Hawaii — 4 floors." },
+          { name: "Nordstrom Rack (Ward Village / near Ala Moana)", sub: "Discounted brands. Worth a browse Thursday on the way back from Ala Moana." },
+          { name: "ABC Store", sub: "Everywhere in Waikiki. Flip flops, lilikoi butter, sunscreen, snacks, ornaments." },
+          { name: "Uniqlo Hawaii (Ala Moana)", sub: "Hawaii-exclusive artist collection. Only at this Ala Moana location." },
+          { name: "7-Eleven", sub: "Monday morning. Last Hawaii snack run before airport — spam musubi + egg sandwich." },
+          { name: "Costco Kapolei", sub: "Friday only. Cheapest Kona coffee and macadamia chocolates on the island." }
+        ]
+      },
+      {
+        section: "🛍 Souvenir checklist — tick as you buy", items: [
+          { name: "Aloha shirt — Reyn Spooner", sub: "Ala Moana Center or Waikiki Beach Walk. Buy early so you can wear it the whole trip!" },
+          { name: "Flip flops", sub: "ABC Store or Ala Moana. Buy Day 1 — wear them the whole trip." },
+          { name: "Uniqlo Hawaii exclusive shirt", sub: "Ala Moana only. Local artist collab. Can't get it anywhere else." },
+          { name: "Lilikoi (passion fruit) butter", sub: "ABC Store or International Market Place. Best gift for people back home." },
+          { name: "Dancing hula girl car ornament", sub: "ABC Store ~$5. Classic Hawaii keepsake." },
+          { name: "100% Kona Coffee", sub: "Costco Kapolei (Friday, cheapest) or ABC Store." },
+          { name: "Hawaiian Host macadamia chocolates", sub: "Costco or airport. Classic gift for people back home." },
+          { name: "Fresh flower lei", sub: "International Market Place or ABC Store." },
+          { name: "Sea turtle / Hawaiian art print", sub: "Hidden stall at International Market Place. Buy local." },
+          { name: "Shave ice fridge magnet", sub: "Any ABC Store ~$3-5." },
+          { name: "Spam musubi + egg sandwich from 7-Eleven", sub: "Monday morning — eat it, don't pack it. Last Hawaii food moment." }
+        ]
+      }
+    ];
 
-function renderFlights(){
-  const CONFS=[
-    {label:"Costco Travel",val:"C485040168",sub:"Full package"},
-    {label:"Flights",val:"L8LSFN",sub:"United Airlines"},
-    {label:"Hotel",val:"70118895",sub:"Waikiki Beach Marriott"},
-    {label:"Coral Crater",val:"#343947796",sub:"Fri Apr 17, 9:00am"},
-    {label:"Snorkel Tour",val:"#343631396",sub:"Sun Apr 19, 10:15am"},
-    {label:"Secret Island Beach",val:"KRHI012604150464",sub:"Sat Apr 18, 9:30am"},
-    {label:"PCC Bus Return",val:"#953509",sub:"Sat Apr 18, 6pm"},
-    {label:"Aloha Kai Luau",val:"#343829315",sub:"Sun Apr 19, 5–8pm"},
-    {label:"Luau Transport",val:"#343911769",sub:"Sun Apr 19, pickup 3:55pm"},
-    {label:"Diamond Head Tour",val:"#343945516",sub:"Mon Apr 20, pickup 9:50am"}
-  ];
-  let html=`<div class="flight-card"><div style="font-size:15px;font-family:'Playfair Display',serif;margin-bottom:14px;color:var(--text)">Outbound — Thu Apr 16</div>
+    const CONTACTS = [
+      { name: "Waikiki Beach Marriott", num: "808-922-6611", note: "Ask about bag storage on checkout day" },
+      { name: "Kualoa Ranch", num: "(808) 237-7321", note: "Confirm Secret Island Beach time + skip shuttle" },
+      { name: "Aloha VIP Tours", num: "808-955-5900", note: "Reconfirm departure transfer — call Sunday Apr 19" },
+      { name: "Honolulu Snorkel Company", num: "(808) 556-7557", note: "Snorkel tour #343631396" },
+      { name: "Sea Life Park (Luau)", num: "(808) 259-2500", note: "Aloha Kai Luau #343829315" },
+      { name: "Go Tours Hawaii (Diamond Head)", num: "808-926-3090", note: "Diamond Head #343945516" },
+      { name: "Coral Crater", num: "(808) 626-5773", note: "Adventure Course #343947796" },
+      { name: "PCC Box Office", num: "Call for instructions", note: "Bus return Order #953509 — get pickup spot" },
+      { name: "Restaurant SUNTORY", num: "808-922-5511", note: "Book farewell dinner — any free evening" },
+      { name: "Duke's Waikiki", num: "dukeswaikiki.com", note: "Book Thu dinner — free hula show night" }
+    ];
+
+    const state = { removed: {}, checked: {}, custom: { book: [], food: [], shop: [], contacts: [] } };
+    function save() { try { localStorage.setItem('oahu2026v4', JSON.stringify(state)) } catch (e) { } }
+    function load() { 
+      try { 
+        const d = JSON.parse(localStorage.getItem('oahu2026v4') || '{}'); 
+        if (d.removed) Object.assign(state.removed, d.removed); 
+        if (d.checked) Object.assign(state.checked, d.checked);
+        if (d.custom) Object.assign(state.custom, d.custom);
+      } catch (e) { } 
+      if (!state.custom) state.custom = { book: [], food: [], shop: [], contacts: [] };
+      if (!state.custom.contacts) state.custom.contacts = [];
+      if (state.custom.book) state.custom.book.forEach(c => { if(!c.section) c.section = TODOS[0].section; if(!c.id) c.id = Math.random().toString(36).substr(2,9); });
+      if (state.custom.food) state.custom.food.forEach(c => { if(!c.section) c.section = FOODS[0].section; if(!c.id) c.id = Math.random().toString(36).substr(2,9); });
+      if (state.custom.shop) state.custom.shop.forEach(c => { if(!c.section) c.section = SHOPS[0].section; if(!c.id) c.id = Math.random().toString(36).substr(2,9); });
+      if (state.custom.contacts) state.custom.contacts.forEach(c => { if(!c.id) c.id = Math.random().toString(36).substr(2,9); });
+    }
+    window.addToList = function(t) {
+       const secEl = document.getElementById('new-' + t + '-sec');
+       const nameEl = document.getElementById('new-' + t + '-name');
+       const subEl = document.getElementById('new-' + t + '-sub');
+       if (!nameEl.value.trim()) return;
+       const itemObj = { id: Date.now().toString() + Math.random().toString(36).substr(2,5), name: nameEl.value.trim(), sub: subEl.value.trim() };
+       if (secEl) itemObj.section = secEl.value;
+       state.custom[t].push(itemObj);
+       nameEl.value = ""; if (subEl) subEl.value = "";
+       save();
+       if (t==='book') renderBook(); else if (t==='food') renderFood(); else if (t==='shop') renderShop(); else if (t==='contacts') renderContacts();
+    };
+    window.delFromList = function(t, id) {
+       if (id.startsWith('custom-') || (!id.includes('-') && id.match(/^[a-z0-9]+$/i))) {
+         const rawId = id.replace('custom-', '');
+         state.custom[t] = state.custom[t].filter(c => c.id !== rawId);
+       } else {
+         state.removed[id] = true;
+       }
+       save();
+       if (t==='book') renderBook(); else if (t==='food') renderFood(); else if (t==='shop') renderShop(); else if (t==='contacts') renderContacts();
+    };
+
+    function tagEl(t) {
+      const m = { pass: "pass", book: "book", food: "food", shop: "shop", relax: "activity", sep: "book separately", anchor: "ANCHOR 🌺", alert: "pickup alert ⚠️", booked: "booked ✓", free: "free time", lunch: "lunch", dinner: "dinner", bike: "biking", drive: "" };
+      if (t === "drive") return "";
+      return `<span class="tag tag-${t}">${m[t] || t}</span>`;
+    }
+    function dotColor(tags) {
+      if (tags.includes("alert")) return "#e63946";
+      if (tags.includes("anchor")) return "#0077b6";
+      if (tags.includes("booked")) return "#2d6a4f";
+      if (tags.includes("free")) return "#7F77DD";
+      if (tags.includes("lunch") || tags.includes("dinner") || tags.includes("food")) return "#f77f00";
+      if (tags.includes("sep")) return "#c9184a";
+      if (tags.includes("shop") || tags.includes("bike")) return "#0096c7";
+      return "#ccc";
+    }
+
+    function renderSchedule() {
+      let html = "", active = 0, total = 0;
+      DAYS.forEach((day, di) => {
+        let rows = "";
+        day.items.forEach((item, ii) => {
+          const key = `${di}-${ii}`; const removed = state.removed[key];
+          if (!item.tx) { total++; if (!removed) active++; }
+          if (item.tx) {
+            let txBtn = "";
+            let cleanDest = item.name.split('~')[0].replace(/Uber to |Uber back to |Walk to |🚗 /g, "").trim();
+            if (item.name.includes("Uber")) txBtn = `<a href="https://m.uber.com/ul/?action=setPickup&dropoff[formatted_address]=${encodeURIComponent(cleanDest + ' Hawaii')}" target="_blank" style="display:inline-block;background:#fff;color:#000;text-decoration:none;padding:5px 12px;border-radius:12px;font-size:10px;font-weight:700;margin-top:8px;box-shadow:0 2px 8px rgba(0,0,0,0.3)">🚙 Open Uber</a>`;
+            else if (item.name.includes("Walk")) txBtn = `<a href="https://maps.google.com/?q=${encodeURIComponent(cleanDest + ' Hawaii')}" target="_blank" style="display:inline-block;background:var(--palm);color:#000;text-decoration:none;padding:5px 12px;border-radius:12px;font-size:10px;font-weight:700;margin-top:8px">🚶 Directions</a>`;
+            rows += `<div class="item transport"><div class="item-time"></div><div class="item-dot"><div class="dot" style="background:var(--border2);width:6px;height:6px;margin-top:3px"></div><div class="vline" style="border-left:1.5px dashed var(--border2);background:none;width:0;margin:3px auto 0"></div></div><div class="item-body" style="padding-left:12px"><div class="item-name" style="font-size:12px;color:var(--text2);font-weight:400">${item.name}</div>${item.sub ? `<div class="item-sub">${item.sub}</div>` : ''}${txBtn}</div></div>`;
+          } else {
+            const btn = item.rm ? (removed ? `<button class="btn-sm btn-restore" onclick="tog(${di},${ii})">restore</button>` : `<button class="btn-sm" onclick="tog(${di},${ii})">remove</button>`) : "";
+            let mapBtn = "";
+            if (!item.free && !item.name.includes("Back") && !item.name.includes("Collect") && !item.name.includes("Pack") && !item.name.includes("Wake")) {
+               const cleanName = encodeURIComponent(item.name.replace(/[^\x00-\x7F]/g, "").split('—')[0].trim() + ' Oahu Hawaii');
+               mapBtn = `<a href="https://maps.google.com/?q=${cleanName}" target="_blank" style="background:var(--bg2);color:var(--text2);border:0.5px solid var(--border2);text-decoration:none;padding:3px 8px;border-radius:12px;font-size:9px;font-weight:600;margin-left:8px;transition:0.2s">MAP 📍</a>`;
+            }
+            const ec = item.free ? " free-block" : item.lunch ? " lunch-block" : item.dinner ? " dinner-block" : "";
+            rows += `<div class="item${ec}${removed ? ' removed' : ''}"><div class="item-time">${item.t}</div><div class="item-dot"><div class="dot" style="background:${dotColor(item.tags)}"></div><div class="vline"></div></div><div class="item-body"><div class="item-name"><span style="display:flex;align-items:center">${item.name}${mapBtn}</span><span style="display:flex;gap:6px;align-items:center">${btn}</span></div><div class="item-tags">${item.tags.map(tagEl).join("")}</div><div class="item-sub">${item.sub}</div></div></div>`;
+          }
+        });
+        const wakeHtml = `<div class="wake-bar">${day.wake}</div>`;
+        const bagHtml = `<div class="bag-bar"><b>🎒 Bag today:</b> ${day.bag}</div>`;
+        const noteHtml = day.note ? `<div class="note-bar">${day.note}</div>` : "";
+        const warnHtml = day.warn ? `<div class="warn-bar">${day.warn}</div>` : "";
+        html += `<div class="day-card"><div class="day-head"><span class="day-badge" style="background:${day.color};color:${day.tc}">${day.label}</span><span class="day-title">${day.title}</span><span class="day-meta">${day.date}</span></div>${wakeHtml}${bagHtml}${noteHtml}${warnHtml}<div>${rows}</div></div>`;
+      });
+      document.getElementById('day-list').innerHTML = html;
+      document.getElementById('s-act').textContent = active + "/" + total;
+    }
+
+    function renderBook() {
+      let html = "";
+      TODOS.forEach(sec => {
+        html += `<div class="list-card"><div class="list-head">${sec.section}</div>`;
+        let allItems = [...sec.items];
+        if (state.custom && state.custom.book) allItems = [...allItems, ...state.custom.book.filter(c => c.section === sec.section)];
+        let htmlList = "";
+        let count = 0;
+        if (allItems.length === 0) {
+          // Empty check handled below
+        } else {
+          allItems.forEach((item, i) => {
+            const key = item.id ? "custom-" + item.id : "todo-" + sec.section + i; 
+            if (state.removed[key]) return;
+            count++;
+            const done = state.checked[key];
+            const urgHTML = item.urg ? `<span class="urg-${item.urg}">${item.urg === 'red' ? 'urgent' : item.urg === 'amber' ? 'this week' : 'when ready'}</span>` : "";
+            const subHTML = item.sub ? `<div class="li-sub">${item.sub}</div>` : "";
+            const whenHTML = item.when ? `<div class="li-when">${item.when}</div>` : "";
+            const delBtn = `<button onclick="delFromList('book', '${key}')" style="background:var(--bg);border:1px solid var(--border);color:var(--text2);border-radius:6px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0" title="Delete item">🗑</button>`;
+            htmlList += `<div class="list-item${done ? ' done' : ''}"><div class="cb${done ? ' checked' : ''}" onclick="chk('${key}',this)"></div><div class="li-body"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div class="li-name" style="margin-top:2px">${item.name}${urgHTML}</div>${delBtn}</div>${subHTML}${whenHTML}</div></div>`;
+          });
+        }
+        if (count === 0) {
+          html += `<div class="list-item"><div class="li-body" style="padding:8px 0"><div class="li-name" style="color:var(--palm);display:flex;align-items:center;gap:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> All clear!</div><div class="li-sub">Nothing left here. Good job!</div></div></div>`;
+        } else {
+          html += htmlList;
+        }
+        html += "</div>";
+      });
+      let opts = TODOS.map(s => `<option value="${s.section}">${s.section}</option>`).join('');
+      html += `<div class="list-card" style="margin-top:16px;background:var(--bg2);padding:14px"><div style="font-size:11px;font-weight:700;color:var(--text3);margin-bottom:12px;letter-spacing:0.05em">ADD TO LIST</div><div style="display:flex;flex-direction:column;gap:8px"><select id="new-book-sec" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none">${opts}</select><input id="new-book-name" type="text" placeholder="Title (e.g. Buy dry bag)..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none"><input id="new-book-sub" type="text" placeholder="Description (optional)..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none"><button onclick="addToList('book')" style="background:var(--ocean);color:#fff;border:none;padding:12px;border-radius:8px;font-weight:700;font-size:14px;margin-top:4px;cursor:pointer">Add to list</button></div></div>`;
+      document.getElementById('book-list').innerHTML = html;
+    }
+
+    function renderFood() {
+      let html = "";
+      FOODS.forEach(sec => {
+        html += `<div class="list-card"><div class="list-head">${sec.section}</div>`;
+        let allItems = [...sec.items];
+        if (state.custom && state.custom.food) allItems = [...allItems, ...state.custom.food.filter(c => c.section === sec.section)];
+        allItems.forEach((f, i) => {
+          const key = f.id ? "custom-" + f.id : "food-" + sec.section + i; 
+          if (state.removed[key]) return;
+          const done = state.checked[key];
+          const subHTML = f.sub ? `<div class="li-sub">${f.sub}</div>` : "";
+          const delBtn = `<button onclick="delFromList('food', '${key}')" style="background:var(--bg);border:1px solid var(--border);color:var(--text2);border-radius:6px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0" title="Delete item">🗑</button>`;
+          html += `<div class="list-item${done ? ' done' : ''}"><div class="cb${done ? ' checked' : ''}" onclick="chk('${key}',this)"></div><div class="li-body"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div class="li-name" style="margin-top:2px">${f.name}</div>${delBtn}</div>${subHTML}</div></div>`;
+        });
+        html += "</div>";
+      });
+      let opts = FOODS.map(s => `<option value="${s.section}">${s.section}</option>`).join('');
+      html += `<div class="list-card" style="margin-top:16px;background:var(--bg2);padding:14px"><div style="font-size:11px;font-weight:700;color:var(--text3);margin-bottom:12px;letter-spacing:0.05em">ADD NEW RESTAURANT</div><div style="display:flex;flex-direction:column;gap:8px"><select id="new-food-sec" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none">${opts}</select><input id="new-food-name" type="text" placeholder="Restaurant name..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none"><input id="new-food-sub" type="text" placeholder="Description / Must eat (optional)..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none"><button onclick="addToList('food')" style="background:var(--sunset);color:#fff;border:none;padding:12px;border-radius:8px;font-weight:700;font-size:14px;margin-top:4px;cursor:pointer">Add restaurant</button></div></div>`;
+      document.getElementById('food-list').innerHTML = html;
+    }
+
+    function renderShop() {
+      let html = "";
+      SHOPS.forEach(sec => {
+        html += `<div class="list-card"><div class="list-head">${sec.section}</div>`;
+        let allItems = [...sec.items];
+        if (state.custom && state.custom.shop) allItems = [...allItems, ...state.custom.shop.filter(c => c.section === sec.section)];
+        allItems.forEach((s, i) => {
+          const key = s.id ? "custom-" + s.id : "shop-" + sec.section + i; 
+          if (state.removed[key]) return;
+          const done = state.checked[key];
+          const subHTML = s.sub ? `<div class="li-sub">${s.sub}</div>` : "";
+          const delBtn = `<button onclick="delFromList('shop', '${key}')" style="background:var(--bg);border:1px solid var(--border);color:var(--text2);border-radius:6px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0" title="Delete item">🗑</button>`;
+          html += `<div class="list-item${done ? ' done' : ''}"><div class="cb${done ? ' checked' : ''}" onclick="chk('${key}',this)"></div><div class="li-body"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div class="li-name" style="margin-top:2px">${s.name}</div>${delBtn}</div>${subHTML}</div></div>`;
+        });
+        html += "</div>";
+      });
+      let opts = SHOPS.map(s => `<option value="${s.section}">${s.section}</option>`).join('');
+      html += `<div class="list-card" style="margin-top:16px;background:var(--bg2);padding:14px"><div style="font-size:11px;font-weight:700;color:var(--text3);margin-bottom:12px;letter-spacing:0.05em">ADD TO SHOPPING</div><div style="display:flex;flex-direction:column;gap:8px"><select id="new-shop-sec" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none">${opts}</select><input id="new-shop-name" type="text" placeholder="Item or Shop name..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none"><input id="new-shop-sub" type="text" placeholder="Description / Details (optional)..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none"><button onclick="addToList('shop')" style="background:var(--ocean);color:#fff;border:none;padding:12px;border-radius:8px;font-weight:700;font-size:14px;margin-top:4px;cursor:pointer">Add to shopping</button></div></div>`;
+      document.getElementById('shop-list').innerHTML = html;
+    }
+
+    function renderContacts() {
+      let html = `<div class="contact-grid">`;
+      let allItems = [...CONTACTS];
+      if (state.custom && state.custom.contacts) allItems = [...allItems, ...state.custom.contacts];
+      allItems.forEach((c, i) => { 
+        const key = c.id ? "custom-" + c.id : "contact-" + i;
+        if (state.removed[key]) return;
+        const isCustom = !!c.id;
+        const delBtn = `<button onclick="delFromList('contacts', '${key}')" style="position:absolute;top:10px;right:10px;background:var(--bg);border:1px solid var(--border);color:var(--text2);border-radius:6px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer" title="Delete contact">🗑</button>`;
+        const numText = isCustom ? (c.sub || "") : c.num;
+        html += `<div class="contact-box" style="position:relative">${delBtn}<div class="contact-name" style="margin-right:24px;margin-bottom:4px">${c.name}</div><div class="contact-num">${numText}</div>${isCustom?'':`<div class="li-sub" style="margin-top:4px">${c.note}</div>`}</div>`; 
+      });
+      html += `</div>`;
+      html += `<div class="list-card" style="margin-top:16px;background:var(--bg2);padding:14px"><div style="font-size:11px;font-weight:700;color:var(--text3);margin-bottom:12px;letter-spacing:0.05em">ADD NEW CONTACT</div><div style="display:flex;flex-direction:column;gap:8px"><input id="new-contacts-name" type="text" placeholder="Name or business..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none"><input id="new-contacts-sub" type="text" placeholder="Phone # or Details..." style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-size:14px;outline:none"><button onclick="addToList('contacts')" style="background:var(--palm);color:#000;border:none;padding:12px;border-radius:8px;font-weight:700;font-size:14px;margin-top:4px;cursor:pointer">Add to contacts</button></div></div>`;
+      document.getElementById('contact-list').innerHTML = html;
+    }
+
+    function renderFlights() {
+      const CONFS = [
+        { label: "Costco Travel", val: "C485040168", sub: "Full package" },
+        { label: "Flights", val: "L8LSFN", sub: "United Airlines" },
+        { label: "Hotel", val: "70118895", sub: "Waikiki Beach Marriott" },
+        { label: "Coral Crater", val: "#343947796", sub: "Fri Apr 17, 9:00am" },
+        { label: "Snorkel Tour", val: "#343631396", sub: "Sun Apr 19, 10:15am" },
+        { label: "Secret Island Beach", val: "KRHI012604150464", sub: "Sat Apr 18, 9:30am" },
+        { label: "PCC Bus Return", val: "#953509", sub: "Sat Apr 18, 6pm" },
+        { label: "Aloha Kai Luau", val: "#343829315", sub: "Sun Apr 19, 5–8pm" },
+        { label: "Luau Transport", val: "#343911769", sub: "Sun Apr 19, pickup 3:55pm" },
+        { label: "Diamond Head Tour", val: "#343945516", sub: "Mon Apr 20, pickup 9:50am" }
+      ];
+      let html = `<div class="flight-card"><div style="font-size:15px;font-family:'Playfair Display',serif;margin-bottom:14px;color:var(--text)">Outbound — Thu Apr 16</div>
   <div class="frow"><div><div class="ftime">11:48 AM</div><div class="fcity">HNL arrives</div></div></div>
   <div style="font-size:12px;color:var(--text2);margin-bottom:8px">UA 1175 lands at HNL &nbsp;·&nbsp; Aloha VIP arrival transfer included</div>
   <div class="frow" style="margin-top:8px"><div><div class="ftime">6:28 AM</div><div class="fcity">ABQ</div></div><div class="fline"><div class="fbadge">UA 5286 · Embraer 175 · Seat 21A · 2h 57m</div></div><div style="text-align:right"><div class="ftime">8:25 AM</div><div class="fcity">SFO</div></div></div>
@@ -615,30 +1621,113 @@ function renderFlights(){
   <div class="frow"><div><div class="ftime">9:55 AM</div><div class="fcity">IAH</div></div><div class="fline"><div class="fbadge">UA 3982 · Embraer 175 · Seat 23A · 2h 34m</div></div><div style="text-align:right"><div class="ftime">11:29 AM</div><div class="fcity">ABQ</div></div></div>
   <div class="fmeta">Total 11h 49m &nbsp;·&nbsp; 🍹 The Club at HNL — Priority Pass (Capital One Venture X)</div></div>
   <div class="flight-card"><div style="font-size:15px;font-family:'Playfair Display',serif;margin-bottom:14px;color:var(--text)">All confirmation numbers</div><div class="conf-grid">`;
-  CONFS.forEach(c=>{html+=`<div class="conf-box"><div class="conf-label">${c.label}</div><div class="conf-val">${c.val}</div><div class="conf-sub">${c.sub}</div></div>`;});
-  html+=`</div></div><div class="flight-card"><div style="font-size:15px;font-family:'Playfair Display',serif;margin-bottom:10px;color:var(--text)">🏨 Hotel</div>
+      CONFS.forEach(c => { html += `<div class="conf-box"><div class="conf-label">${c.label}</div><div class="conf-val">${c.val}</div><div class="conf-sub">${c.sub}</div></div>`; });
+      html += `</div></div><div class="flight-card"><div style="font-size:15px;font-family:'Playfair Display',serif;margin-bottom:10px;color:var(--text)">🏨 Hotel</div>
   <div style="font-size:14px;font-weight:500;color:var(--text)">Waikiki Beach Marriott Resort & Spa</div>
   <div style="font-size:12px;color:var(--text2);margin:4px 0 12px">2552 Kalakaua Ave, Honolulu HI 96815 &nbsp;·&nbsp; City-View Room &nbsp;·&nbsp; Ph: 808-922-6611</div>
   <div class="conf-grid">
     <div class="conf-box"><div class="conf-label">Check-in</div><div class="conf-val" style="font-size:13px">Thu Apr 16, 3:00 PM</div></div>
     <div class="conf-box"><div class="conf-label">Check-out</div><div class="conf-val" style="font-size:13px">Mon Apr 20, 11:00 AM</div><div class="conf-sub">Store bags at front desk before Diamond Head</div></div>
   </div></div>`;
-  document.getElementById('flight-list').innerHTML=html;
-}
+      document.getElementById('flight-list').innerHTML = html;
+    }
 
-function tog(di,ii){const key=`${di}-${ii}`;state.removed[key]=!state.removed[key];save();renderSchedule();}
-function chk(key,el){
-  state.checked[key]=!state.checked[key];save();
-  const item=el.closest('.list-item');
-  if(state.checked[key]){el.classList.add('checked');item.classList.add('done');}
-  else{el.classList.remove('checked');item.classList.remove('done');}
-}
-function showTab(id,el){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');el.classList.add('active');
-}
-load();renderToday();renderSchedule();renderBook();renderFood();renderShop();renderContacts();renderFlights();
-</script>
+    function tog(di, ii) { const key = `${di}-${ii}`; state.removed[key] = !state.removed[key]; save(); renderSchedule(); }
+    function chk(key, el) {
+      state.checked[key] = !state.checked[key]; save();
+      const item = (el.classList.contains('list-item') || el.classList.contains('pack-card') || el.classList.contains('hotel-card')) ? el : el.closest('.list-item');
+      if (item) {
+        if (state.checked[key]) { 
+           if(el.classList.contains('cb')) el.classList.add('checked'); 
+           item.classList.add('done'); 
+        } else { 
+           if(el.classList.contains('cb')) el.classList.remove('checked'); 
+           item.classList.remove('done'); 
+        }
+      }
+      if (document.getElementById('today').classList.contains('active')) renderToday();
+    }
+    function showTab(id, el) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(id).classList.add('active'); el.classList.add('active');
+      if (id === 'map') setTimeout(initMap, 50);
+    }
+    
+    let mapInitialized = false;
+    function initMap() {
+      if (mapInitialized) return;
+      mapInitialized = true;
+      const map = L.map('oahu-map').setView([21.4389, -158.0001], 10);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+      }).addTo(map);
+
+      const locs = [
+          {name: "Waikiki Beach Marriott", loc: [21.2721, -157.8222]},
+          {name: "Diamond Head", loc: [21.2619, -157.8045]},
+          {name: "Pearl Harbor Visitor Center", loc: [21.3649, -157.9397]},
+          {name: "Kualoa Ranch (Secret Island)", loc: [21.5208, -157.8373]},
+          {name: "Coral Crater Park", loc: [21.3255, -158.0673]},
+          {name: "Dole Plantation", loc: [21.5256, -158.0378]},
+          {name: "Polynesian Cultural Center", loc: [21.6393, -157.9205]},
+          {name: "Sea Life Park (Luau)", loc: [21.3146, -157.6534]},
+          {name: "Ho'omaluhia Botanical Garden", loc: [21.3852, -157.8049]},
+          {name: "Byodo-In Temple", loc: [21.4308, -157.8317]},
+          {name: "Haleiwa Town", loc: [21.5901, -158.1065]},
+          {name: "Ala Moana Center", loc: [21.2911, -157.8435]},
+          {name: "Leonard's Bakery", loc: [21.2847, -157.8130]},
+          {name: "Don Quijote (Grocery)", loc: [21.2931, -157.8407]},
+          {name: "Honolulu (HNL) Airport", loc: [21.3245, -157.9251]},
+          {name: "Giovanni's Shrimp Truck", loc: [21.6775, -157.9548]},
+          {name: "Matsumoto Shave Ice", loc: [21.5903, -158.1026]},
+          {name: "Kewalo Basin Harbor (Snorkel)", loc: [21.2933, -157.8582]}
+      ];
+
+      window.oahuMap = map;
+      window.oahuLine = null;
+      window.locsIndex = {};
+
+      locs.forEach(l => {
+        window.locsIndex[l.name] = l.loc;
+        L.marker(l.loc).addTo(map).bindPopup('<div style="font-size:14px;font-weight:600;color:#0f172a;font-family:\'Inter\',sans-serif;text-align:center;">' + l.name + '</div>');
+      });
+      setTimeout(() => map.invalidateSize(), 200);
+    }
+
+    const mapRoutes = {
+      'day1': ["Honolulu (HNL) Airport", "Waikiki Beach Marriott", "Ala Moana Center", "Waikiki Beach Marriott"],
+      'day2': ["Waikiki Beach Marriott", "Coral Crater Park", "Waikiki Beach Marriott"],
+      'day3': ["Waikiki Beach Marriott", "Kualoa Ranch (Secret Island)", "Polynesian Cultural Center", "Waikiki Beach Marriott"],
+      'day4': ["Waikiki Beach Marriott", "Kewalo Basin Harbor (Snorkel)", "Waikiki Beach Marriott", "Sea Life Park (Luau)", "Waikiki Beach Marriott"],
+      'day5': ["Waikiki Beach Marriott", "Diamond Head", "Waikiki Beach Marriott", "Honolulu (HNL) Airport"]
+    };
+
+    window.showRoute = function(dayId, event) {
+      document.querySelectorAll('.route-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      if (window.oahuLine) { window.oahuMap.removeLayer(window.oahuLine); }
+      if (dayId === 'all') {
+        window.oahuMap.setView([21.4389, -158.0001], 10);
+        return;
+      }
+      const pathPoints = mapRoutes[dayId].map(n => window.locsIndex[n]);
+      window.oahuLine = L.polyline(pathPoints, {color: '#0ea5e9', weight: 4, opacity: 0.9, dashArray: '8, 8', lineJoin: 'round'}).addTo(window.oahuMap);
+      window.oahuMap.fitBounds(window.oahuLine.getBounds(), {padding: [40, 40]});
+    }
+    function updateClocks() {
+    const now = new Date();
+    const o = { hour: 'numeric', minute: '2-digit', hour12: true };
+    if(document.getElementById('clock-hi')) {
+      document.getElementById('clock-hi').textContent = now.toLocaleTimeString('en-US', { ...o, timeZone: 'Pacific/Honolulu' });
+      document.getElementById('clock-abq').textContent = now.toLocaleTimeString('en-US', { ...o, timeZone: 'America/Denver' });
+      document.getElementById('clock-in').textContent = now.toLocaleTimeString('en-US', { ...o, timeZone: 'Asia/Kolkata' });
+    }
+  }
+  setInterval(updateClocks, 1000);
+  updateClocks();
+  load(); renderToday(); renderSchedule(); renderBook(); renderFood(); renderShop(); renderContacts(); renderFlights();
+  </script>
 </body>
+
 </html>
