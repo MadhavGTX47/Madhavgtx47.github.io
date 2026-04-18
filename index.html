@@ -1170,12 +1170,12 @@
         html += `<div class="list-card"><div class="list-head">Pack tonight — clothes + gear</div>`;
         const packItems = [
           { k: "pk0", n: "Sunglasses", s: "Every day. Don't forget these." },
-          { k: "pk1", n: "Cap or hat", s: "Essential for Diamond Head hike (Mon) — zero shade on the trail." },
-          { k: "pk2", n: "Camera", s: "Secret Island Beach, Diamond Head summit, luau — you'll want it." },
+          { k: "pk1", n: "Cap or hat", s: "Good for skydiving on Monday + outdoor days — bring it." },
+          { k: "pk2", n: "Camera", s: "Secret Island Beach, skydiving (hand cam included), luau — you'll want it." },
           { k: "pk3", n: "Spare clothes — 2–3 sets", s: "Sun especially: separate outfit for snorkel + change into something nice for the luau." },
           { k: "pk4", n: "Reef-safe mineral sunscreen", s: "MANDATORY for Sunday snorkel. Not regular sunscreen. Can also grab at Costco Friday." },
           { k: "pk5", n: "Closed toe shoes", s: "MANDATORY for Coral Crater on Friday. Sneakers or hiking shoes." },
-          { k: "pk6", n: "Comfortable walking shoes", s: "For PCC, Diamond Head, general walking days." },
+          { k: "pk6", n: "Comfortable walking shoes", s: "For PCC and general walking days." },
           { k: "pk7", n: "Swimwear x2", s: "You'll be in water Fri (Wet'n'Wild), Sat (Secret Island), Sun (snorkel). Two sets so one can dry." },
           { k: "pk8", n: "Flip flops", s: "Buy Day 1 in Waikiki or bring a pair. Don't wear closed toe shoes to the beach." },
           { k: "pk9", n: "Bug spray", s: "For Coral Crater outdoor adventure course on Friday." },
@@ -1433,20 +1433,22 @@
         ]
       },
       {
-        date: "Mon Apr 20", label: "Day 5", color: "var(--coral-light)", tc: "var(--coral)", title: "Diamond Head + Shopping + Fly Home",
-        wake: "⏰ Wake up 8:30 AM — store bags before walking to Twin Fin at 9:40am",
-        bag: "Water (critical for hike!), wear athletic shorts + closed toe shoes for hike. Pack fresh travel clothes for flight. Light snack, passport, signed Diamond Head waiver.",
-        note: "Check out 11am — store bags at front desk BEFORE Diamond Head. Tour ends 12:30pm, back by 12:45pm. Loads of time for final shopping.",
+        date: "Mon Apr 20", label: "Day 5", color: "var(--coral-light)", tc: "var(--coral)", title: "Skydiving 🪂 + Shopping + Fly Home",
+        wake: "⏰ Wake up 6:00 AM — GoJump shuttle departs Hyatt Regency at 6:50 AM",
+        bag: "Closed toe shoes (MANDATORY for skydiving). Sunscreen, sunglasses, driving license (required by US law), power bank, camera for before/after shots.",
+        note: "Store bags at front desk BEFORE you leave — you won't be back till noon. Shuttle departs from Hyatt Regency Waikiki (10 min walk). Plan 2-3 hours at GoJump North Shore. Back by noon, loads of time for final shopping.",
         items: [
-          { t: "8:30 AM", name: "Pack + 7-Eleven run 🍙", sub: "Store bags at front desk. Last Hawaii convenience store run! Spam musubi, egg sandwich, matcha drink. Walk from hotel.", tags: ["food", "shop"], rm: false },
-          { t: "9:40 AM", name: "Walk to Twin Fin Hotel trolley stop", sub: "Paoakalani Ave. Arrive 10 min early — bus leaves exactly on time, no exceptions.", tags: ["relax"], rm: false },
-          { t: "9:50 AM", name: "Diamond Head shuttle departs 🚌", sub: "Booking #343945516. MUST use their shuttle — no Uber/taxi, turned away at tunnel. Sign waiver before Monday!", tags: ["pass", "booked"], rm: false },
-          { t: "10:00–12:30 PM", name: "Diamond Head Hike 🏔", sub: "360° panoramic views of Waikiki and coast from the summit. ~1 mile, some stairs. Worth every step.", tags: ["relax"], rm: false },
-          { t: "", name: "Back near Twin Fin / Waikiki", sub: "Collect bags from hotel front desk.", tags: ["drive"], tx: true },
+          { t: "6:00 AM", name: "Store bags + 7-Eleven run 🍙", sub: "Store bags at front desk NOW — you won't return till noon. Last Hawaii snack run! Spam musubi, egg sandwich, matcha drink.", tags: ["food", "shop"], rm: false },
+          { t: "", name: "Walk to Hyatt Regency Waikiki", sub: "~10 min walk along Kalakaua Ave. GoJump shuttle departs from here.", tags: ["drive"], tx: true },
+          { t: "6:50 AM", name: "GoJump Hawai'i shuttle departs 🚌", sub: "From Hyatt Regency Waikiki. ~1 hour drive to the North Shore.", tags: ["drive"], tx: true },
+          { t: "7:40 AM", name: "Check in — GoJump Hawai'i 🪂", sub: "North Shore of Oahu. Sign waiver, gear up, briefing. Hand cam video + photos included in your booking.", tags: ["booked"], rm: false },
+          { t: "~8:00–10:30 AM", name: "Tandem Skydive 🪂", sub: "1x Tandem + Hand Cam video & photos. ~14,000 ft jump altitude. Plan 2-3 hours total on site.", tags: ["anchor", "booked"], rm: false },
+          { t: "", name: "GoJump shuttle back to Waikiki", sub: "~1 hour ride back. Pick up bags from hotel front desk on arrival.", tags: ["drive"], tx: true },
+          { t: "~12:00 PM", name: "Back at hotel — pick up bags 🤙", sub: "Collect bags from front desk. Freshen up. You just jumped out of a plane — let that sink in.", tags: ["relax"], rm: false },
           { t: "12:30 PM", name: "ABC Store + last shopping run 🛍", sub: "Walk from hotel. Last chance for aloha shirt, flip flops, lilikoi butter, missed souvenirs.", tags: ["shop"], rm: true },
           { t: "1:00 PM", name: "LUNCH — last Waikiki meal 🍱", sub: "Tim Ho Wan, Musubi Cafe, or just grab something easy and walkable. Keep it casual.", tags: ["food", "lunch"], rm: false, lunch: true },
           { t: "2:00 PM", name: "Bike Rental — optional final cruise 🚲", sub: "Pass included. Hawaiian Style Rentals on Lemon Rd (walk). Quick coastal spin before heading to airport.", tags: ["pass", "bike"], rm: true },
-          { t: "3:30 PM", name: "Collect bags + freshen up", sub: "Pick up stored bags. Double check: passport, boarding pass, Go City pass, phone charger.", tags: ["relax"], rm: false },
+          { t: "3:30 PM", name: "Final check before airport", sub: "Double check: driving license, Go City pass, phone charger, boarding pass on phone.", tags: ["relax"], rm: false },
           { t: "", name: "Departure transfer to HNL", sub: "Aloha VIP Tours — reconfirm Sunday by calling 808-955-5900. Shared transfer, allow time for stops.", tags: ["drive"], tx: true },
           { t: "~5:30 PM", name: "Arrive HNL — The Club lounge", sub: "Priority Pass accepted with Capital One Venture X. Food, drinks, wifi before the long flight home.", tags: ["relax"], rm: false },
           { t: "7:40 PM", name: "Flight UA 252 departs ✈️", sub: "HNL→IAH→ABQ. Seat 37L. Total 11h 49m. Mahalo nui loa, Oahu! 🤙", tags: ["relax"], rm: false }
@@ -1560,7 +1562,7 @@
       { name: "Aloha VIP Tours", num: "808-955-5900", note: "Reconfirm departure transfer — call Sunday Apr 19" },
       { name: "Honolulu Snorkel Company", num: "(808) 556-7557", note: "Snorkel tour #343631396" },
       { name: "Sea Life Park (Luau)", num: "(808) 259-2500", note: "Aloha Kai Luau #343829315" },
-      { name: "Go Tours Hawaii (Diamond Head)", num: "808-926-3090", note: "Diamond Head #343945516" },
+      { name: "GoJump Hawai'i (Skydiving)", num: "gojumphawaii.com", note: "Tandem skydive — Mon Apr 20, check-in 7:40 AM, shuttle 6:50 AM from Hyatt" },
       { name: "Coral Crater", num: "(808) 626-5773", note: "Adventure Course #343947796" },
       { name: "PCC Box Office", num: "Call for instructions", note: "Bus return Order #953509 — get pickup spot" },
       { name: "Restaurant SUNTORY", num: "808-922-5511", note: "Book farewell dinner — any free evening" },
@@ -1761,7 +1763,7 @@
         { label: "PCC Bus Return", val: "#953509", sub: "Sat Apr 18, 6pm" },
         { label: "Aloha Kai Luau", val: "#343829315", sub: "Sun Apr 19, 5–8pm" },
         { label: "Luau Transport", val: "#343911769", sub: "Sun Apr 19, pickup 3:55pm" },
-        { label: "Diamond Head Tour", val: "#343945516", sub: "Mon Apr 20, pickup 9:50am" }
+        { label: "GoJump Hawai'i", val: "See booking email", sub: "Mon Apr 20, check-in 7:40 AM · shuttle 6:50 AM from Hyatt" }
       ];
       let html = `<div class="flight-card"><div style="font-size:15px;font-family:'Playfair Display',serif;margin-bottom:14px;color:var(--text)">Outbound — Thu Apr 16</div>
   <div class="frow"><div><div class="ftime">11:48 AM</div><div class="fcity">HNL arrives</div></div></div>
@@ -1780,7 +1782,7 @@
   <div style="font-size:12px;color:var(--text2);margin:4px 0 12px">2552 Kalakaua Ave, Honolulu HI 96815 &nbsp;·&nbsp; City-View Room &nbsp;·&nbsp; Ph: 808-922-6611</div>
   <div class="conf-grid">
     <div class="conf-box"><div class="conf-label">Check-in</div><div class="conf-val" style="font-size:13px">Thu Apr 16, 3:00 PM</div></div>
-    <div class="conf-box"><div class="conf-label">Check-out</div><div class="conf-val" style="font-size:13px">Mon Apr 20, 11:00 AM</div><div class="conf-sub">Store bags at front desk before Diamond Head</div></div>
+    <div class="conf-box"><div class="conf-label">Check-out</div><div class="conf-val" style="font-size:13px">Mon Apr 20, 11:00 AM</div><div class="conf-sub">Store bags at front desk before 6:50 AM skydive shuttle</div></div>
   </div></div>`;
       document.getElementById('flight-list').innerHTML = html;
     }
@@ -1818,7 +1820,7 @@
 
       const locs = [
         { name: "Waikiki Beach Marriott", loc: [21.2721, -157.8222] },
-        { name: "Diamond Head", loc: [21.2619, -157.8045] },
+        { name: "GoJump Hawai'i (Skydiving)", loc: [21.6382, -158.0596] },
         { name: "Pearl Harbor Visitor Center", loc: [21.3649, -157.9397] },
         { name: "Kualoa Ranch (Secret Island)", loc: [21.5208, -157.8373] },
         { name: "Coral Crater Park", loc: [21.3255, -158.0673] },
@@ -1853,7 +1855,7 @@
       'day2': ["Waikiki Beach Marriott", "Coral Crater Park", "Waikiki Beach Marriott"],
       'day3': ["Waikiki Beach Marriott", "Kualoa Ranch (Secret Island)", "Polynesian Cultural Center", "Waikiki Beach Marriott"],
       'day4': ["Waikiki Beach Marriott", "Kewalo Basin Harbor (Snorkel)", "Waikiki Beach Marriott", "Sea Life Park (Luau)", "Waikiki Beach Marriott"],
-      'day5': ["Waikiki Beach Marriott", "Diamond Head", "Waikiki Beach Marriott", "Honolulu (HNL) Airport"]
+      'day5': ["Waikiki Beach Marriott", "GoJump Hawai'i (Skydiving)", "Waikiki Beach Marriott", "Honolulu (HNL) Airport"]
     };
 
     window.showRoute = function (dayId, event) {
