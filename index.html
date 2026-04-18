@@ -1328,7 +1328,7 @@
           if (item.tx && item.name.toLowerCase().includes("uber")) {
             linksHtml = `<div style="margin-top:8px"><a href="https://m.uber.com/ul/" target="_blank" style="display:inline-block;padding:6px 14px;background:#000;color:#fff;border-radius:20px;text-decoration:none;font-size:12px;font-weight:600">🚗 Open Uber</a></div>`;
           } else if (!item.tx && !item.free && !item.name.includes("FREE") && !item.name.includes("ransport") && !item.name.includes("Wake up") && !item.name.includes("Arrive HNL") && !item.name.includes("Figure out")) {
-            let rawName = item.name.split("—")[0].replace(/[🐕🌺🏖🏝🏄‍♂️🌋🍍🥥🛍🛒🧗🌊🎭🐢🔥✈️🍱🍜🍣]/g, "").trim();
+            let rawName = item.name.split("—")[0].replace(/[^\x00-\x7F]/gu, "").trim();
             if (rawName && rawName.length > 2) {
               linksHtml = `<div style="margin-top:8px"><a href="https://maps.google.com/?q=${encodeURIComponent(rawName + ' Oahu')}" target="_blank" style="display:inline-block;padding:6px 14px;background:var(--bg3);border:0.5px solid var(--border);color:var(--text);border-radius:20px;text-decoration:none;font-size:12px;font-weight:600">🗺️ Google Maps</a></div>`;
             }
@@ -1641,7 +1641,7 @@
             const btn = item.rm ? (removed ? `<button class="btn-sm btn-restore" onclick="tog(${di},${ii})">restore</button>` : `<button class="btn-sm" onclick="tog(${di},${ii})">remove</button>`) : "";
             let mapBtn = "";
             if (!item.free && !item.name.includes("Back") && !item.name.includes("Collect") && !item.name.includes("Pack") && !item.name.includes("Wake")) {
-              const cleanName = encodeURIComponent(item.name.replace(/[^\x00-\x7F]/g, "").split('—')[0].trim() + ' Oahu Hawaii');
+              const cleanName = encodeURIComponent(item.name.replace(/[^\x00-\x7F]/gu, "").split('—')[0].trim() + ' Oahu Hawaii');
               mapBtn = `<a href="https://maps.google.com/?q=${cleanName}" target="_blank" style="background:var(--bg2);color:var(--text2);border:0.5px solid var(--border2);text-decoration:none;padding:3px 8px;border-radius:12px;font-size:9px;font-weight:600;margin-left:8px;transition:0.2s">MAP 📍</a>`;
             }
             const ec = item.free ? " free-block" : item.lunch ? " lunch-block" : item.dinner ? " dinner-block" : "";
