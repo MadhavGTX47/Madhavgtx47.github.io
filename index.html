@@ -1170,13 +1170,13 @@
         html += `<div class="list-card"><div class="list-head">Pack tonight — clothes + gear</div>`;
         const packItems = [
           { k: "pk0", n: "Sunglasses", s: "Every day. Don't forget these." },
-          { k: "pk1", n: "Cap or hat", s: "Good for skydiving on Monday + outdoor days — bring it." },
+          { k: "pk1", n: "Cap or hat", s: "Good for skydiving on Sunday + outdoor days — bring it." },
           { k: "pk2", n: "Camera", s: "Secret Island Beach, skydiving (hand cam included), luau — you'll want it." },
-          { k: "pk3", n: "Spare clothes — 2–3 sets", s: "Sun especially: separate outfit for snorkel + change into something nice for the luau." },
-          { k: "pk4", n: "Reef-safe mineral sunscreen", s: "MANDATORY for Sunday snorkel. Not regular sunscreen. Can also grab at Costco Friday." },
+          { k: "pk3", n: "Spare clothes — 2–3 sets", s: "Mon: separate outfit for snorkel. Sun: change into something nice for the luau." },
+          { k: "pk4", n: "Reef-safe mineral sunscreen", s: "MANDATORY for Monday snorkel. Not regular sunscreen. Can also grab at Costco Friday." },
           { k: "pk5", n: "Closed toe shoes", s: "MANDATORY for Coral Crater on Friday. Sneakers or hiking shoes." },
           { k: "pk6", n: "Comfortable walking shoes", s: "For PCC and general walking days." },
-          { k: "pk7", n: "Swimwear x2", s: "You'll be in water Fri (Wet'n'Wild), Sat (Secret Island), Sun (snorkel). Two sets so one can dry." },
+          { k: "pk7", n: "Swimwear x2", s: "You'll be in water Fri (Wet'n'Wild), Sat (Secret Island), Mon (snorkel). Two sets so one can dry." },
           { k: "pk8", n: "Flip flops", s: "Buy Day 1 in Waikiki or bring a pair. Don't wear closed toe shoes to the beach." },
           { k: "pk9", n: "Bug spray", s: "For Coral Crater outdoor adventure course on Friday." },
           { k: "pk10", n: "Portable phone charger / power bank", s: "Long travel day Thursday + full days out — essential." },
@@ -1415,17 +1415,21 @@
         ]
       },
       {
-        date: "Sun Apr 19", label: "Day 4", color: "var(--hibiscus-light)", tc: "var(--hibiscus)", title: "Snorkel + Aloha Kai Luau at Sea Life Park",
-        wake: "⏰ Wake up 8:30 AM — snorkel check-in at 9:45am",
-        bag: "Wear swim trunks + flip flops. Pack nice outfit for evening luau (aloha shirt & nice shorts/slacks) + walking shoes. Towel from hotel, snorkel + luau confirmations.",
+        date: "Sun Apr 19", label: "Day 4", color: "var(--hibiscus-light)", tc: "var(--hibiscus)", title: "Skydiving 🪂 + Aloha Kai Luau",
+        wake: "⏰ Wake up 6:00 AM — GoJump shuttle departs Hyatt Regency at 6:50 AM",
+        bag: "Closed toe shoes (MANDATORY for skydiving). Driving license, sunscreen, sunglasses, power bank. Pack luau outfit separately — nice aloha shirt + shorts for the evening show.",
+        note: "Skydiving in the morning, luau in the evening — epic Sunday. Shuttle from Hyatt Regency (10 min walk). Back from skydive by noon, loads of free time before luau pickup at 3:55 PM.",
         warn: "🚌 LUAU TRANSPORT: Pickup 3:55 PM at Marriott Paoakalani Gate. Be there by 3:45 PM — bus leaves with no waiting.",
         items: [
-          { t: "8:30 AM", name: "Wake up + breakfast", sub: "Barefoot Beach Cafe (acai bowl, Queen's Surf Beach) or Musubi Cafe IYASUME (spam musubi, open 7am).", tags: ["food"], rm: false },
-          { t: "", name: "Uber to Kewalo Basin Harbor ~$10", sub: "1085 Ala Moana Blvd Suite 104. Enter Kewalo harbor and make a left.", tags: ["drive"], tx: true },
-          { t: "9:45 AM", name: "Arrive Kewalo Basin Harbor", sub: "Check in 30 min before departure. Sign waiver BEFORE Sunday! No full-face masks. Reef-safe sunscreen only.", tags: ["relax"], rm: false },
-          { t: "10:15–12:15 PM", name: "Waikiki Snorkel Tour 🐢", sub: "Booking #343631396. Wild sea turtles at Turtle Canyon. Snorkel gear provided.", tags: ["sep", "booked"], rm: false },
+          { t: "6:00 AM", name: "Quick breakfast", sub: "Grab from 7-Eleven or hotel. Keep it light — big day ahead!", tags: ["food"], rm: false },
+          { t: "", name: "Walk to Hyatt Regency Waikiki", sub: "~10 min walk along Kalakaua Ave. GoJump shuttle departs from here.", tags: ["drive"], tx: true },
+          { t: "6:50 AM", name: "GoJump Hawai'i shuttle departs 🚌", sub: "From Hyatt Regency Waikiki. ~1 hour drive to the North Shore.", tags: ["drive"], tx: true },
+          { t: "7:40 AM", name: "Check in — GoJump Hawai'i 🪂", sub: "North Shore of Oahu. Sign waiver, gear up, briefing. Hand cam video + photos included in your booking.", tags: ["booked"], rm: false },
+          { t: "~8:00–10:30 AM", name: "Tandem Skydive 🪂", sub: "1x Tandem + Hand Cam video & photos. ~14,000 ft jump altitude. Plan 2-3 hours total on site.", tags: ["anchor", "booked"], rm: false },
+          { t: "", name: "GoJump shuttle back to Waikiki", sub: "~1 hour ride back.", tags: ["drive"], tx: true },
+          { t: "~12:00 PM", name: "Back at hotel 🤙", sub: "Freshen up. You just jumped out of a plane — let that sink in.", tags: ["relax"], rm: false },
           { t: "12:30 PM", name: "LUNCH — Tim Ho Wan or near hotel", sub: "Tim Ho Wan: Michelin dim sum, Royal Hawaiian Center 3F, no reservations. Or grab something casual.", tags: ["food", "lunch"], rm: false, lunch: true },
-          { t: "1:00–3:30 PM", name: "FREE — biggest chill block of the trip 🏖", sub: "Beach, nap, shave ice, wander Waikiki. No plans whatsoever. You'll be well fed at the luau tonight.", tags: ["free"], rm: false, free: true },
+          { t: "1:00–3:30 PM", name: "FREE — chill before the luau 🏖", sub: "Beach, nap, shave ice, wander Waikiki. You'll be well fed at the luau tonight.", tags: ["free"], rm: false, free: true },
           { t: "3:45 PM", name: "Walk to Marriott Paoakalani Gate", sub: "Your actual hotel entrance! Be there by 3:45 PM — bus leaves at 3:55 PM sharp.", tags: ["alert"], rm: false },
           { t: "3:55 PM", name: "Luau transport departs 🚌", sub: "Booking #343911769. Drives you to Sea Life Park and brings you back after the show.", tags: ["drive"], tx: true },
           { t: "5:00–8:00 PM", name: "Aloha Kai Luau — Sea Life Park 🌺🔥", sub: "Booking #343829315. Silver Package. Shell lei, buffet dinner, open bar, full hula show, fire knife dancing. 41-202 Kalanianaole Hwy #7.", tags: ["pass", "anchor", "booked"], rm: false },
@@ -1433,20 +1437,17 @@
         ]
       },
       {
-        date: "Mon Apr 20", label: "Day 5", color: "var(--coral-light)", tc: "var(--coral)", title: "Skydiving 🪂 + Shopping + Fly Home",
-        wake: "⏰ Wake up 6:00 AM — GoJump shuttle departs Hyatt Regency at 6:50 AM",
-        bag: "Closed toe shoes (MANDATORY for skydiving). Sunscreen, sunglasses, driving license (required by US law), power bank, camera for before/after shots.",
-        note: "Store bags at front desk BEFORE you leave — you won't be back till noon. Shuttle departs from Hyatt Regency Waikiki (10 min walk). Plan 2-3 hours at GoJump North Shore. Back by noon, loads of time for final shopping.",
+        date: "Mon Apr 20", label: "Day 5", color: "var(--coral-light)", tc: "var(--coral)", title: "Snorkel 🐢 + Shopping + Fly Home",
+        wake: "⏰ Wake up 8:30 AM — store bags + snorkel check-in at 9:45 AM",
+        bag: "Reef-safe mineral sunscreen (MANDATORY — not regular!), swimwear, towel from hotel, driving license + boarding pass on phone for the flight.",
+        note: "Store bags at front desk before heading to snorkel — checkout is 11 AM. Back by 12:30 PM, loads of time for final shopping before the 7:40 PM flight.",
         items: [
-          { t: "6:00 AM", name: "Store bags + 7-Eleven run 🍙", sub: "Store bags at front desk NOW — you won't return till noon. Last Hawaii snack run! Spam musubi, egg sandwich, matcha drink.", tags: ["food", "shop"], rm: false },
-          { t: "", name: "Walk to Hyatt Regency Waikiki", sub: "~10 min walk along Kalakaua Ave. GoJump shuttle departs from here.", tags: ["drive"], tx: true },
-          { t: "6:50 AM", name: "GoJump Hawai'i shuttle departs 🚌", sub: "From Hyatt Regency Waikiki. ~1 hour drive to the North Shore.", tags: ["drive"], tx: true },
-          { t: "7:40 AM", name: "Check in — GoJump Hawai'i 🪂", sub: "North Shore of Oahu. Sign waiver, gear up, briefing. Hand cam video + photos included in your booking.", tags: ["booked"], rm: false },
-          { t: "~8:00–10:30 AM", name: "Tandem Skydive 🪂", sub: "1x Tandem + Hand Cam video & photos. ~14,000 ft jump altitude. Plan 2-3 hours total on site.", tags: ["anchor", "booked"], rm: false },
-          { t: "", name: "GoJump shuttle back to Waikiki", sub: "~1 hour ride back. Pick up bags from hotel front desk on arrival.", tags: ["drive"], tx: true },
-          { t: "~12:00 PM", name: "Back at hotel — pick up bags 🤙", sub: "Collect bags from front desk. Freshen up. You just jumped out of a plane — let that sink in.", tags: ["relax"], rm: false },
-          { t: "12:30 PM", name: "ABC Store + last shopping run 🛍", sub: "Walk from hotel. Last chance for aloha shirt, flip flops, lilikoi butter, missed souvenirs.", tags: ["shop"], rm: true },
-          { t: "1:00 PM", name: "LUNCH — last Waikiki meal 🍱", sub: "Tim Ho Wan, Musubi Cafe, or just grab something easy and walkable. Keep it casual.", tags: ["food", "lunch"], rm: false, lunch: true },
+          { t: "8:30 AM", name: "Store bags + 7-Eleven run 🍙", sub: "Store bags at front desk. Last Hawaii snack run — spam musubi, egg sandwich, matcha drink.", tags: ["food", "shop"], rm: false },
+          { t: "", name: "Uber to Kewalo Basin Harbor ~$10", sub: "1085 Ala Moana Blvd Suite 104. Enter Kewalo harbor and make a left.", tags: ["drive"], tx: true },
+          { t: "9:45 AM", name: "Arrive Kewalo Basin Harbor", sub: "Check in 30 min before departure. No full-face masks. Reef-safe sunscreen only.", tags: ["relax"], rm: false },
+          { t: "10:15–12:15 PM", name: "Waikiki Snorkel Tour 🐢", sub: "Booking #343631396. Wild sea turtles at Turtle Canyon. Snorkel gear provided.", tags: ["sep", "booked"], rm: false },
+          { t: "12:30 PM", name: "LUNCH — last Waikiki meal 🍱", sub: "Tim Ho Wan, Musubi Cafe, or just grab something easy and walkable. Keep it casual.", tags: ["food", "lunch"], rm: false, lunch: true },
+          { t: "1:00 PM", name: "ABC Store + last shopping run 🛍", sub: "Walk from hotel. Last chance for aloha shirt, flip flops, lilikoi butter, missed souvenirs.", tags: ["shop"], rm: true },
           { t: "2:00 PM", name: "Bike Rental — optional final cruise 🚲", sub: "Pass included. Hawaiian Style Rentals on Lemon Rd (walk). Quick coastal spin before heading to airport.", tags: ["pass", "bike"], rm: true },
           { t: "3:30 PM", name: "Final check before airport", sub: "Double check: driving license, Go City pass, phone charger, boarding pass on phone.", tags: ["relax"], rm: false },
           { t: "", name: "Departure transfer to HNL", sub: "Aloha VIP Tours — reconfirm Sunday by calling 808-955-5900. Shared transfer, allow time for stops.", tags: ["drive"], tx: true },
@@ -1465,7 +1466,7 @@
       {
         section: "🛒 Things to buy / get", items: [
           { name: "Withdraw cash from ATM 💵", sub: "Some food trucks (like North Shore shrimp trucks) or small tips might require cash. Grab some from an ATM before Friday.", urg: "amber", when: "Before Day 2" },
-          { name: "Buy reef-safe mineral sunscreen", sub: "Hawaii bans chemical sunscreens. MANDATORY for Sunday snorkel. Regular sunscreen will not be allowed.", urg: "red", when: "ASAP" },
+          { name: "Buy reef-safe mineral sunscreen", sub: "Hawaii bans chemical sunscreens. MANDATORY for Monday snorkel. Regular sunscreen will not be allowed.", urg: "red", when: "ASAP" },
           { name: "Get towels from hotel", sub: "Grab them from the pool or front desk. Needed for Wet'n'Wild, Secret Island, and Snorkeling.", urg: "amber", when: "Before water activities" },
           { name: "Buy slippers (flip flops)", sub: "Essential for the beach and walking around the hotel. Buy these first if you don't have them.", urg: "amber", when: "Day 1 (Thursday)" }
         ]
@@ -1562,7 +1563,7 @@
       { name: "Aloha VIP Tours", num: "808-955-5900", note: "Reconfirm departure transfer — call Sunday Apr 19" },
       { name: "Honolulu Snorkel Company", num: "(808) 556-7557", note: "Snorkel tour #343631396" },
       { name: "Sea Life Park (Luau)", num: "(808) 259-2500", note: "Aloha Kai Luau #343829315" },
-      { name: "GoJump Hawai'i (Skydiving)", num: "gojumphawaii.com", note: "Tandem skydive — Mon Apr 20, check-in 7:40 AM, shuttle 6:50 AM from Hyatt" },
+      { name: "GoJump Hawai'i (Skydiving)", num: "gojumphawaii.com", note: "Tandem skydive — Sun Apr 19, check-in 7:40 AM, shuttle 6:50 AM from Hyatt" },
       { name: "Coral Crater", num: "(808) 626-5773", note: "Adventure Course #343947796" },
       { name: "PCC Box Office", num: "Call for instructions", note: "Bus return Order #953509 — get pickup spot" },
       { name: "Restaurant SUNTORY", num: "808-922-5511", note: "Book farewell dinner — any free evening" },
@@ -1758,12 +1759,12 @@
         { label: "Flights", val: "L8LSFN", sub: "United Airlines" },
         { label: "Hotel", val: "70118895", sub: "Waikiki Beach Marriott" },
         { label: "Coral Crater", val: "#343947796", sub: "Fri Apr 17, 9:00am" },
-        { label: "Snorkel Tour", val: "#343631396", sub: "Sun Apr 19, 10:15am" },
+        { label: "Snorkel Tour", val: "#343631396", sub: "Mon Apr 20, 10:15am" },
         { label: "Secret Island Beach", val: "KRHI012604150464", sub: "Sat Apr 18, 9:30am" },
         { label: "PCC Bus Return", val: "#953509", sub: "Sat Apr 18, 6pm" },
         { label: "Aloha Kai Luau", val: "#343829315", sub: "Sun Apr 19, 5–8pm" },
         { label: "Luau Transport", val: "#343911769", sub: "Sun Apr 19, pickup 3:55pm" },
-        { label: "GoJump Hawai'i", val: "See booking email", sub: "Mon Apr 20, check-in 7:40 AM · shuttle 6:50 AM from Hyatt" }
+        { label: "GoJump Hawai'i", val: "See booking email", sub: "Sun Apr 19, check-in 7:40 AM · shuttle 6:50 AM from Hyatt" }
       ];
       let html = `<div class="flight-card"><div style="font-size:15px;font-family:'Playfair Display',serif;margin-bottom:14px;color:var(--text)">Outbound — Thu Apr 16</div>
   <div class="frow"><div><div class="ftime">11:48 AM</div><div class="fcity">HNL arrives</div></div></div>
