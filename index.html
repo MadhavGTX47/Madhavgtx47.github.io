@@ -2642,6 +2642,224 @@
       color: #fff;
       box-shadow: 0 2px 8px rgba(0, 137, 123, 0.25);
     }
+
+    /* Lookbook Modal Styles */
+    .lookbook-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 8, 6, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .lookbook-modal-content {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 500px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .lookbook-close {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+      z-index: 10;
+      transition: color 0.2s;
+    }
+
+    .lookbook-close:hover {
+      color: var(--rosa-mexicano);
+    }
+
+    .lookbook-modal-scroll {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+      scrollbar-width: thin;
+    }
+
+    .lookbook-modal-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .lookbook-modal-scroll::-webkit-scrollbar-thumb {
+      background-color: var(--border);
+      border-radius: 4px;
+    }
+
+    .lookbook-modal-title {
+      font-family: var(--font-title);
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lookbook-modal-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .lookbook-weather-strip {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      font-size: 12.5px;
+      line-height: 1.4;
+    }
+
+    .lookbook-item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .lookbook-item-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .lookbook-item-header {
+      padding: 8px 12px;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lookbook-item-img-wrap {
+      position: relative;
+      width: 100%;
+      background: var(--bg-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lookbook-item-img {
+      width: 100%;
+      max-height: 380px;
+      object-fit: contain;
+      background: var(--bg-soft);
+    }
+
+    .lookbook-modal-nav {
+      display: flex;
+      border-top: 1px solid var(--border);
+      background: var(--bg-soft);
+    }
+
+    .lookbook-modal-nav button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .lookbook-modal-nav button:hover {
+      background: var(--bg-card-hover);
+      color: var(--rosa-mexicano);
+    }
+
+    .lookbook-modal-nav button:first-child {
+      border-right: 1px solid var(--border);
+    }
+
+    .lookbook-modal-nav button:disabled {
+      color: var(--text-muted);
+      cursor: not-allowed;
+      background: transparent;
+    }
+
+    .lookbook-empty-state {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .dress-lookbook-btn {
+      width: 100%;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--text-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.3s var(--ease-smooth);
+    }
+
+    .dress-lookbook-btn:hover {
+      border-color: var(--rosa-mexicano);
+      color: var(--rosa-mexicano);
+      background: var(--bg-card-hover);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -2940,6 +3158,22 @@
 
   <!-- ============ TOAST CONTAINER ============ -->
   <div class="toast-container" id="toast-container"></div>
+
+  <!-- ============ DRESS LOOKBOOK MODAL ============ -->
+  <div id="lookbook-modal" class="lookbook-modal" onclick="closeLookbookModalOutside(event)">
+    <div class="lookbook-modal-content">
+      <button class="lookbook-close" onclick="closeLookbookModal()">&times;</button>
+      
+      <div id="lookbook-modal-body">
+        <!-- Content will be injected dynamically by JavaScript -->
+      </div>
+      
+      <div class="lookbook-modal-nav">
+        <button id="lookbook-prev-btn" onclick="navigateLookbook(-1)">← Previous Day</button>
+        <button id="lookbook-next-btn" onclick="navigateLookbook(1)">Next Day →</button>
+      </div>
+    </div>
+  </div>
 
 <script>
     // ============ DATABASE: WEATHER ============
@@ -4899,6 +5133,13 @@
             <div class="dress-slots-grid">
               ${slotsHtml}
             </div>
+            
+            <!-- Lookbook Expanded View Button -->
+            <div style="padding: 0 16px 16px 16px; margin-top: -8px;">
+              <button onclick="openLookbook(${di})" class="dress-lookbook-btn">
+                👁️ View Full Outfit (Large Lookbook)
+              </button>
+            </div>
           </div>
         `;
       });
@@ -4972,6 +5213,131 @@
         img.src = e.target.result;
       };
       reader.readAsDataURL(file);
+    };
+
+    // ============ LOOKBOOK MODAL CONTROLLER ============
+    let activeLookbookDayIndex = 0;
+
+    window.openLookbook = function(dayIndex) {
+      activeLookbookDayIndex = dayIndex;
+      const modal = document.getElementById('lookbook-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Lock background scrolling
+        renderLookbookModalContent();
+      }
+    };
+
+    window.closeLookbookModal = function() {
+      const modal = document.getElementById('lookbook-modal');
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = ''; // Unlock background scrolling
+      }
+    };
+
+    window.closeLookbookModalOutside = function(event) {
+      if (event.target.id === 'lookbook-modal') {
+        closeLookbookModal();
+      }
+    };
+
+    window.navigateLookbook = function(dir) {
+      const targetIndex = activeLookbookDayIndex + dir;
+      if (targetIndex >= 0 && targetIndex < DAYS.length) {
+        activeLookbookDayIndex = targetIndex;
+        renderLookbookModalContent();
+      }
+    };
+
+    window.clearLookbookSlot = function(di, slotKey, event) {
+      if (event) event.stopPropagation();
+      if (confirm(`Remove this item from your outfit planner?`)) {
+        if (state.outfits && state.outfits[di]) {
+          state.outfits[di][slotKey] = '';
+          save();
+          renderDress();
+          renderLookbookModalContent();
+          showToast('✓ Slot cleared', 'success');
+        }
+      }
+    };
+
+    window.renderLookbookModalContent = function() {
+      const di = activeLookbookDayIndex;
+      const day = DAYS[di];
+      const w = WEATHER[di];
+      const outfits = state.outfits && state.outfits[di] ? state.outfits[di] : {};
+      
+      const prevBtn = document.getElementById('lookbook-prev-btn');
+      const nextBtn = document.getElementById('lookbook-next-btn');
+      if (prevBtn) prevBtn.disabled = di === 0;
+      if (nextBtn) nextBtn.disabled = di === DAYS.length - 1;
+
+      const body = document.getElementById('lookbook-modal-body');
+      if (!body) return;
+
+      // Check if we have any filled items
+      let filledItemsHtml = '';
+      DRESS_SLOTS.forEach(slot => {
+        const imgData = outfits[slot.key];
+        if (imgData) {
+          filledItemsHtml += `
+            <div class="lookbook-item-card">
+              <div class="lookbook-item-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <span>${slot.icon}</span>
+                  <span>${slot.name}</span>
+                </div>
+                <button onclick="clearLookbookSlot(${di}, '${slot.key}', event)" style="background:transparent; border:none; color:var(--rosa-mexicano); font-size:11px; font-weight:800; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em; padding:4px 8px;">
+                  Remove
+                </button>
+              </div>
+              <div class="lookbook-item-img-wrap">
+                <img src="${imgData}" class="lookbook-item-img" alt="${slot.name}">
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      if (!filledItemsHtml) {
+        filledItemsHtml = `
+          <div class="lookbook-empty-state">
+            <div style="font-size:36px; margin-bottom:12px;">👕🧥👖</div>
+            <div>No outfit items uploaded for this day yet.</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:8px;">
+              Close this view and tap the dress slot icons to upload your Top, Bottom, Outerwear, Shoes, and Accessories!
+            </div>
+          </div>
+        `;
+      }
+
+      const rec = getOutfitRecommendation(w);
+
+      body.innerHTML = `
+        <div class="lookbook-modal-scroll">
+          <div class="lookbook-modal-title">
+            <span class="day-badge" style="background:${day.color}; color:${day.tc}">${day.label}</span>
+            <span>Lookbook</span>
+          </div>
+          <div class="lookbook-modal-subtitle">${day.date} · ${day.title}</div>
+          
+          <div class="lookbook-weather-strip">
+            <div style="font-weight:800; display:flex; align-items:center; gap:6px; color:var(--text-dark); margin-bottom:4px;">
+              <span>${w ? w.icon : '❓'}</span>
+              <span>Forecast: ${w ? w.high : '--'}°F · ${w ? w.desc : 'Unavailable'}</span>
+            </div>
+            <div style="font-size:11.5px; color:var(--text-muted); font-weight:600; line-height:1.4;">
+              💡 <strong>Outfit Tip:</strong> ${rec}
+            </div>
+          </div>
+
+          <div class="lookbook-item-list">
+            ${filledItemsHtml}
+          </div>
+        </div>
+      `;
     };
 
     // ============ LEAFLET MAP ============
