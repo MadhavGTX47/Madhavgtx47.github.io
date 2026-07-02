@@ -2906,6 +2906,16 @@
     <div id="dress-tab" class="section">
       <div class="section-title">🧥 Outfit Planner & Lookbook</div>
       
+      <!-- Weather Verification Links -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:-10px; margin-bottom:15px; font-size:12px; font-weight:700;">
+        <span style="color:var(--text-muted);">☀️ DWD ICON model forecast data</span>
+        <div style="display:flex; gap:12px;">
+          <a href="https://www.accuweather.com/en/mx/mexico-city/242560/weather-forecast/242560" target="_blank" style="color:var(--rosa-mexicano); text-decoration:none;">Verify on AccuWeather ↗</a>
+          <span style="color:var(--border);">|</span>
+          <a href="https://weather.com/weather/tenday/l/Mexico+City+Mexico" target="_blank" style="color:var(--rosa-mexicano); text-decoration:none;">Verify on Weather.com ↗</a>
+        </div>
+      </div>
+      
       <!-- Day Navigation Pills (Specific to Dress) -->
       <div class="day-pills" id="dress-day-pills"></div>
       
@@ -5168,7 +5178,8 @@
 
     async function fetchLiveWeather() {
       try {
-        const url = 'https://api.open-meteo.com/v1/forecast?latitude=19.4326&longitude=-99.1332&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=precipitation_probability&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/Mexico_City&forecast_days=7';
+        // Query the premium German DWD ICON Seamless model directly for CDMX
+        const url = 'https://api.open-meteo.com/v1/forecast?latitude=19.4326&longitude=-99.1332&models=icon_seamless&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=precipitation_probability&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/Mexico_City&forecast_days=7';
         const resp = await fetch(url);
         if (!resp.ok) throw new Error('Weather fetch failed');
         const data = await resp.json();
@@ -5216,7 +5227,13 @@
 
         const curIcon = wmoIcon(current.weather_code);
         const curDesc = wmoDesc(current.weather_code);
-        const uvLevel = current.uv_index >= 8 ? 'Very High ⚠️' : current.uv_index >= 6 ? 'High' : current.uv_index >= 3 ? 'Moderate' : 'Low';
+        
+        // Safeguard UV Index parsing for models like ICON which may return null for UV variables
+        const uvVal = typeof current.uv_index === 'number' ? current.uv_index.toFixed(1) : '--';
+        const uvLevel = typeof current.uv_index === 'number'
+          ? (current.uv_index >= 8 ? 'Very High ⚠️' : current.uv_index >= 6 ? 'High' : current.uv_index >= 3 ? 'Moderate' : 'Low')
+          : 'N/A';
+        const uvColor = typeof current.uv_index === 'number' && current.uv_index >= 6 ? 'var(--marigold)' : 'var(--jade)';
 
         contentEl.innerHTML = `
           <div style="background:linear-gradient(135deg, rgba(2,136,209,0.08), rgba(0,137,123,0.06)); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:center; box-shadow:var(--soft-shadow)">
@@ -5240,11 +5257,16 @@
               </div>
               <div style="background:var(--bg-elev); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border)">
                 <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:800; letter-spacing:0.05em">UV Index</div>
-                <div style="font-family:var(--font-mono); font-size:14px; font-weight:700; color:${current.uv_index >= 6 ? 'var(--marigold)' : 'var(--jade)'}; margin-top:2px">${current.uv_index.toFixed(1)} ${uvLevel}</div>
+                <div style="font-family:var(--font-mono); font-size:14px; font-weight:700; color:${uvColor}; margin-top:2px">${uvVal} ${uvLevel}</div>
               </div>
             </div>
           </div>
-          <div style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:8px; font-weight:600">Live data from Open-Meteo · Updated ${new Date().toLocaleTimeString('en-US', { timeZone: 'America/Mexico_City', hour: 'numeric', minute: '2-digit' })} CST</div>
+          <div style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:8px; font-weight:600">Live data from DWD ICON Model via Open-Meteo · Updated ${new Date().toLocaleTimeString('en-US', { timeZone: 'America/Mexico_City', hour: 'numeric', minute: '2-digit' })} CST</div>
+          <div style="display:flex; justify-content:center; gap:16px; margin-top:10px; font-size:11.5px; font-weight:700;">
+            <a href="https://www.accuweather.com/en/mx/mexico-city/242560/weather-forecast/242560" target="_blank" style="color:var(--rosa-mexicano); text-decoration:none; display:inline-flex; align-items:center; gap:4px;">☀️ Verify on AccuWeather ↗</a>
+            <span style="color:var(--text-muted); font-weight:400;">|</span>
+            <a href="https://weather.com/weather/tenday/l/Mexico+City+Mexico" target="_blank" style="color:var(--rosa-mexicano); text-decoration:none; display:inline-flex; align-items:center; gap:4px;">🌦️ Verify on Weather.com ↗</a>
+          </div>
         `;
 
         renderToday();
