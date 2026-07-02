@@ -2486,6 +2486,57 @@
       color: #ffffff !important;
     }
 
+    .dress-card-weather {
+      padding: 14px 18px;
+      border-bottom: 1px dashed var(--border);
+      background: var(--bg-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+
+    .dress-weather-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-dark);
+    }
+
+    .dress-weather-badge {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--rosa-mexicano);
+      font-weight: 700;
+    }
+
+    .dress-weather-desc {
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .dress-weather-rain-chance {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .dress-suggestion-box {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--text);
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--rosa-mexicano);
+      padding: 8px 12px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
     .dress-slots-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -4702,6 +4753,26 @@
       { key: 'accessories', name: 'Accs', icon: '🕶️' }
     ];
 
+    function getOutfitRecommendation(w) {
+      if (!w) return "Comfortable walking clothes with layers.";
+      
+      const rainProb = w.rain || 0;
+      const highTemp = w.high || 70;
+      const desc = (w.desc || "").toLowerCase();
+      
+      let rec = "";
+      if (rainProb >= 50 || desc.includes("rain") || desc.includes("storm") || desc.includes("showers") || desc.includes("drizzle")) {
+        rec = "☔ High rain chance! Wear a water-resistant outer jacket/coat, carry an umbrella, and wear sturdy, waterproof or closed-toe walking shoes to navigate wet sidewalks. Avoid sandals or canvas shoes today.";
+      } else if (rainProb >= 30) {
+        rec = "🌦️ Unsettled weather. Dress in light layers (t-shirt + light hoodie/outerwear) and pack a compact umbrella just in case of late afternoon showers.";
+      } else if (highTemp >= 75) {
+        rec = "☀️ Warm day. Opt for light, breathable fabrics (t-shirt/linen shirt), sunglasses, and sunscreen. Keep a light layer (sweater/jacket) handy for when the temperature drops in the evening.";
+      } else {
+        rec = "⛅ Mild and comfortable. Wear comfortable walking clothes with light layers. Perfect for exploration; keep a light jacket nearby for shaded spots or evening breezes.";
+      }
+      return rec;
+    }
+
     function renderDress() {
       // Day Navigation Pills for Dress
       const pillsContainer = document.getElementById('dress-day-pills');
@@ -4747,6 +4818,13 @@
         const metaStyle = day.bgImg ? 'color:rgba(255,255,255,0.9)' : '';
         const badgeStyle = day.bgImg ? `background:rgba(255,255,255,0.22); color:#fff; backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.28)` : `background:${day.color}; color:${day.tc}`;
 
+        // Get weather forecast data
+        const w = WEATHER[di];
+        const recommendation = getOutfitRecommendation(w);
+        const rainHoursInfo = w && w.rainHours
+          ? `<div style="font-size:11.5px; font-weight:700; color:var(--rosa-mexicano); margin-top:2px; font-family:var(--font-mono);">${w.rainHours}</div>`
+          : '';
+
         let slotsHtml = '';
         DRESS_SLOTS.forEach(slot => {
           const imgData = dayOutfits[slot.key];
@@ -4784,6 +4862,30 @@
                 <span style="font-size:11px; ${metaStyle}">${day.date}</span>
               </div>
             </div>
+
+            <!-- Weather Forecast & Outfit Suggestion Panel -->
+            <div class="dress-card-weather">
+              <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <div class="dress-weather-title">
+                  <span>🌦️ Forecast:</span>
+                  <span class="dress-weather-badge">${w ? w.icon : '❓'} ${w ? w.high : '--'}°F</span>
+                  <span class="dress-weather-desc">· ${w ? w.desc : 'Unavailable'}</span>
+                </div>
+                <div style="text-align:right;">
+                  <div class="dress-weather-rain-chance" style="color:${w && w.rain >= 40 ? 'var(--rosa-mexicano)' : 'var(--text-muted)'}">
+                    💧 ${w ? w.rain : '--'}% Rain Chance
+                  </div>
+                  ${rainHoursInfo}
+                </div>
+              </div>
+              <div class="dress-suggestion-box">
+                <span style="font-size:14px; line-height:1.2;">💡</span>
+                <div style="font-weight:500;">
+                  <strong style="color:var(--text-dark); font-weight:700;">Outfit Tip:</strong> ${recommendation}
+                </div>
+              </div>
+            </div>
+
             <div class="dress-slots-grid">
               ${slotsHtml}
             </div>
@@ -5147,6 +5249,7 @@
 
         renderToday();
         renderSchedule();
+        renderDress();
       } catch (e) {
         console.log('Live weather unavailable, using cached forecast:', e.message);
       }
