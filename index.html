@@ -1,0 +1,4864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CDMX 2026 — Travel Dashboard</title>
+
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet Maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+  <style>
+    :root {
+      /* Mexico City — Warm, Vibrant, Photo-forward Theme */
+      --bg: #f8f5f0;
+      --bg-card: rgba(255, 255, 255, 0.92);
+      --bg-card-hover: rgba(255, 255, 255, 0.96);
+      --bg-elev: #ffffff;
+      --bg-soft: #faf6f1;
+      --border: rgba(139, 115, 107, 0.14);
+      --border-hover: rgba(139, 115, 107, 0.30);
+
+      --text: #2a1d1a;
+      --text-muted: #786662;
+      --text-dark: #1b110f;
+
+      /* Vibrant Cultural Accents */
+      --rosa-mexicano: #e91e63;
+      --rosa-deep: #c1134e;
+      --marigold: #ff9100;
+      --marigold-deep: #f57c00;
+      --jade: #00897b;
+      --jade-deep: #00695c;
+      --sky-blue: #0288d1;
+      --alert-red: #d32f2f;
+      --plum: #6a1b9a;
+
+      --radius-xs: 8px;
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+
+      --font-title: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --card-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.10),
+                     0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+      --soft-shadow: 0 2px 12px rgba(139, 115, 107, 0.06);
+      --lift-shadow: 0 18px 50px -12px rgba(139, 115, 107, 0.22);
+
+      --gradient-rosa: linear-gradient(135deg, #e91e63 0%, #ff5e8a 100%);
+      --gradient-marigold: linear-gradient(135deg, #ff9100 0%, #ffab40 100%);
+      --gradient-jade: linear-gradient(135deg, #00897b 0%, #26a69a 100%);
+      --gradient-sky: linear-gradient(135deg, #0288d1 0%, #4fc3f7 100%);
+      --gradient-sunset: linear-gradient(135deg, #e91e63 0%, #ff9100 100%);
+
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* DARK MODE */
+    [data-theme="dark"] {
+      --bg: #0f0d0c;
+      --bg-card: rgba(34, 28, 26, 0.92);
+      --bg-card-hover: rgba(44, 36, 34, 0.96);
+      --bg-elev: #1f1816;
+      --bg-soft: #18120f;
+      --border: rgba(255, 220, 200, 0.10);
+      --border-hover: rgba(255, 220, 200, 0.25);
+
+      --text: #f5e6dd;
+      --text-muted: #b5a39b;
+      --text-dark: #ffffff;
+
+      --soft-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+      --lift-shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.6);
+      --card-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5),
+                     0 0 0 1px rgba(255, 220, 200, 0.05) inset;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(233, 30, 99, 0.08) 0%, transparent 35%),
+        radial-gradient(circle at 85% 20%, rgba(255, 145, 0, 0.08) 0%, transparent 35%),
+        radial-gradient(circle at 50% 90%, rgba(0, 137, 123, 0.07) 0%, transparent 40%),
+        url('https://images.unsplash.com/photo-1518659526054-190340b32735?q=80&w=2600&auto=format&fit=crop');
+      background-size: cover, cover, cover, cover;
+      background-position: center top;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+      transition: background-color 0.5s var(--ease-smooth), color 0.4s var(--ease-smooth);
+    }
+
+    [data-theme="dark"] body {
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(233, 30, 99, 0.18) 0%, transparent 35%),
+        radial-gradient(circle at 85% 20%, rgba(255, 145, 0, 0.14) 0%, transparent 35%),
+        radial-gradient(circle at 50% 90%, rgba(0, 137, 123, 0.16) 0%, transparent 40%),
+        linear-gradient(180deg, rgba(15, 13, 12, 0.92) 0%, rgba(15, 13, 12, 0.85) 100%),
+        url('https://images.unsplash.com/photo-1518659526054-190340b32735?q=80&w=2600&auto=format&fit=crop');
+      background-size: cover, cover, cover, cover, cover;
+      background-position: center top;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+    }
+
+    /* ============ HERO ============ */
+    .hero {
+      background: linear-gradient(to bottom, rgba(15, 10, 8, 0.62) 0%, rgba(15, 10, 8, 0.30) 55%, transparent 100%);
+      padding: 4.5rem 1.5rem 6rem;
+      position: relative;
+      text-align: center;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(233, 30, 99, 0.18) 0%, transparent 40%),
+        radial-gradient(ellipse at 80% 70%, rgba(255, 145, 0, 0.15) 0%, transparent 45%);
+      pointer-events: none;
+      animation: heroGlow 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroGlow {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
+      100% { transform: scale(1.15) translate(-3%, 2%); opacity: 1; }
+    }
+
+    .hero-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-pilot {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #fff;
+      font-family: var(--font-title);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      animation: fadeUp 0.8s var(--ease-smooth) both;
+    }
+
+    .hero-pilot .pulse-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #00ff9d;
+      box-shadow: 0 0 8px #00ff9d;
+      animation: livePulse 1.6s infinite;
+    }
+
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: var(--font-title);
+      font-size: clamp(36px, 7vw, 60px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #ffffff;
+      text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.9s var(--ease-smooth) 0.1s both;
+    }
+
+    .hero h1 .accent {
+      background: var(--gradient-sunset);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 24px rgba(255, 145, 0, 0.4));
+    }
+
+    .hero p {
+      font-family: var(--font-title);
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.88);
+      margin-top: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      animation: fadeUp 0.9s var(--ease-smooth) 0.2s both;
+    }
+
+    .hero-tags {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      animation: fadeUp 0.9s var(--ease-smooth) 0.3s both;
+    }
+
+    .hero-edition {
+      display: inline-block;
+      font-family: var(--font-title);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 7px 18px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    .hero-edition.flag {
+      background: var(--gradient-sunset);
+      border-color: transparent;
+      box-shadow: 0 4px 18px rgba(233, 30, 99, 0.4);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============ COUNTDOWN ============ */
+    .countdown {
+      max-width: 720px;
+      margin: 24px auto 0;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      border-radius: var(--radius-lg);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      animation: fadeUp 0.9s var(--ease-smooth) 0.4s both;
+      flex-wrap: wrap;
+    }
+
+    .countdown-label {
+      font-family: var(--font-title);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.78);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .countdown-units {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cd-unit {
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-sm);
+      padding: 6px 14px;
+      min-width: 64px;
+      text-align: center;
+      transition: transform 0.3s var(--ease-spring);
+    }
+
+    .cd-unit:hover { transform: translateY(-2px); }
+
+    .cd-num {
+      font-family: var(--font-title);
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cd-lbl {
+      font-family: var(--font-title);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 2px;
+    }
+
+    .cd-status {
+      font-family: var(--font-title);
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: var(--gradient-jade);
+    }
+
+    /* ============ FLOATING ACTION BAR ============ */
+    .nav-actions-floating {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.3s var(--ease-smooth);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    [data-theme="dark"] .nav-btn {
+      background: rgba(0, 0, 0, 0.35);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #f5e6dd;
+    }
+
+    [data-theme="dark"] .nav-btn:hover {
+      background: rgba(0, 0, 0, 0.45);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ============ APP CONTAINER ============ */
+    .app {
+      max-width: 960px;
+      margin: -3rem auto 0;
+      padding: 2.5rem 1.5rem 6rem;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-bottom: none;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.08), var(--card-shadow);
+      min-height: 100vh;
+       [data-theme="dark"] .app {
+      background: rgba(28, 22, 20, 0.94);
+      border-color: rgba(255, 220, 200, 0.08);
+    }
+
+    /* ============ FLIGHT TRACKER WIDGET ============ */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .status-scheduled {
+      background: rgba(2, 136, 209, 0.08);
+      color: var(--sky-blue);
+      border: 1px solid rgba(2, 136, 209, 0.15);
+    }
+    .status-active {
+      background: rgba(0, 137, 123, 0.08);
+      color: var(--jade);
+      border: 1px solid rgba(0, 137, 123, 0.15);
+      animation: pulseGreen 2s infinite;
+    }
+    .status-landed {
+      background: rgba(120, 102, 98, 0.08);
+      color: var(--text-muted);
+      border: 1px solid rgba(120, 102, 98, 0.15);
+    }
+    @keyframes pulseGreen {
+      0% { box-shadow: 0 0 0 0 rgba(0, 137, 123, 0.2); }
+      70% { box-shadow: 0 0 0 6px rgba(0, 137, 123, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 137, 123, 0); }
+    }
+    .tracker-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      position: relative;
+      margin: 16px 0 10px;
+      overflow: visible;
+    }
+    .tracker-progress {
+      height: 100%;
+      background: var(--gradient-sunset);
+      border-radius: 3px;
+      position: relative;
+    }
+    .tracker-plane {
+      position: absolute;
+      right: -8px;
+      top: -6px;
+      font-size: 14px;
+      transform: rotate(90deg);
+      line-height: 1;
+    }
+    .flight-telemetry {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+      background: var(--bg-soft);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+    }   }
+
+    /* ============ CLOCKS ============ */
+    .clocks {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+      background: var(--bg-elev);
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      box-shadow: var(--soft-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .clocks::after {
+      content: '';
+      position: absolute;
+      top: -50%; right: -10%;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(233, 30, 99, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .clock-item {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .clock-item.left { text-align: left; }
+    .clock-item.right { text-align: right; }
+
+    .clock-label {
+      font-family: var(--font-title);
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+
+    .clock-val {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--text-dark);
+      font-weight: 700;
+      margin-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .clock-date {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    /* ============ TABS ============ */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 1.8rem;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-snap-type: x mandatory;
+    }
+
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab {
+      padding: 11px 20px;
+      border-radius: 30px;
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-elev);
+      color: var(--text-muted);
+      transition: all 0.3s var(--ease-smooth);
+      flex-shrink: 0;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--soft-shadow);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      scroll-snap-align: start;
+      position: relative;
+    }
+
+    .tab:hover {
+      border-color: var(--border-hover);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .tab.active {
+      color: #ffffff;
+      border-color: transparent;
+      background: var(--gradient-sunset);
+      box-shadow: 0 6px 18px rgba(233, 30, 99, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .tab-badge {
+      background: rgba(0, 0, 0, 0.12);
+      color: inherit;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 7px;
+      border-radius: 10px;
+      margin-left: 4px;
+    }
+
+    .tab.active .tab-badge {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* ============ SECTIONS ============ */
+    .section {
+      display: none;
+      animation: tabFadeIn 0.4s var(--ease-smooth) forwards;
+    }
+
+    .section.active { display: block; }
+
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-family: var(--font-title);
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin: 1.8rem 0 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: var(--gradient-sunset);
+      border-radius: 2px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border) 0%, transparent 100%);
+      margin-left: 4px;
+    }
+
+    /* ============ DAY PILLS ============ */
+    .day-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 18px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .day-pills::-webkit-scrollbar { display: none; }
+
+    .day-pill {
+      flex-shrink: 0;
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.3s var(--ease-smooth);
+      text-align: center;
+      min-width: 90px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .day-pill:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-hover);
+      box-shadow: var(--lift-shadow);
+    }
+
+    .day-pill-label {
+      font-family: var(--font-title);
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .day-pill-date {
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin-top: 2px;
+    }
+
+    .day-pill.today {
+      background: var(--gradient-sunset);
+      border-color: transparent;
+    }
+    .day-pill.today .day-pill-label,
+    .day-pill.today .day-pill-date {
+      color: #fff;
+    }
+
+    /* ============ ACTIVITY SEARCH ============ */
+    .search-box {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 42px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-elev);
+      color: var(--text-dark);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s var(--ease-smooth);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .search-box input:focus {
+      border-color: var(--rosa-mexicano);
+      box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.08);
+    }
+
+    .search-box::before {
+      content: '🔍';
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      opacity: 0.6;
+    }
+
+    /* ============ DAY CARDS ============ */
+    .day-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 24px;
+      overflow: hidden;
+      box-shadow: var(--soft-shadow);
+      transition: all 0.4s var(--ease-smooth);
+    }
+
+    .day-card:hover {
+      box-shadow: var(--lift-shadow);
+      transform: translateY(-2px);
+    }
+
+    .day-head {
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-soft);
+      flex-wrap: wrap;
+    }
+
+    .day-badge {
+      font-family: var(--font-title);
+      font-size: 11px;
+      font-weight: 900;
+      padding: 4px 14px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .day-title {
+      font-family: var(--font-title);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dark);
+      flex: 1;
+      min-width: 200px;
+      line-height: 1.3;
+    }
+
+    .day-meta {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    /* Notification bars */
+    .wake-bar, .bag-bar, .note-bar, .warn-bar {
+      font-family: var(--font-body);
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      padding: 11px 22px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.5;
+    }
+
+    .wake-bar { color: var(--jade); background: rgba(0, 137, 123, 0.05); border-left: 4px solid var(--jade); }
+    .bag-bar { color: #b26a00; background: rgba(255, 145, 0, 0.05); border-left: 4px solid var(--marigold); }
+    .note-bar { color: #0277bd; background: rgba(3, 169, 244, 0.05); border-left: 4px solid var(--sky-blue); }
+    .warn-bar { color: var(--alert-red); background: rgba(211, 47, 47, 0.05); border-left: 4px solid var(--alert-red); font-weight: 700; }
+
+    .bag-bar b, .warn-bar b { font-weight: 800; }
+
+    /* ============ TIMELINE ITEMS ============ */
+    .item {
+      display: flex;
+      align-items: stretch;
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border);
+      transition: background-color 0.25s var(--ease-smooth);
+      position: relative;
+    }
+
+    .item:last-child { border-bottom: none; }
+
+    .item:hover { background-color: var(--bg-soft); }
+
+    .item.removed {
+      opacity: 0.35;
+      text-decoration: line-through;
+    }
+
+    .item.transport {
+      background: var(--bg-soft);
+    }
+
+    .item.free-block { background: linear-gradient(90deg, rgba(3, 169, 244, 0.04) 0%, transparent 100%); }
+    .item.lunch-block { background: linear-gradient(90deg, rgba(255, 145, 0, 0.04) 0%, transparent 100%); }
+    .item.dinner-block { background: linear-gradient(90deg, rgba(233, 30, 99, 0.04) 0%, transparent 100%); }
+
+    .item-time {
+      width: 76px;
+      min-width: 76px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding-top: 3px;
+    }
+
+    .item-dot {
+      width: 24px;
+      min-width: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 6px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 3px var(--bg-elev);
+      transition: transform 0.3s var(--ease-spring);
+    }
+
+    .item:hover .dot { transform: scale(1.3); }
+
+    .vline {
+      width: 2px;
+      background: var(--border);
+      flex: 1;
+      margin-top: 6px;
+      border-radius: 2px;
+    }
+
+    .item-body {
+      flex: 1;
+      padding-left: 14px;
+      padding-bottom: 4px;
+    }
+
+    .item-name {
+      font-family: var(--font-title);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      line-height: 1.35;
+    }
+
+    .item-sub {
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.55;
+    }
+
+    .item-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .item-links {
+      margin-top: 8px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .item-link {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+      transition: all 0.25s var(--ease-smooth);
+      letter-spacing: 0.02em;
+    }
+
+    .item-link.maps {
+      background: rgba(0, 0, 0, 0.03);
+      border: 1px solid var(--border);
+      color: var(--text-dark);
+    }
+    [data-theme="dark"] .item-link.maps {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+    .item-link.maps:hover {
+      background: var(--sky-blue);
+      color: #fff;
+      border-color: transparent;
+      transform: translateY(-1px);
+    }
+
+    .item-link.uber {
+      background: #000;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .item-link.uber:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+
+    /* ============ TAGS ============ */
+    .tag {
+      font-family: var(--font-title);
+      font-size: 9.5px;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .tag-pass { background: rgba(0, 137, 123, 0.1); color: var(--jade); border: 1px solid rgba(0, 137, 123, 0.2); }
+    .tag-book { background: rgba(233, 30, 99, 0.08); color: var(--rosa-mexicano); border: 1px solid rgba(233, 30, 99, 0.2); }
+    .tag-food { background: rgba(255, 145, 0, 0.08); color: #c46200; border: 1px solid rgba(255, 145, 0, 0.2); }
+    [data-theme="dark"] .tag-food { color: var(--marigold); }
+    .tag-shop { background: rgba(3, 169, 244, 0.08); color: #0277bd; border: 1px solid rgba(3, 169, 244, 0.2); }
+    [data-theme="dark"] .tag-shop { color: #4fc3f7; }
+    .tag-relax { background: rgba(0, 0, 0, 0.04); color: var(--text-muted); border: 1px solid var(--border); }
+    [data-theme="dark"] .tag-relax { background: rgba(255, 255, 255, 0.04); }
+    .tag-sep { background: rgba(255, 61, 0, 0.08); color: var(--alert-red); border: 1px solid rgba(255, 61, 0, 0.2); }
+    .tag-anchor { background: rgba(233, 30, 99, 0.14); color: var(--rosa-mexicano); border: 1px solid var(--rosa-mexicano); }
+    .tag-alert { background: var(--alert-red); color: #fff; }
+    .tag-booked { background: rgba(0, 137, 123, 0.08); color: var(--jade); }
+    .tag-free { background: rgba(0, 0, 0, 0.03); color: var(--text-muted); }
+    [data-theme="dark"] .tag-free { background: rgba(255, 255, 255, 0.04); }
+    .tag-lunch { background: rgba(255, 145, 0, 0.08); color: #b26a00; }
+    [data-theme="dark"] .tag-lunch { color: var(--marigold); }
+    .tag-dinner { background: rgba(233, 30, 99, 0.08); color: var(--rosa-mexicano); }
+    .tag-bike { background: rgba(3, 169, 244, 0.08); color: #0277bd; }
+    [data-theme="dark"] .tag-bike { color: #4fc3f7; }
+
+    /* ============ BUTTONS ============ */
+    .btn-sm {
+      font-family: var(--font-title);
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--bg-elev);
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      transition: all 0.2s var(--ease-smooth);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-sm:hover {
+      color: var(--rosa-mexicano);
+      border-color: var(--rosa-mexicano);
+      background: rgba(233, 30, 99, 0.04);
+    }
+
+    .btn-restore {
+      color: var(--jade) !important;
+      border-color: var(--jade) !important;
+    }
+
+    .btn-restore:hover {
+      background: rgba(0, 137, 123, 0.06) !important;
+    }
+
+    .btn-primary {
+      background: var(--gradient-sunset);
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: all 0.3s var(--ease-smooth);
+      box-shadow: 0 4px 14px rgba(233, 30, 99, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(233, 30, 99, 0.35);
+    }
+
+    /* ============ LIST CARDS ============ */
+    .list-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 18px;
+      overflow: hidden;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .list-head {
+      padding: 14px 22px;
+      font-family: var(--font-title);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .list-head .count-pill {
+      background: var(--bg-elev);
+      color: var(--text-muted);
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-weight: 800;
+    }
+
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.25s var(--ease-smooth);
+    }
+
+    .list-item:hover { background: var(--bg-soft); }
+    .list-item:last-child { border-bottom: none; }
+
+    .list-item.done .li-name {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+    .list-item.done .li-sub {
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .cb {
+      width: 22px; height: 22px;
+      border: 2px solid rgba(139, 115, 107, 0.28);
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s var(--ease-spring);
+      background: var(--bg-elev);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .cb:hover {
+      border-color: var(--marigold);
+      box-shadow: 0 0 10px rgba(255, 145, 0, 0.2);
+      transform: scale(1.1);
+    }
+
+    .cb.checked {
+      background: var(--gradient-marigold);
+      border-color: transparent;
+      box-shadow: 0 2px 10px rgba(255, 145, 0, 0.3);
+    }
+
+    .cb.checked::after {
+      content: '';
+      display: block;
+      width: 5px; height: 9px;
+      border: 2.5px solid #ffffff;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg) translate(-0.5px, -1px);
+    }
+
+    .li-body { flex: 1; min-width: 0; }
+
+    .li-name {
+      font-family: var(--font-title);
+      font-size: 14px;
+      color: var(--text-dark);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      line-height: 1.35;
+    }
+
+    .li-sub {
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.55;
+    }
+
+    .li-when {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .urg-red, .urg-amber, .urg-green {
+      font-size: 9px;
+      font-weight: 800;
+      color: #ffffff;
+      padding: 2px 7px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .urg-red { background: var(--alert-red); }
+    .urg-amber { background: var(--marigold); }
+    .urg-green { background: var(--jade); }
+
+    /* ============ PACK GRID ============ */
+    .grid-pack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .pack-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.25s var(--ease-smooth);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .pack-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--lift-shadow);
+    }
+
+    .pack-card.done {
+      background: rgba(0, 137, 123, 0.05);
+      border-color: var(--jade);
+    }
+
+    .pack-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      width: 36px;
+      text-align: center;
+    }
+
+    .pack-info { flex: 1; min-width: 0; }
+
+    .pack-title {
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pack-card.done .pack-title {
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .pack-sub {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .pack-check {
+      position: absolute;
+      right: 14px;
+      font-size: 18px;
+      color: var(--jade);
+      display: none;
+      font-weight: bold;
+    }
+
+    .pack-card.done .pack-check { display: block; }
+
+    /* ============ FLIGHT CARDS ============ */
+    .conf-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .conf-box {
+      background: var(--bg-soft);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      transition: all 0.3s var(--ease-smooth);
+    }
+
+    .conf-box:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .conf-label {
+      font-family: var(--font-title);
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .conf-val {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      word-break: break-all;
+    }
+
+    .conf-sub {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .flight-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--soft-shadow);
+      transition: all 0.4s var(--ease-smooth);
+    }
+
+    .flight-card:hover {
+      box-shadow: var(--lift-shadow);
+      transform: translateY(-2px);
+    }
+
+    .frow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .ftime {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+      min-width: 76px;
+    }
+
+    .fline {
+      flex: 1;
+      border-top: 2px dashed rgba(139, 115, 107, 0.28);
+      position: relative;
+    }
+
+    .fbadge {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-title);
+      font-size: 10.5px;
+      font-weight: 800;
+      background: var(--bg-elev);
+      padding: 2px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .fcity {
+      font-family: var(--font-title);
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .fmeta {
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .contact-box {
+      background: var(--bg-elev);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      border: 1px solid var(--border);
+      position: relative;
+      box-shadow: var(--soft-shadow);
+      transition: all 0.3s var(--ease-smooth);
+    }
+
+    .contact-box:hover {
+      border-color: var(--rosa-mexicano);
+      transform: translateY(-2px);
+      box-shadow: var(--lift-shadow);
+    }
+
+    .contact-name {
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+      padding-right: 24px;
+    }
+
+    .contact-num {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--rosa-mexicano);
+    }
+
+    /* ============ MAP ============ */
+    .route-btn-container {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      scrollbar-width: none;
+    }
+    .route-btn-container::-webkit-scrollbar { display: none; }
+
+    .route-btn {
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-family: var(--font-title);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-elev);
+      color: var(--text-muted);
+      white-space: nowrap;
+      transition: all 0.25s var(--ease-smooth);
+      box-shadow: var(--soft-shadow);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .route-btn:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+    }
+
+    .route-btn.active {
+      background: var(--gradient-sunset);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(233, 30, 99, 0.25);
+    }
+
+    #cdmx-map {
+      width: 100%;
+      height: 520px;
+      border-radius: var(--radius-md);
+      z-index: 1;
+      border: 1px solid var(--border);
+      box-shadow: var(--soft-shadow);
+    }
+
+    /* .glowing-marker does not need position overrides since Leaflet handles it */
+    .marker-dot {
+      width: 12px; height: 12px;
+      background-color: var(--rosa-mexicano);
+      border-radius: 50%;
+      position: absolute;
+      top: 4px; left: 4px;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 10px var(--rosa-mexicano);
+    }
+    .marker-pulse {
+      width: 20px; height: 20px;
+      background-color: rgba(233, 30, 99, 0.4);
+      border-radius: 50%;
+      animation: markerPulse 1.8s infinite ease-out;
+      position: absolute;
+      top: 0; left: 0;
+    }
+    @keyframes markerPulse {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(1.9); opacity: 0; }
+    }
+
+    .map-legend {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .map-legend-item {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .map-legend-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+
+    /* ============ INPUT BOXES ============ */
+    .input-box {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      margin-top: 16px;
+    }
+
+    .input-box select,
+    .input-box input,
+    .input-box textarea {
+      width: 100%;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      color: var(--text-dark);
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      outline: none;
+      margin-bottom: 10px;
+      transition: all 0.3s var(--ease-smooth);
+    }
+
+    .input-box select:focus,
+    .input-box input:focus,
+    .input-box textarea:focus {
+      border-color: var(--rosa-mexicano);
+      background: var(--bg-elev);
+      box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.07);
+    }
+
+    .input-box button {
+      width: 100%;
+      background: var(--gradient-sunset);
+      color: #ffffff;
+      border: none;
+      padding: 13px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: all 0.3s var(--ease-smooth);
+      box-shadow: 0 4px 14px rgba(233, 30, 99, 0.25);
+    }
+
+    .input-box button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(233, 30, 99, 0.35);
+    }
+
+    /* ============ BUDGET TRACKER ============ */
+    .budget-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .budget-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .budget-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--gradient-sunset);
+    }
+
+    .budget-card.jade::before { background: var(--gradient-jade); }
+    .budget-card.sky::before { background: var(--gradient-sky); }
+
+    .budget-card-label {
+      font-family: var(--font-title);
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+
+    .budget-card-val {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .budget-card-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .budget-form-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .cat-bar {
+      margin-bottom: 12px;
+    }
+
+    .cat-bar-head {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-title);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .cat-bar-track {
+      height: 8px;
+      background: var(--bg-soft);
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .cat-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.6s var(--ease-smooth);
+    }
+
+    .expense-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 22px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .expense-item:hover { background: var(--bg-soft); }
+    .expense-item:last-child { border-bottom: none; }
+
+    .exp-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .exp-body { flex: 1; min-width: 0; }
+    .exp-name {
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+    .exp-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+    .exp-amount {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--rosa-mexicano);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ============ PHRASEBOOK ============ */
+    .converter-card {
+      background: linear-gradient(135deg, rgba(0, 137, 123, 0.08), rgba(3, 169, 244, 0.06));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .converter-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .converter-input {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .converter-input label {
+      font-family: var(--font-title);
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .converter-input input {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .converter-input input:focus {
+      border-color: var(--jade);
+      box-shadow: 0 0 0 4px rgba(0, 137, 123, 0.08);
+    }
+
+    .converter-swap {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-elev);
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.4s var(--ease-spring);
+      margin-bottom: 4px;
+    }
+
+    .converter-swap:hover {
+      background: var(--gradient-jade);
+      color: #fff;
+      border-color: transparent;
+      transform: rotate(180deg);
+    }
+
+    .converter-rate {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    .phrase-categories {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+    .phrase-categories::-webkit-scrollbar { display: none; }
+
+    .phrase-cat-btn {
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-family: var(--font-title);
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-elev);
+      color: var(--text-muted);
+      white-space: nowrap;
+      transition: all 0.25s var(--ease-smooth);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .phrase-cat-btn:hover { border-color: var(--border-hover); }
+
+    .phrase-cat-btn.active {
+      background: var(--gradient-jade);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(0, 137, 123, 0.25);
+    }
+
+    .phrase-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.3s var(--ease-smooth);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .phrase-card:hover {
+      border-color: var(--jade);
+      transform: translateX(4px);
+    }
+
+    .phrase-content { flex: 1; min-width: 0; }
+
+    .phrase-es {
+      font-family: var(--font-title);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+
+    .phrase-en {
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .phrase-pron {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--jade);
+      margin-top: 3px;
+      font-weight: 600;
+    }
+
+    .phrase-speak {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      cursor: pointer;
+      font-size: 16px;
+      flex-shrink: 0;
+      transition: all 0.3s var(--ease-spring);
+    }
+
+    .phrase-speak:hover {
+      background: var(--gradient-jade);
+      color: #fff;
+      border-color: transparent;
+      transform: scale(1.1);
+    }
+
+    .phrase-speak.speaking {
+      animation: speakPulse 0.8s infinite;
+    }
+
+    @keyframes speakPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 137, 123, 0.5); }
+      50% { box-shadow: 0 0 0 8px rgba(0, 137, 123, 0); }
+    }
+
+    /* ============ FOOD GUIDE ============ */
+    .food-sub-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .food-sub-tab-btn {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 13px;
+      transition: all 0.3s;
+    }
+    .food-sub-tab-btn.active {
+      background: var(--gradient-sunset);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: var(--soft-shadow);
+    }
+    .food-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (min-width: 600px) {
+      .food-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .food-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--soft-shadow);
+      transition: all 0.3s var(--ease-smooth);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .food-card:hover {
+      border-color: var(--marigold);
+      transform: translateY(-2px);
+      box-shadow: var(--lift-shadow);
+    }
+    .food-card.done {
+      border-color: var(--jade);
+      opacity: 0.85;
+      background: rgba(0, 137, 123, 0.02);
+    }
+    .food-card.done .food-card-title {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+    .food-card-star {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-title);
+      color: #b45309;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 20px;
+      padding: 2px 8px;
+      margin-top: 3px;
+      white-space: nowrap;
+    }
+    .food-card-star.double {
+      color: #fff;
+      background: linear-gradient(135deg, #d97706, #b45309);
+      border-color: #92400e;
+      box-shadow: 0 2px 8px rgba(180, 83, 9, 0.4);
+      font-size: 12px;
+      padding: 3px 10px;
+    }
+    .food-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .food-card-title {
+      font-family: var(--font-title);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dark);
+      transition: color 0.3s;
+    }
+    .food-pro-con {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pro-box {
+      background: rgba(0, 137, 123, 0.04);
+      border: 1px solid rgba(0, 137, 123, 0.12);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .con-box {
+      background: rgba(233, 30, 99, 0.04);
+      border: 1px solid rgba(233, 30, 99, 0.12);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    /* ============ JOURNAL ============ */
+    .journal-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .journal-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .journal-head .day-badge {
+      font-size: 10px;
+      padding: 3px 10px;
+    }
+
+    .journal-title {
+      font-family: var(--font-title);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-dark);
+      flex: 1;
+    }
+
+    .journal-textarea {
+      width: 100%;
+      min-height: 80px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text-dark);
+      resize: vertical;
+      outline: none;
+      transition: all 0.3s;
+      line-height: 1.55;
+    }
+
+    .journal-textarea:focus {
+      border-color: var(--marigold);
+      background: var(--bg-elev);
+      box-shadow: 0 0 0 4px rgba(255, 145, 0, 0.07);
+    }
+
+    /* ============ FAB ============ */
+    .fab-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .fab {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--gradient-sunset);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 22px;
+      box-shadow: 0 8px 24px rgba(233, 30, 99, 0.4);
+      transition: all 0.4s var(--ease-spring);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .fab:hover {
+      transform: scale(1.08) rotate(90deg);
+      box-shadow: 0 12px 32px rgba(233, 30, 99, 0.5);
+    }
+
+    .fab.open {
+      transform: rotate(45deg);
+      background: var(--text-dark);
+    }
+
+    .fab-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(8px) scale(0.9);
+      transition: all 0.3s var(--ease-spring);
+    }
+
+    .fab-container.open .fab-menu {
+      pointer-events: auto;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .fab-item {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-elev);
+      color: var(--text-dark);
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: var(--lift-shadow);
+      transition: all 0.3s var(--ease-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .fab-item:hover {
+      transform: scale(1.1);
+      border-color: var(--rosa-mexicano);
+      color: var(--rosa-mexicano);
+    }
+
+    .fab-item-label {
+      position: absolute;
+      right: 54px;
+      background: var(--text-dark);
+      color: #fff;
+      font-family: var(--font-title);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+
+    .fab-item:hover .fab-item-label { opacity: 1; }
+
+    /* ============ TOAST ============ */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--text-dark);
+      color: #fff;
+      font-family: var(--font-title);
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 30px;
+      box-shadow: var(--lift-shadow);
+      animation: toastIn 0.4s var(--ease-spring) both;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.9); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .toast.success { background: var(--gradient-jade); }
+    .toast.warn { background: var(--gradient-marigold); }
+    .toast.error { background: var(--alert-red); }
+
+    /* ============ MISC ============ */
+    .empty-state {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state .icon {
+      font-size: 36px;
+      margin-bottom: 8px;
+      opacity: 0.5;
+    }
+
+    .empty-state .text {
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ============ RESPONSIVE ============ */
+    .schedule-header-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    @media(max-width: 768px) {
+      .conf-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero { padding: 3rem 1rem 4.5rem; }
+
+      .app { padding: 2rem 1rem 5rem; }
+
+      .grid-pack { grid-template-columns: 1fr; }
+
+      .converter-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .converter-swap {
+        justify-self: center;
+        transform: rotate(90deg);
+      }
+      .converter-swap:hover { transform: rotate(270deg); }
+
+      .clocks { flex-wrap: wrap; }
+      .clock-item { flex: 1 1 33%; min-width: 100px; }
+      .clock-item.left, .clock-item.right { text-align: center; }
+
+      .nav-brand { font-size: 11px; }
+      .nav-brand .brand-full { display: none; }
+
+      .fab-container { bottom: 16px; right: 16px; }
+
+      /* Budget Form Mobile Stack */
+      .budget-form-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      /* Map Height Optimization */
+      #cdmx-map {
+        height: 380px !important;
+      }
+    }
+
+    /* Folded Outer Screen Optimization (<500px) */
+    @media(max-width: 500px) {
+      .hero h1 {
+        font-size: clamp(26px, 6.5vw, 42px) !important;
+        letter-spacing: 0.08em;
+      }
+      .hero p {
+        font-size: 11px;
+      }
+      .hero-tags {
+        gap: 6px;
+      }
+      .hero-edition {
+        padding: 5px 12px;
+        font-size: 10px;
+      }
+
+      /* Countdown Banner optimizations */
+      .countdown {
+        padding: 12px 14px;
+        gap: 8px;
+        border-radius: var(--radius-md);
+      }
+      .countdown-label {
+        font-size: 10px;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+      .countdown-units {
+        justify-content: center;
+        width: 100%;
+        gap: 6px;
+      }
+      .cd-unit {
+        min-width: 50px;
+        padding: 4px 8px;
+        border-radius: var(--radius-xs);
+      }
+      .cd-num {
+        font-size: 16px;
+      }
+      .cd-lbl {
+        font-size: 8px;
+      }
+      .cd-status {
+        width: 100%;
+        text-align: center;
+        margin-top: 4px;
+      }
+
+      /* Clocks Grid layout for tall/narrow outer screen */
+      .clocks {
+        padding: 10px 12px;
+        gap: 8px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .clock-item {
+        min-width: 0 !important;
+        flex: none !important;
+      }
+      .clock-label {
+        font-size: 8.5px;
+      }
+      .clock-val {
+        font-size: 14px;
+      }
+      .clock-date {
+        font-size: 8.5px;
+      }
+
+      /* App Container Spacing */
+      .app {
+        padding: 1.5rem 0.75rem 4rem;
+        margin: -2.5rem auto 0;
+      }
+
+      /* Budget Summary mobile stack */
+      .budget-summary {
+        grid-template-columns: 1fr !important;
+        gap: 8px;
+      }
+      .budget-card {
+        padding: 12px 14px;
+      }
+      .budget-card-val {
+        font-size: 18px;
+      }
+
+      /* Flight telemetry mobile stack */
+      .flight-telemetry {
+        grid-template-columns: 1fr !important;
+        gap: 6px;
+      }
+    }
+
+    /* Unfolded Inner Screen Optimization (>=600px) */
+    @media(min-width: 600px) {
+      .schedule-header-grid {
+        flex-direction: row;
+      }
+      .today-focus-wrapper {
+        flex: 1.2 1 350px;
+      }
+      .weather-wrapper {
+        flex: 1 1 300px;
+      }
+
+      /* Day list (itinerary) 2-column layout */
+      #day-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        align-items: start;
+      }
+
+      /* Custom Checklist 2-column layout */
+      #book-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        align-items: start;
+      }
+      #book-list .input-box {
+        grid-column: span 2;
+      }
+
+      /* FoodDining 2-column layout */
+      #food-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        align-items: start;
+      }
+
+      /* Shopping 2-column layout */
+      #shop-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        align-items: start;
+      }
+    }
+
+    /* ============ PRINT ============ */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .hero, .fab-container, .scroll-top, .nav-actions-floating,
+      .tabs, .day-pills, .search-box, .input-box,
+      .btn-sm, .item-link, .toast-container {
+        display: none !important;
+      }
+      .app {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .section { display: block !important; page-break-inside: avoid; }
+      .day-card { box-shadow: none !important; border: 1px solid #ccc !important; }
+      .stat, .list-card, .flight-card, .contact-box, .pack-card {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+      }
+    }
+
+    /* Leaflet popup dark mode */
+    [data-theme="dark"] .leaflet-popup-content-wrapper,
+    [data-theme="dark"] .leaflet-popup-tip {
+      background: #1f1816;
+      color: #f5e6dd;
+    }
+    [data-theme="dark"] .leaflet-container { background: #18120f; }
+  </style>
+</head>
+<body>
+
+  <!-- ============ HERO ============ -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-pilot">
+        <span class="pulse-dot"></span>
+        <span id="hero-pilot-text">Trip Planning · Live Dashboard</span>
+      </div>
+      <h1 id="hero-title">MEXICO CITY <span class="accent">2026</span></h1>
+      <p id="hero-meta">Madhav &nbsp;·&nbsp; Solo traveler &nbsp;·&nbsp; July 3 – 7, 2026</p>
+      <div class="hero-tags">
+        <div class="hero-edition flag">🇲🇽 SUMMER EXPLORER</div>
+        <div class="hero-edition">⚽ World Cup R16 · July 5</div>
+        <div class="hero-edition">🎈 Teotihuacán · July 4</div>
+      </div>
+
+      <!-- Countdown -->
+      <div class="countdown" id="countdown-banner">
+        <div class="countdown-label" id="cd-label">⏳ Trip starts in</div>
+        <div class="countdown-units" id="cd-units">
+          <div class="cd-unit"><div class="cd-num" id="cd-days">—</div><div class="cd-lbl">Days</div></div>
+          <div class="cd-unit"><div class="cd-num" id="cd-hours">—</div><div class="cd-lbl">Hours</div></div>
+          <div class="cd-unit"><div class="cd-num" id="cd-mins">—</div><div class="cd-lbl">Min</div></div>
+          <div class="cd-unit"><div class="cd-num" id="cd-secs">—</div><div class="cd-lbl">Sec</div></div>
+        </div>
+        <div class="cd-status" id="cd-status" style="display:none">LIVE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ APP CONTAINER ============ -->
+  <div class="app">
+
+
+
+    <!-- Live Clocks -->
+    <div class="clocks">
+      <div class="clock-item left">
+        <div class="clock-label">🇲🇽 Mexico City (CST)</div>
+        <div id="clock-hi" class="clock-val">--:--</div>
+        <div id="clock-hi-date" class="clock-date">—</div>
+      </div>
+      <div class="clock-item">
+        <div class="clock-label">🏠 ABQ (Home)</div>
+        <div id="clock-abq" class="clock-val">--:--</div>
+        <div id="clock-abq-date" class="clock-date">—</div>
+      </div>
+      <div class="clock-item right">
+        <div class="clock-label">🇮🇳 India (IST)</div>
+        <div id="clock-in" class="clock-val">--:--</div>
+        <div id="clock-in-date" class="clock-date">—</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs" id="tabs-bar">
+      <div class="tab active" data-target="schedule-tab" onclick="showTab('schedule-tab',this)">🗓 Schedule</div>
+      <div class="tab" data-target="guide-tab" onclick="showTab('guide-tab',this)">🌮 Guide</div>
+      <div class="tab" data-target="food-tab" onclick="showTab('food-tab',this)">🍽 Food</div>
+      <div class="tab" data-target="map-tab" onclick="showTab('map-tab',this)">🗺 Map</div>
+      <div class="tab" data-target="bookings-tab" onclick="showTab('bookings-tab',this)">🪪 Bookings</div>
+      <div class="tab" data-target="phrasebook-tab" onclick="showTab('phrasebook-tab',this)">🎓 Phrasebook</div>
+    </div>
+
+    <!-- ============ TAB 1: SCHEDULE ============ -->
+    <div id="schedule-tab" class="section active">
+      <!-- Day Quick Jump -->
+      <div class="day-pills" id="day-pills"></div>
+
+      <!-- Activity Search -->
+      <div class="search-box">
+        <input id="activity-search" type="text" placeholder="Search activities, places, food..." oninput="filterActivities()">
+      </div>
+
+      <!-- Side-by-side top grid for Today's Focus & Live Weather -->
+      <div class="schedule-header-grid">
+        <div class="today-focus-wrapper">
+          <div class="section-title">📍 Today's Focus</div>
+          <div id="today-panel"></div>
+        </div>
+
+        <!-- Live Weather Widget -->
+        <div id="live-weather" class="weather-wrapper" style="display:none; margin-bottom:20px">
+          <div class="section-title">🌡️ Live Mexico City Weather</div>
+          <div id="live-weather-content"></div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:2.5rem">🗓 Full Trip Itinerary</div>
+      <div id="day-list"></div>
+
+      <div class="section-title" style="margin-top:2.5rem">📋 Custom Checklist & Tasks</div>
+      <div id="book-list"></div>
+    </div>
+
+    <!-- ============ TAB 2: GUIDE ============ -->
+    <div id="guide-tab" class="section">
+      <div class="section-title">💡 Travel Alerts & Sunday Match Info</div>
+      <div class="list-card">
+        <div class="list-head">⚠️ Warnings & Gridlock Info</div>
+        <div class="list-item">
+          <div class="li-body">
+            <div class="li-name" style="color:var(--marigold)">⚽ Sunday Estadio Azteca Match Traffic Warning</div>
+            <div class="li-sub">Estadio Azteca is hosting a FIFA Round of 16 match on Sunday, July 5. Kickoff is at <b>6:00 PM CST (local Mexico City time)</b>. Severe traffic gridlock will affect the southern boroughs (Xochimilco and Coyoacán) starting midday. <b>You must escape northwest by 12:30 PM at the latest</b> to avoid gridlock. Avoid traveling south or toward Centro after 4:00 PM.</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="li-body">
+            <div class="li-name">📺 Watch Locations in Roma Norte</div>
+            <div class="li-sub">Since Mexico is playing, the city atmosphere will be electric. Secure a table at a local restaurant, sports bar, or cantina in Roma Norte or Condesa by 5:30 PM to watch the 6:00 PM broadcast. If they win, walk immediately to the nearby Angel of Independence roundabout on Paseo de la Reforma to see the city celebrate!</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="li-body">
+            <div class="li-name">🎒 Arena México Security Policies (Friday Lucha Libre)</div>
+            <div class="li-sub">Arena México enforces a strict clear bag policy. No backpacks or professional cameras are allowed inside. Leave all non-essential items in your room at the Hotel Geneve. Bring small Pesos cash (MXN) to tip the seat ushers. Doctores neighborhood is not safe at night; always Uber directly to the arena door and back.</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="li-body">
+            <div class="li-name">⚠️ CNTE Reforma Protests</div>
+            <div class="li-sub">Teacher association (CNTE) blockades are common on Paseo de la Reforma. Before walking to the Angel of Independence or booking an Uber along Reforma, ask the reception staff at Hotel Geneve for active alerts.</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="li-body">
+            <div class="li-name">💧 Water & Food Safety</div>
+            <div class="li-sub">Never drink tap water — use bottled water even for brushing teeth. Avoid raw vegetables washed in tap water at street stalls. Stick to busy, high-turnover taquerías. Carry Imodium and Pepto-Bismol as a precaution.</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="li-body">
+            <div class="li-name">🚕 Uber/DiDi Safety Tips</div>
+            <div class="li-sub">Always verify the license plate and driver before entering. Sit in the front seat (less targetable). Share your trip with a contact via the app. Avoid hailing street taxis — they're unregulated. Pin your destination accurately.</div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="section-title" style="margin-top:2.5rem">🛍 Shopping Guide</div>
+      <div id="shop-list"></div>
+
+      <div class="section-title" style="margin-top:2.5rem">🚇 Getting Around CDMX</div>
+      <div class="list-card">
+        <div class="list-head">Transport Tips</div>
+        <div class="list-item">
+          <div class="li-body">
+            <div class="li-name">🚇 Metro · 5 MXN per ride</div>
+            <div class="li-sub">Cheapest transit. Buy a Tarjeta de Movilidad Integrada (TMI) at any Metrobús station — NOT sold at the airport. Trains get very crowded at rush hour. Keep belongings in front pocket.</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="li-body">
+            <div class="li-name">🚕 Uber / DiDi · 80-300 MXN typical</div>
+            <div class="li-sub">Safest option for tourists. Always use the app, never street hail. Cash option available. DiDi often cheaper than Uber.</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="li-body">
+            <div class="li-name">🚌 Metrobús · 6 MXN per ride</div>
+            <div class="li-sub">BRT system along major arteries. Requires TMI card. Useful for Insurgentes corridor and Reforma.</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="li-body">
+            <div class="li-name">🚶 Walking · Roma / Condesa / Centro</div>
+            <div class="li-sub">These neighborhoods are very walkable. Watch for uneven sidewalks. Avoid walking alone in Doctores, Tepito, or unknown areas after dark.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ TAB: FOOD ============ -->
+    <div id="food-tab" class="section">
+      <!-- Sub-Tabs Switcher -->
+      <div class="food-sub-tabs">
+        <button class="food-sub-tab-btn active" onclick="switchFoodSubTab('restaurants', this)">🍽 Must-Go Restaurants</button>
+        <button class="food-sub-tab-btn" onclick="switchFoodSubTab('specialties', this)">🌮 Must-Try Specialties</button>
+      </div>
+
+      <!-- Must-Go Restaurants Panel -->
+      <div id="food-restaurants-panel">
+        <!-- Search Box -->
+        <div class="search-box">
+          <input id="food-search" type="text" placeholder="Search food guide by name, pros, cons..." oninput="filterFood()">
+        </div>
+
+        <!-- Food Categories Quick Jump -->
+        <div class="phrase-categories" id="food-categories"></div>
+
+        <!-- Food List container -->
+        <div id="food-guide-list"></div>
+      </div>
+
+      <!-- Must-Try Specialties Panel -->
+      <div id="food-specialties-panel" style="display:none">
+        <div class="food-grid" id="food-specialties-list"></div>
+      </div>
+    </div>
+
+    <!-- ============ TAB 3: MAP ============ -->
+    <div id="map-tab" class="section">
+      <div class="section-title">🗺 CDMX Route Guide</div>
+      <div class="route-btn-container" id="route-buttons"></div>
+      <div class="list-card" style="padding:0; overflow:hidden; border:none; background:transparent; box-shadow:none;">
+        <div id="cdmx-map"></div>
+      </div>
+      <div class="map-legend">
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--rosa-mexicano)"></span> Highlight / Anchor</div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--jade)"></span> Confirmed Booking</div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--marigold)"></span> Food / Dining</div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--sky-blue)"></span> Shopping</div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--plum)"></span> Sightseeing</div>
+      </div>
+      <div style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:12px">
+        Interactive Mexico City Map — Select routes above or tap markers for details.
+      </div>
+    </div>
+
+    <!-- ============ TAB 4: BOOKINGS ============ -->
+    <div id="bookings-tab" class="section">
+      <div class="section-title">✈️ Flight Information</div>
+      <div id="flight-list"></div>
+
+      <div class="section-title" style="margin-top:2.5rem">📞 Key Directory & Emergencies</div>
+      <div id="contact-list"></div>
+    </div>
+
+    <!-- ============ TAB 5: PHRASEBOOK ============ -->
+    <div id="phrasebook-tab" class="section">
+      <div class="section-title">💱 Currency Converter</div>
+      <div class="converter-card">
+        <div class="converter-row">
+          <div class="converter-input">
+            <label>🇲🇽 Mexican Pesos (MXN)</label>
+            <input id="conv-mxn" type="number" step="0.01" placeholder="0" oninput="convertCurrency('mxn')">
+          </div>
+          <button class="converter-swap" onclick="swapCurrency()" title="Swap">⇄</button>
+          <div class="converter-input">
+            <label>🇺🇸 US Dollars (USD)</label>
+            <input id="conv-usd" type="number" step="0.01" placeholder="0" oninput="convertCurrency('usd')">
+          </div>
+        </div>
+        <div class="converter-rate" id="conv-rate">Loading exchange rate…</div>
+      </div>
+
+      <div class="section-title">🎓 Spanish Phrasebook</div>
+      <div class="phrase-categories" id="phrase-categories"></div>
+      <div id="phrase-list"></div>
+    </div>
+
+  </div>
+
+  <!-- ============ FAB ============ -->
+  <div class="fab-container" id="fab-container">
+    <div class="fab-menu">
+      <button class="fab-item" onclick="quickAction('todo')" title="Add To-Do">
+        ✅<span class="fab-item-label">Add To-Do</span>
+      </button>
+      <button class="fab-item" onclick="quickAction('top')" title="Scroll to top">
+        ⬆️<span class="fab-item-label">Top</span>
+      </button>
+    </div>
+    <button class="fab" id="fab-main" onclick="toggleFab()">+</button>
+  </div>
+
+  <!-- ============ TOAST CONTAINER ============ -->
+  <div class="toast-container" id="toast-container"></div>
+
+<script>
+    // ============ DATABASE: WEATHER ============
+    const WEATHER = [
+      { date: "2026-07-03", day: "Fri", high: 73, rain: 60, icon: "🌧", desc: "Showers" },
+      { date: "2026-07-04", day: "Sat", high: 74, rain: 50, icon: "⛈", desc: "Scattered storms" },
+      { date: "2026-07-05", day: "Sun", high: 71, rain: 80, icon: "🌧", desc: "Heavy rain" },
+      { date: "2026-07-06", day: "Mon", high: 73, rain: 40, icon: "🌤", desc: "Partly cloudy" },
+      { date: "2026-07-07", day: "Tue", high: 75, rain: 20, icon: "☀️", desc: "Sunny" }
+    ];
+
+    // ============ DATABASE: DAYS (ITINERARY) ============
+    const DAYS = [
+      {
+        date: "Fri Jul 3", label: "Day 1", color: "rgba(0, 137, 123, 0.15)", tc: "var(--jade)", title: "Arrival + Paseo de la Reforma Walk + Lucha Libre",
+        bgImg: "https://images.unsplash.com/photo-1518659526054-190340b32735?q=80&w=1200&auto=format&fit=crop",
+        wake: "🌅 Arrive MEX Terminal 2 at 2:05 PM. Take Uber/DiDi to hotel. Expect ~40-50 min Friday traffic.",
+        bag: "Sturdy walking shoes, rain jacket, exact cash for usher propina (20-50 MXN), clear bag, umbrella.",
+        note: "Doctores is unsafe at night. Walk 3-4 blocks north of Arena (e.g. Av. Balderas) to order Uber safely.",
+        items: [
+          { t: "2:05 PM", name: "Land at MEX T2 Airport", sub: "Clear immigration. Check DiDi/Uber for best rates (~200-300 MXN).", tags: ["relax"], rm: false },
+          { t: "3:00 PM", name: "Check in — Geneve Ciudad de México", sub: "Londres 130, Zona Rosa. Deluxe Room. Settle in and hydrate.", tags: ["relax"], rm: false },
+          { t: "4:30 PM", name: "Paseo de la Reforma Stroll", sub: "Walk west toward El Ángel monument. Check reception for any active CNTE teacher protests. ⛈️ Rain likely 4-6 PM — carry umbrella.", tags: ["relax"], rm: false },
+          { t: "5:00 PM", name: "Angel of Independence 📍", sub: "Admire the golden monument. Pac yourself — city elevation is 2,240m.", tags: ["relax"], rm: true },
+          { t: "6:00 PM", name: "Roma Norte street wander", sub: "Explore leafy streets and hipster vibes.", tags: ["relax"], rm: true },
+          { t: "6:30 PM", name: "DINNER — Tacos al Pastor 🌮", sub: "First meal in CDMX — get it at a taquería in Roma Norte. Try El Vilsito (Narvarte, ~10 min) for legendary al pastor, or just find the first busy stand you see with a rotating spit.", tags: ["food", "dinner"], rm: false },
+          { t: "7:30 PM", name: "Uber to Arena México", sub: "Leave early. Friday evening rush hour + July seasonal rain requires a 45-min buffer.", tags: ["drive"], tx: true },
+          { t: "8:30 PM", name: "Lucha Libre — Viernes Espectacular 🤼‍♂️", sub: "Ticketmaster Booked. Ushers charge a mandatory seat propina (20-50 MXN) to sit. Have exact small change.", tags: ["booked", "anchor"], rm: false },
+          { t: "10:30 PM", name: "Uber back to Hotel Geneve", sub: "Walk 3 blocks north to Av. Balderas before ordering to escape crowds and road closures.", tags: ["drive"], tx: true }
+        ]
+      },
+      {
+        date: "Sat Jul 4", label: "Day 2", color: "rgba(255, 145, 0, 0.12)", tc: "var(--marigold)", title: "Sunrise Balloon + Chapultepec Castle + Centro Histórico Walk",
+        bgImg: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=1200&auto=format&fit=crop",
+        wake: "⏰ Early wake-up 4:30 AM — Transport departs hotel lobby at 5:00 AM.",
+        bag: "Warm jacket (pyramids launch site is freezing before dawn), sunscreen, water, comfortable shoes, umbrella.",
+        note: "Castle & San Juan times updated to optimize sunday pacing and avoid closing hours.",
+        items: [
+          { t: "5:00 AM", name: "Teotihuacán departure 🚌", sub: "Uber or tour transport departs north toward the ruins (~1 hr).", tags: ["drive"], tx: true },
+          { t: "6:00 AM", name: "Teotihuacán Hot Air Balloon 🎈", sub: "Wefly booked. Experience sunrise floating over the ancient pyramids.", tags: ["booked", "anchor"], rm: false },
+          { t: "8:00 AM", name: "Teotihuacán Ruins tour 🏛️", sub: "Walk the Avenue of the Dead. Check gates for current Moon climbing access.", tags: ["relax"], rm: false },
+          { t: "11:00 AM", name: "Depart ruins returning south", sub: "Head back to the city limits.", tags: ["drive"], tx: true },
+          { t: "12:30 PM", name: "Basilica of Our Lady of Guadalupe 🕍", sub: "Stop en route. Major religious shrine, beautiful architecture.", tags: ["relax"], rm: true },
+          { t: "1:15 PM", name: "Mercado de San Juan 🛒 — Lunch", sub: "Gourmet food market lunch stop. Try vanilla-cured salmon tostadas, exotic cheeses, and fresh fruit. Get a hot chocolate from the chocolate stalls before leaving.", tags: ["food", "lunch"], rm: true },
+          { t: "3:00 PM", name: "Uber to Chapultepec Castle", sub: "Ride northwest toward the Chapultepec forest park.", tags: ["drive"], tx: true },
+          { t: "3:30 PM", name: "Chapultepec Castle 🏰", sub: "Federal museum. Closes at 5:00 PM. Do this today to ease Sunday's itinerary pacing.", tags: ["relax"], rm: false },
+          { t: "5:00 PM", name: "Return to Hotel Geneve", sub: "Rest & freshen up. ⛈️ Storms build 2-6 PM.", tags: ["relax"], rm: false },
+          { t: "6:30 PM", name: "Francisco I. Madero Pedestrian Boulevard", sub: "Walk the crowded, historic street from Bellas Artes to the Zócalo square.", tags: ["relax"], rm: false },
+          { t: "7:15 PM", name: "The Zócalo main plaza 🏛️", sub: "Large historic plaza at dusk with beautiful government buildings.", tags: ["relax"], rm: true },
+          { t: "8:00 PM", name: "Dinner in Centro Histórico 🍽️", sub: "Option A (Sit-down): El Cardenal (fantastic mole & traditional Mexican breakfast-all-day) or Cafe de Tacuba (historic, colonial setting). Option B (Taco Crawl 🌮): Tacos de Canasta Los Especiales on Madero → Taquería Los Cocuyos on Bolívar for organ meat tacos.", tags: ["food", "dinner"], rm: false }
+        ]
+      },
+      {
+        date: "Sun Jul 5", label: "Day 3", color: "rgba(233, 30, 99, 0.12)", tc: "var(--rosa-mexicano)", title: "South Canals + Anthropology Museum + World Cup Match ⚽",
+        bgImg: "https://images.unsplash.com/photo-1585464231875-d9ef1f5ad396?q=80&w=1200&auto=format&fit=crop",
+        wake: "⏰ Wake up 7:30 AM — Depart south boroughs early to beat match traffic.",
+        bag: "Sunglasses, cash in Pesos (for trajinera mariachis), sunscreen, light layer, rain jacket, umbrella.",
+        note: "⚠️ 80% rain chance. Estadio Azteca R16 match locks the south by noon. Castle moved to Sat for pacing.",
+        items: [
+          { t: "7:30 AM", name: "Quick breakfast before Xochimilco 🥣", sub: "Grab tamales & atole from a street cart outside the hotel, or stop at La Casa de Toño for a comforting bowl of pozole. Fast — you need to be in Uber by 8:30 AM.", tags: ["food"], rm: false },
+          { t: "8:30 AM", name: "Uber south to Xochimilco", sub: "Depart early before World Cup transit builds up (~45-60 min).", tags: ["drive"], tx: true },
+          { t: "9:30 AM", name: "Xochimilco Canals Trajinera 🛶", sub: "Nuevo Nativitas pier. Ride decorated wooden boats down Aztec canals (~750 MXN/hr). Morning = dry window.", tags: ["relax"], rm: false },
+          { t: "11:30 AM", name: "Coyoacán Market stroll 🍱", sub: "Famous tostadas at the market stalls — try the tostadas de tinga (chicken) and tinga de res (shredded beef). Browse bohemian craft stalls.", tags: ["food", "lunch"], rm: false, lunch: true },
+          { t: "12:30 PM", name: "CRITICAL TRANSIT northwest", sub: "Escape south boroughs before match traffic locks roads. Uber northwest to Chapultepec.", tags: ["drive"], tx: true },
+          { t: "2:00 PM", name: "National Museum of Anthropology 🏛️", sub: "World-class collection. Exhibits vacate at 4:45 PM. 2.5 hours of dedicated pacing (Castle moved to Sat).", tags: ["relax"], rm: true },
+          { t: "5:00 PM", name: "Secure Table + Pre-match snack 🍺", sub: "Head to Roma Norte. Grab a table at a sports bar — order a torta cubana or chilaquiles to fuel up before kickoff. Pair with a cold Modelo or agua fresca.", tags: ["food", "relax"], rm: false },
+          { t: "6:00 PM", name: "WORLD CUP MATCH: Mexico R16 ⚽", sub: "Kickoff local time 6:00 PM CST. Watch on screens with the local fans.", tags: ["booked", "anchor"], rm: false },
+          { t: "8:00 PM", name: "Angel Celebrations 🇲🇽", sub: "If Mexico wins, head to the nearby Angel of Independence to join massive street party. Keep phone safe.", tags: ["relax"], rm: true }
+        ]
+      },
+      {
+        date: "Mon Jul 6", label: "Day 4", color: "rgba(3, 169, 244, 0.15)", tc: "var(--sky-blue)", title: "Polanco & Ciudadela Craft Shopping + Neighborhood Wandering",
+        bgImg: "https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?q=80&w=1200&auto=format&fit=crop",
+        wake: "⏰ Slow wake up 8:30 AM — Museums are closed Mondays.",
+        bag: "Rain jacket, credit cards, comfortable walking shoes, umbrella.",
+        note: "Enjoy leather goods and artisanal crafts at Ciudadela, plus luxury walking at Masaryk.",
+        items: [
+          { t: "9:30 AM", name: "Brunch at Panadería Rosetta 🥐", sub: "Best pastry in the city — the guava roll (pan de guayaba) is non-negotiable. Also try the croissants. Grab a coffee. Roma Norte, Orizaba 144.", tags: ["food"], rm: false },
+          { t: "10:00 AM", name: "Haircut ✂️", sub: "Top Roma Norte spots: The Strand Barbers (precise fades, upscale), Bodega Barbers (great with all hair types, world-class fades), Bardo's Barber (Roma + Condesa locations). Book via Fresha or Booksy before your trip. ~45 min, bring a reference photo.", tags: ["relax"], rm: false },
+          { t: "11:00 AM", name: "Mercado de Artesanías de la Ciudadela 🏺", sub: "The absolute best market for Mexican handicrafts, pottery, and premium leather jackets.", tags: ["shop"], rm: false },
+          { t: "1:00 PM", name: "Lunch at El Hidalguense ⭐⭐ 🐑", sub: "TOP PRIORITY — Mon is a weekday so confirm they're open (usually Fri–Sun, but some weekdays too). Wood-fired lamb barbacoa with hot consommé. Roma Sur, Campeche 155. Cash only.", tags: ["food", "lunch"], rm: false, lunch: true },
+          { t: "2:30 PM", name: "FrikiPlaza gaming bazaar 🎮", sub: "Anime, gaming, and collectible cards. Metrobús from Centro to avoid traffic.", tags: ["shop"], rm: true },
+          { t: "4:00 PM", name: "Avenida Presidente Masaryk 🛍️", sub: "Walk the luxury boulevard in Polanco. Check out Antara open-air mall. ⛈️ Afternoon storms 2-5 PM.", tags: ["shop"], rm: false },
+          { t: "6:30 PM", name: "Paseo de la Reforma evening stroll", sub: "Relaxed walk down the quiet monument lanes. Rain usually clears by 6 PM.", tags: ["relax"], rm: false },
+          { t: "8:00 PM", name: "Final Dinner 🎉", sub: "Celebration dinner — go to Masala y Maíz ⭐ (Juárez, book ahead) for a one-of-a-kind Indian-Mexican-East African fusion meal. Or Máximo Bistrot in Roma Norte for a farm-to-table high-quality experience.", tags: ["food", "dinner"], rm: false, dinner: true },
+          { t: "10:00 PM", name: "⚠️ Pack bags tonight", sub: "Do not leave it for the morning.", tags: ["relax"], rm: false }
+        ]
+      },
+      {
+        date: "Tue Jul 7", label: "Day 5", color: "rgba(0, 137, 123, 0.15)", tc: "var(--jade)", title: "Departure Flight",
+        bgImg: "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?q=80&w=1200&auto=format&fit=crop",
+        wake: "⏰ Pack & check out by 9:00 AM — Early departure for international flight security buffers.",
+        bag: "Passport, travel documents, boarding passes.",
+        note: "CRITICAL: Leave hotel at 9:00 AM directly. Do NOT delay.",
+        items: [
+          { t: "7:30 AM", name: "Final breakfast near hotel", sub: "Grab a fast coffee and sweet bread in Zona Rosa.", tags: ["food"], rm: false },
+          { t: "8:30 AM", name: "Double-check passport & document checklist", sub: "Confirm physical immigration paperwork is in carry-on bag.", tags: ["relax"], rm: false },
+          { t: "9:00 AM", name: "⚠️ Checkout & Depart for MEX T2", sub: "Checkout at lobby, grab Uber (~40-50 min). Severe World Cup security delays expected.", tags: ["drive"], tx: true },
+          { t: "9:45 AM", name: "Arrive MEX Terminal 2", sub: "Aeromexico check-in and security screen. Carry-on only, clear immigration.", tags: ["relax"], rm: false },
+          { t: "1:40 PM", name: "Flight AM 642 departs MEX ✈️", sub: "MEX T2 → LAX TBIT. Premium Tourist seat. 3h 02m flight.", tags: ["relax", "booked"], rm: false },
+          { t: "4:42 PM", name: "Arrive LAX Terminal B", sub: "Clear US Customs and Border Protection. Do NOT exit airport security.", tags: ["relax"], rm: false },
+          { t: "5:30 PM", name: "Transit airside walkway to T3", sub: "Walk post-security connector walkway from TBIT directly to T3 Delta gates (10-15 mins).", tags: ["drive"], tx: true },
+          { t: "8:47 PM", name: "Flight DL 4098 departs LAX ✈️", sub: "LAX T3 → ABQ. Delta seat. 2h 01m flight.", tags: ["relax", "booked"], rm: false },
+          { t: "11:48 PM", name: "Arrive ABQ Airport 🏠", sub: "Welcome home!", tags: ["relax"], rm: false }
+        ]
+      }
+    ];
+
+    // ============ DATABASE: STATIC LISTS ============
+    const TODOS = [
+      {
+        section: "🚨 CDMX Travel Essentials", items: [
+          { name: "Verify passport & travel documents", sub: "Must carry physical documents in carry-on bag for reentry.", urg: "red", when: "Before Departure" },
+          { name: "Get Tarjeta de Movilidad Integrada (TMI) at Metrobús", sub: "Buy at Insurgentes Metrobús station using cash (TMI is not sold at airport).", urg: "amber", when: "Day 1 (Friday)" },
+          { name: "Withdraw Mexican Pesos (MXN) from ATM", sub: "Use official bank ATMs inside bank vestibules. Cash is needed for street tacos and markets.", urg: "amber", when: "Day 1 (Friday)" },
+          { name: "Arena México seat usher propina cash", sub: "Prepare small bills. Ushers will charge 20-50 MXN per person to let you sit.", urg: "red", when: "Day 1 (Friday)" },
+          { name: "Buy bottled water only", sub: "Do NOT drink tap water in Mexico City. Use bottled water even for brushing teeth.", urg: "red", when: "Every day" }
+        ]
+      },
+      {
+        section: "📞 Confirmations & Bookings", items: [
+          { name: "Book Lucha Libre tickets", sub: "Book Viernes Espectacular on Ticketmaster. Bring cash in Pesos (20-50 MXN) for seat ushers.", urg: "red", when: "Before Departure" },
+          { name: "Confirm Teotihuacán hot air balloon tour", sub: "Check email for pickup time confirmation and WhatsApp contact for driver (Wefly).", urg: "amber", when: "Before Day 2" },
+          { name: "Book National Museum of Anthropology entry ticket", sub: "Pre-book online via the official INAH portal to skip the ticket booth queue.", urg: "amber", when: "Before Day 3" },
+          { name: "Book Xochimilco Canal guided tour", sub: "Pre-book a guided trajinera tour or arrange pier pickup ahead of time.", urg: "amber", when: "Before Day 3" },
+          { name: "Confirm Contramar reservation", sub: "Seafood lunch hotspot. Make sure reservation is confirmed in OpenTable.", urg: "amber", when: "Before Day 4" }
+        ]
+      },
+      {
+        section: "🛍 Souvenirs to get", items: [
+          { name: "Buy Talavera pottery & leather at La Ciudadela", sub: "Authentic hand-painted Mexican ceramics and quality leather jackets.", urg: "green", when: "Day 4 (Monday)" },
+          { name: "Buy a bottle of Mezcal or CDMX crafts", sub: "Get artisanal treats to take home.", urg: "green", when: "Flexible" }
+        ]
+      }
+    ];
+
+    const FOOD_GUIDE = [
+      {
+        category: "🌟 Fine Dining & Tasting Menus",
+        items: [
+          {
+            id: "pujol",
+            name: "Pujol",
+            sub: "Polanco. Famous tasting menu by Enrique Olvera. Reserve 3 months ahead.",
+            pros: "Absolute must, famous mole madre, 4th best in the world",
+            cons: "Overrated, inconsistent, long waitlist"
+          },
+          {
+            id: "quintonil",
+            name: "Quintonil",
+            sub: "Polanco. Exquisite modern Mexican gastronomy by Jorge Vallejo.",
+            pros: "Creative, mind-blowing flavors, 'best in Mexico' for some",
+            cons: "Mixed reviews, some said 'fine to terrible', not worth the price to all"
+          },
+          {
+            id: "maximo",
+            name: "Máximo Bistrot",
+            sub: "Laid-back but high-quality dining experience. Blew Pujol out of the water.",
+            pros: "Laid-back but high-quality, 'blew Pujol out of the water'",
+            cons: "Hard to get a reservation"
+          },
+          {
+            id: "rosetta",
+            name: "Rosetta",
+            sub: "Roma Norte. Vibe + seasonal menu by chef Elena Reygadas.",
+            pros: "Loved by many for vibe + seasonal menu, chef Elena Reygadas = icon",
+            cons: "Highly divisive — some say 'didn't like anything', 'overhyped'"
+          },
+          {
+            id: "masala-y-maiz", star: true,
+            name: "Masala y Maíz",
+            sub: "Juárez. Chef duo Norma Listman & Saqib Keval blending Indian, East African, and Mexican traditions.",
+            pros: "Highly unique and creative spice combinations, amazing natural wine program",
+            cons: "Pricey natural wines, can be hard to get a reservation"
+          }
+        ]
+      },
+      {
+        category: "🐟 Seafood & Mariscos",
+        items: [
+          {
+            id: "contramar",
+            name: "Contramar",
+            sub: "Roma Norte. Legendary seafood lunch hotspot.",
+            pros: "Tuna tostadas = life-changing, loved by almost everyone",
+            cons: "Touristy, hard to book"
+          },
+          {
+            id: "entremar",
+            name: "Entremar",
+            sub: "Sister restaurant of Contramar. Same food, easier to get in.",
+            pros: "Same food, easier to get in, 'whole fish was incredible'",
+            cons: "Some say it was the most 'meh' meal of their trip"
+          },
+          {
+            id: "compa-chava",
+            name: "Mi Compa Chava",
+            sub: "Roma Norte. Local seafood favorite.",
+            pros: "Local favorite, 'costra de camarón' was 🔥",
+            cons: "Come early or wait forever — gets packed"
+          },
+          {
+            id: "campobaja",
+            name: "Campobaja",
+            sub: "Roma Norte. Coastal style seafood.",
+            pros: "Best pulpo ever, solid vibes",
+            cons: "Some didn't vibe with the atmosphere/taste"
+          }
+        ]
+      },
+      {
+        category: "🌮 Tacos & Street Favorites",
+        items: [
+          {
+            id: "califa-leon", star: true,
+            name: "Taquería El Califa de León",
+            sub: "San Rafael. Michelin-starred standing taco stall.",
+            pros: "Considered among the best by locals + tourists, authentic legacy",
+            cons: "Very long lines, standing only"
+          },
+          {
+            id: "juana-quesadillas", star: true,
+            name: "Juana's Quesadilla Stand",
+            sub: "Roma Norte. Famous street stall known for exceptional handmade blue corn quesadillas.",
+            pros: "Hand-pressed fresh masa on comal, incredible flavor variety",
+            cons: "Popular street-side spot, expect standing room only"
+          },
+          {
+            id: "los-panchos", star: true,
+            name: "Los Panchos",
+            sub: "Anzures. Historic institution since 1945, legendary for premium carnitas and chicharrón.",
+            pros: "Outstanding traditional carnitas (loin or surtida), authentic family-friendly atmosphere",
+            cons: "Tolstoi location is a bit far from Roma base, can get crowded on weekends"
+          },
+          {
+            id: "vilsito",
+            name: "Taquería El Vilsito",
+            sub: "Narvarte. Mechanic shop by day, legendary pastor stand by night.",
+            pros: "Real street taco vibe, exceptional Al Pastor, go early",
+            cons: "Gets very busy later in the night"
+          },
+          {
+            id: "cocuyos",
+            name: "Taquería Los Cocuyos",
+            sub: "Centro Histórico. Hole-in-the-wall organ meat taco legend.",
+            pros: "'Best tacos of your life', incredibly rich options",
+            cons: "Hole-in-the-wall spot, some say 'overpriced' for street tacos"
+          },
+          {
+            id: "orinoco",
+            name: "Taquería Orinoco",
+            sub: "Roma Norte. Northern-style flour tortilla tacos.",
+            pros: "Reliable, al pastor w/ orange salsa is 🔥",
+            cons: "'Where the white Americans line up' 😅"
+          },
+          {
+            id: "tizne",
+            name: "El Tizne Tacomotora",
+            sub: "Del Valle. Smoked meat twist on tacos.",
+            pros: "Original smoked twist, unique recipe",
+            cons: "'Original but not good,' from a Mexican reviewer"
+          }
+        ]
+      },
+      {
+        category: "🥐 Bakeries & Casual",
+        items: [
+          {
+            id: "panaderia-rosetta",
+            name: "Panadería Rosetta",
+            sub: "Roma Norte. World-famous guava pastry.",
+            pros: "Famous rosemary buns & croissants, guava roll",
+            cons: "Mixed — some say it's 'just hype'"
+          },
+          {
+            id: "el-moro",
+            name: "El Moro Churrería",
+            sub: "Historic churro spot (Roma/Centro).",
+            pros: "'Touristy but worth it' for fresh churros and chocolate",
+            cons: "Some preferred local neighborhood churrerías"
+          },
+          {
+            id: "casa-tono",
+            name: "La Casa de Toño",
+            sub: "Popular local pozole chain, open late/24-7.",
+            pros: "Where 'normal Mexicans eat', open late, cheap & fast",
+            cons: "Commercial quality, some recent labor concerns"
+          }
+        ]
+      },
+      {
+        category: "🌽 Traditional & Corn",
+        items: [
+          {
+            id: "cardenal",
+            name: "El Cardenal",
+            sub: "Centro Histórico. High-level traditional Mexican food.",
+            pros: "High-level traditional breakfast/lunch, fantastic mole",
+            cons: "Portion size could be bigger for some dishes"
+          },
+          {
+            id: "maizajo",
+            name: "Maizajo",
+            sub: "Condesa. Focus on heirloom corn varieties.",
+            pros: "Best tortillas ever, ribeye taco + brisket volcanes = 🔥",
+            cons: "Focused entirely on corn items, small menu"
+          },
+          {
+            id: "hidalguense", star: 2,
+            name: "El Hidalguense",
+            sub: "Roma Sur. Legendary lamb barbacoa (weekends only).",
+            pros: "Incredible wood-fired lamb barbacoa, authentic Hidalgo style",
+            cons: "Only open Friday to Sunday"
+          }
+        ]
+      },
+      {
+        category: "📹 From the Video (48hrs CDMX)",
+        items: [
+          {
+            id: "la-bonvi",
+            name: "La Bonvi",
+            sub: "Roma Norte. Gourmet taqueria featured in the 48hrs CDMX video.",
+            pros: "Elevated street taco experience, chosen by local chef insiders",
+            cons: "Slightly pricier than standard street tacos"
+          },
+          {
+            id: "taller-xiltotl",
+            name: "Taller Xiltotl",
+            sub: "Contemporary Mexican seafood restaurant, featured in 48hrs CDMX video.",
+            pros: "Creative modern Mexican seafood, insider pick",
+            cons: "Contemporary concept, not traditional"
+          },
+          {
+            id: "martinez-bistro",
+            name: "Martínez",
+            sub: "Modern Mexican bistro. Highly rated in the 48hrs CDMX guide.",
+            pros: "Modern Mexican cooking from local chefs, excellent ambiance",
+            cons: "Can fill up fast, reservations advised"
+          },
+          {
+            id: "tacos-jarochos",
+            name: "Tacos Los Jarochos Morgan",
+            sub: "24-hour taco stand. A CDMX institution for late-night tacos.",
+            pros: "Open 24 hours, legendary for late-night taco runs, very authentic",
+            cons: "Crowded late at night, cash only"
+          },
+          {
+            id: "marne-panaderia",
+            name: "Marne Panadería",
+            sub: "Roma Norte. Artisan bakery featured in the video.",
+            pros: "Exceptional pastries and bread, beloved by locals",
+            cons: "Sells out early — go in the morning"
+          },
+          {
+            id: "despacho-margarita",
+            name: "Despacho Margarita",
+            sub: "Tequila & mezcal cocktail bar in Roma Norte.",
+            pros: "Best margaritas in the city per the video, creative mezcal cocktails",
+            cons: "Bar seating only, gets busy on weekends"
+          }
+        ]
+      }
+    ];
+
+    const FOOD_SPECIALTIES = [
+      {
+        id: "pastor",
+        name: "Tacos al Pastor 🌮",
+        desc: "Brought to the city by Lebanese immigrants, this beloved street food features marinated pork shaved from a vertical spit, topped with onions, cilantro, and a sweet slice of pineapple."
+      },
+      {
+        id: "tlacoyos",
+        name: "Tlacoyos 🌽",
+        desc: "An ancient Aztec street food made of thick, oval-shaped blue corn masa stuffed with beans and topped with cactus (nopales), salsa, and fresh cheese."
+      },
+      {
+        id: "quesadillas",
+        name: "Quesadillas 🧀",
+        desc: "In Mexico City, quesadillas are often folded masa stuffed with fillings like huitlacoche (corn smut) or squash blossoms, and cheese is only added if requested."
+      },
+      {
+        id: "pambazos",
+        name: "Pambazos 🥪",
+        desc: "A hearty, savory sandwich soaked in a warm red guajillo chili sauce, filled with potatoes and chorizo, and pan-fried until crispy."
+      },
+      {
+        id: "tamales",
+        name: "Tamales & Atole 🌽🥤",
+        desc: "A classic breakfast purchased from street carts. Masa parcels wrapped in husks/leaves, steamed, and paired with atole (a warm, thick corn beverage)."
+      },
+      {
+        id: "chilaquiles",
+        name: "Chilaquiles 🍳",
+        desc: "Fried corn tortilla pieces simmered in red or green salsa, topped with crema, queso fresco, sliced raw onions, and optional chicken or egg."
+      },
+      {
+        id: "pozole",
+        name: "Pozole 🍲",
+        desc: "A traditional hominy corn soup/stew with shredded meat, seasoned with chilies and garnished with radish, lettuce, oregano, and lime."
+      },
+      {
+        id: "pancita",
+        name: "Pancita / Menudo 🥣",
+        desc: "A hearty, traditional tripe soup seasoned with guajillo chilies and epazote, beloved as a weekend morning cure."
+      },
+      {
+        id: "torta-cubana",
+        name: "Torta Cubana 🥪",
+        desc: "A giant CDMX sandwich stacked with milanesa, ham, chorizo, hot dogs, cheese, avocado, and jalapeños."
+      },
+      {
+        id: "mole-olla",
+        name: "Mole de Olla 🍲",
+        desc: "A comforting, light beef soup with a chili-spiced broth, containing beef shanks, corn on the cob, green beans, and chayote."
+      },
+      {
+        id: "seafood-style",
+        name: "Seafood (Sinaloa / Veracruz) 🐟",
+        desc: "Coastal specialties from Veracruz (olive oil, capers, olives, tomatoes) or Sinaloa (citrus-cured aguachiles and grilled seafood)."
+      },
+      {
+        id: "chiles-nogada",
+        name: "Chiles en Nogada 🌶️",
+        desc: "Poblano chilies stuffed with sweet-savory picadillo, covered in a rich walnut cream sauce (nogada), and topped with pomegranate seeds (when in season)."
+      },
+      {
+        id: "tlayudas",
+        name: "Tlayudas 🫓",
+        desc: "Oaxacan-style thin crispy corn tortilla spread with refried beans, lard, cabbage, meat (tasajo), and string cheese."
+      },
+      {
+        id: "barbacoa",
+        name: "Barbacoa 🐑",
+        desc: "Slow-roasted sheep cooked in an underground pit lined with agave leaves, resulting in succulent meat served with hot consommé."
+      },
+      {
+        id: "cochinita-pibil",
+        name: "Cochinita Pibil 🐷",
+        desc: "Slow-roasted Yucatecan pork marinated in sour orange juice and achiote (annatto), baked inside banana leaves."
+      },
+      {
+        id: "sopa-azteca",
+        name: "Sopa Azteca / Tortilla Soup 🥣",
+        desc: "A rich tomato-chili broth filled with crispy tortilla strips, fresh cheese, avocado, chicharrón, and crema."
+      }
+    ];
+
+    const SHOPS = [
+      {
+        section: "🏺 Artisan Markets", items: [
+          { name: "Mercado de Artesanías La Ciudadela", sub: "The absolute best market for Mexican handicrafts, pottery, and textiles." },
+          { name: "Mercado de San Juan", sub: "Gourmet food market. Famous for vanilla beans, hot chocolate discs, and local fruits." },
+          { name: "FrikiPlaza gaming center", sub: "Multi-story anime, gaming, and collectible cards bazaar in downtown." }
+        ]
+      }
+    ];
+
+    const CONTACTS = [
+      { name: "Geneve Ciudad de México", num: "+52 55 5080 0800", note: "Londres 130, Zona Rosa. Front desk and bag storage" },
+      { name: "U.S. Embassy Mexico City", num: "+52 55 2579 2000", note: "Presa Angostura 225. American Citizen Services" },
+      { name: "Embassy of India Mexico City", num: "+52 55 5531 1002", note: "Musset 325, Polanco. Emergency line: +52 55 4847 7539" },
+      { name: "Benito Juárez Airport (MEX)", num: "+52 55 2482 2424", note: "CDMX Airport information services" },
+      { name: "Frida Kahlo Museum (Casa Azul)", num: "+52 55 5554 8999", note: "Coyoacán. Tour reservation helpline" },
+      { name: "Contramar", num: "+52 55 5514 8417", note: "Roma Norte. Seafood lunch confirmations" },
+      { name: "Pujol", num: "+52 55 5545 4111", note: "Polanco tasting menu reservations" },
+      { name: "Teotihuacán Balloon (Wefly)", num: "+52 55 4505 5334", note: "Confirm sunrise shuttle time" },
+      { name: "Local CDMX Emergency Services", num: "911", note: "Police, Fire, and Medical emergency line" }
+    ];
+
+    // ============ MAP DATA ============
+    const MAP_LOCATIONS = {
+      "Geneve Ciudad de México": [19.4269, -99.1633],
+      "Benito Juárez Airport (MEX)": [19.4361, -99.0719],
+      "Palacio de Bellas Artes": [19.4352, -99.1412],
+      "Zócalo / Cathedral": [19.4326, -99.1332],
+      "Chapultepec Castle": [19.4204, -99.1818],
+      "National Museum of Anthropology": [19.4260, -99.1863],
+      "Arena México (Lucha Libre)": [19.4244, -99.1524],
+      "Teotihuacán Pyramids": [19.6923, -98.8436],
+      "Xochimilco Canals": [19.2559, -99.1022],
+      "Polanco (Antara)": [19.4387, -99.2017],
+      "FrikiPlaza": [19.4341, -99.1399],
+      "Basilica of Guadalupe": [19.4848, -99.1177],
+      "Mercado de San Juan": [19.4285, -99.1432],
+      "Coyoacán Market": [19.3503, -99.1618]
+    };
+
+    const ROUTES = {
+      'day1': ["Benito Juárez Airport (MEX)", "Geneve Ciudad de México", "Zócalo / Cathedral", "Arena México (Lucha Libre)", "Geneve Ciudad de México"],
+      'day2': ["Geneve Ciudad de México", "Teotihuacán Pyramids", "Basilica of Guadalupe", "Mercado de San Juan", "Zócalo / Cathedral", "Geneve Ciudad de México"],
+      'day3': ["Geneve Ciudad de México", "Xochimilco Canals", "Coyoacán Market", "Chapultepec Castle", "National Museum of Anthropology", "Geneve Ciudad de México"],
+      'day4': ["Geneve Ciudad de México", "FrikiPlaza", "Polanco (Antara)", "Geneve Ciudad de México"],
+      'day5': ["Geneve Ciudad de México", "Benito Juárez Airport (MEX)"]
+    };
+
+    // ============ SPANISH PHRASEBOOK DATA ============
+    const PHRASES = {
+      "👋 Greetings": [
+        { es: "Hola", en: "Hello", pron: "OH-lah" },
+        { es: "Buenos días", en: "Good morning", pron: "BWEH-nos DEE-as" },
+        { es: "Buenas tardes", en: "Good afternoon", pron: "BWEH-nas TAR-des" },
+        { es: "Buenas noches", en: "Good evening/night", pron: "BWEH-nas NOH-ches" },
+        { es: "¿Cómo estás?", en: "How are you?", pron: "KOH-mo es-TAHS" },
+        { es: "Mucho gusto", en: "Nice to meet you", pron: "MOO-cho GOO-sto" },
+        { es: "Adiós", en: "Goodbye", pron: "ah-DYOHS" },
+        { es: "Hasta luego", en: "See you later", pron: "AHS-ta LWEH-go" }
+      ],
+      "🙏 Polite": [
+        { es: "Por favor", en: "Please", pron: "por fa-VOR" },
+        { es: "Gracias", en: "Thank you", pron: "GRAH-syas" },
+        { es: "De nada", en: "You're welcome", pron: "deh NAH-da" },
+        { es: "Disculpe", en: "Excuse me", pron: "dis-KOOL-peh" },
+        { es: "Lo siento", en: "I'm sorry", pron: "loh SYEN-to" },
+        { es: "¿Habla inglés?", en: "Do you speak English?", pron: "AH-bla een- GLES" },
+        { es: "No entiendo", en: "I don't understand", pron: "noh en-TYEN-do" },
+        { es: "¿Puede repetir?", en: "Can you repeat?", pron: "PWEH-deh re-peh-TEER" }
+      ],
+      "🌮 Food & Ordering": [
+        { es: "La cuenta, por favor", en: "The bill, please", pron: "lah KWEN-ta por fa-VOR" },
+        { es: "Una mesa para uno", en: "A table for one", pron: "OO-na ME-sa PA-ra OO-no" },
+        { es: "¿Qué me recomienda?", en: "What do you recommend?", pron: "keh meh re-co-MYEN-da" },
+        { es: "Sin picante", en: "Without spicy", pron: "seen pi-KAN-teh" },
+        { es: "Agua embotellada", en: "Bottled water", pron: "AH-gwa em-bo-te-YA-da" },
+        { es: "Tacos al pastor", en: "Al pastor tacos", pron: "TA-cos al pas-TOR" },
+        { es: "Delicioso", en: "Delicious", pron: "deh-li-SYO-so" },
+        { es: "Sin hielo", en: "No ice", pron: "seen YEH-lo" }
+      ],
+      "🚕 Transport": [
+        { es: "¿Dónde está...?", en: "Where is...?", pron: "DON-deh es-TAH" },
+        { es: "Al aeropuerto", en: "To the airport", pron: "al aeh-ro-PWER-to" },
+        { es: "A la derecha", en: "To the right", pron: "ah lah deh-RE-cha" },
+        { es: "A la izquierda", en: "To the left", pron: "ah lah ees-KYER-da" },
+        { es: "Recto", en: "Straight ahead", pron: "REK-to" },
+        { es: "¿Cuánto cuesta?", en: "How much does it cost?", pron: "KWAN-to KWES-ta" },
+        { es: "Más despacio", en: "Slower, please", pron: "mas des-PA-syo" },
+        { es: "Pare aquí", en: "Stop here", pron: "PAH-reh a-KEE" }
+      ],
+      "🛍 Shopping": [
+        { es: "¿Cuánto vale?", en: "How much is it worth?", pron: "KWAN-to VAH-leh" },
+        { es: "Muy caro", en: "Very expensive", pron: "moo-ee KA-ro" },
+        { es: "Más barato", en: "Cheaper", pron: "mas ba-RA-to" },
+        { es: "Tarjeta de crédito", en: "Credit card", pron: "tar-HEH-ta deh KRE-dee-to" },
+        { es: "Efectivo", en: "Cash", pron: "eh-fek-TEE-vo" },
+        { es: "Bolsa", en: "Bag", pron: "BOL-sa" },
+        { es: "¿Tiene...?", en: "Do you have...?", pron: "TYEH-neh" },
+        { es: "Solo estoy mirando", en: "Just looking", pron: "SO-lo es-TOY mi-RAN-do" }
+      ],
+      "🚨 Emergency": [
+        { es: "¡Ayuda!", en: "Help!", pron: "ah-YOO-da" },
+        { es: "Llame a la policía", en: "Call the police", pron: "LYA-meh ah lah po-lee-SEE-ah" },
+        { es: "Necesito un médico", en: "I need a doctor", pron: "neh-seh-SEE-toh oon MEH-dee-co" },
+        { es: "Estoy perdido", en: "I'm lost", pron: "es-TOY per-DEE-do" },
+        { es: "¿Dónde está la embajada?", en: "Where is the embassy?", pron: "DON-deh es-TAH lah em-ba-HA-da" },
+        { es: "Me robaron", en: "I've been robbed", pron: "meh ro-BA-ron" },
+        { es: "Es urgente", en: "It's urgent", pron: "es oor-HEN-teh" },
+        { es: "Mi pasaporte", en: "My passport", pron: "mee pa-sa-POR-teh" }
+      ]
+    };
+
+    // ============ STATE MANAGEMENT ============
+    const state = {
+      removed: {},
+      checked: {},
+      custom: { book: [], food: [], shop: [], contacts: [] },
+      theme: 'light',
+      activePhraseCat: null,
+      mxnRate: 18.5
+    };
+
+    const STORAGE_KEY = 'cdmx2026_july_v6';
+
+    function save() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          removed: state.removed,
+          checked: state.checked,
+          custom: state.custom,
+          theme: state.theme
+        }));
+      } catch (e) { console.error('Save failed', e); }
+    }
+
+    function load() {
+      state.removed = {};
+      state.checked = {};
+      state.custom = { book: [], food: [], shop: [], contacts: [] };
+      state.theme = 'light';
+
+      // Migration: also try old key for backward compat
+      try {
+        const old = JSON.parse(localStorage.getItem('cdmx2026_july_v5') || '{}');
+        if (old.removed) Object.assign(state.removed, old.removed);
+        if (old.checked) Object.assign(state.checked, old.checked);
+        if (old.custom) Object.assign(state.custom, old.custom);
+
+        const d = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        if (d.removed) Object.assign(state.removed, d.removed);
+        if (d.checked) Object.assign(state.checked, d.checked);
+        if (d.custom) Object.assign(state.custom, d.custom);
+        if (d.theme) state.theme = d.theme;
+      } catch (e) { console.error('Load failed', e); }
+
+
+
+      if (!state.custom.book) state.custom.book = [];
+      if (!state.custom.food) state.custom.food = [];
+      if (!state.custom.shop) state.custom.shop = [];
+      if (!state.custom.contacts) state.custom.contacts = [];
+    }
+
+    // ============ TOAST ============
+    function showToast(msg, type = '') {
+      const c = document.getElementById('toast-container');
+      const t = document.createElement('div');
+      t.className = 'toast ' + type;
+      t.innerHTML = msg;
+      c.appendChild(t);
+      setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateY(20px) scale(0.9)';
+        t.style.transition = 'all 0.3s';
+        setTimeout(() => t.remove(), 300);
+      }, 2400);
+    }
+
+    // ============ TAB SWITCHING ============
+    window.showTab = function(id, el) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      const sec = document.getElementById(id);
+      if (sec) sec.classList.add('active');
+      if (el) el.classList.add('active');
+      if (id === 'map-tab') setTimeout(initMap, 100);
+      if (id === 'schedule-tab') renderToday();
+      if (id === 'phrasebook-tab') renderPhrasebook();
+      if (id === 'food-tab') {
+        if (activeFoodSubTab === 'restaurants') {
+          renderFoodGuide();
+        } else {
+          renderFoodSpecialties();
+        }
+      }
+      // scroll to top of app
+      window.scrollTo({ top: document.querySelector('.app').offsetTop - 20, behavior: 'smooth' });
+    };
+
+    // ============ COUNTDOWN ============
+    function updateCountdown() {
+      const tripStart = new Date('2026-07-03T14:05:00-06:00');
+      const tripEnd = new Date('2026-07-08T00:00:00-06:00');
+      const now = new Date();
+      const cdLabel = document.getElementById('cd-label');
+      const cdStatus = document.getElementById('cd-status');
+
+      if (now < tripStart) {
+        const diff = tripStart - now;
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('cd-days').textContent = d;
+        document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+        document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+        document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+        cdLabel.textContent = '⏳ Trip starts in';
+        cdStatus.style.display = 'none';
+      } else if (now < tripEnd) {
+        const dayIdx = Math.floor((now - tripStart) / 86400000);
+        cdLabel.textContent = `🟢 Live: Day ${dayIdx + 1} of 5 · In CDMX`;
+        document.getElementById('cd-units').style.display = 'none';
+        cdStatus.style.display = 'inline-block';
+        cdStatus.textContent = 'LIVE';
+        document.getElementById('hero-pilot-text').textContent = `🟢 Live · Day ${dayIdx + 1} in Mexico City`;
+      } else {
+        cdLabel.textContent = '✅ Trip complete · Memories forever';
+        document.getElementById('cd-units').style.display = 'none';
+        cdStatus.style.display = 'inline-block';
+        cdStatus.textContent = 'DONE';
+      }
+    }
+
+    // ============ TRIP PROGRESS BAR ============
+    function updateProgressBar() {
+      const start = new Date('2026-07-03T00:00:00-06:00');
+      const end = new Date('2026-07-08T00:00:00-06:00');
+      const now = new Date();
+      let pct = 0;
+      if (now < start) pct = 0;
+      else if (now > end) pct = 100;
+      else pct = ((now - start) / (end - start)) * 100;
+      const progressEl = document.getElementById('trip-progress');
+      if (progressEl) progressEl.style.width = pct.toFixed(1) + '%';
+    }
+
+    // ============ DAY PILLS ============
+    function renderDayPills() {
+      const container = document.getElementById('day-pills');
+      const now = new Date();
+      const todayStr = now.toISOString().split('T')[0];
+      let html = '';
+      DAYS.forEach((day, i) => {
+        const parts = day.date.split(' ');
+        const monNum = parts[1] === 'Jul' ? '07' : '06';
+        const dayNum = parts[2].padStart(2, '0');
+        const isoDate = `2026-${monNum}-${dayNum}`;
+        const isToday = isoDate === todayStr;
+        html += `
+          <div class="day-pill${isToday ? ' today' : ''}" onclick="jumpToDay(${i})">
+            <div class="day-pill-label">${day.label}</div>
+            <div class="day-pill-date">${day.date}</div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    window.jumpToDay = function(idx) {
+      const target = document.getElementById(`day-card-${idx}`);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.style.transition = 'all 0.4s';
+        target.style.boxShadow = '0 0 0 3px var(--rosa-mexicano), var(--lift-shadow)';
+        setTimeout(() => { target.style.boxShadow = ''; }, 1800);
+        showToast(`📍 Jumped to Day ${idx + 1}`, 'success');
+      }
+    };
+
+    // ============ ACTIVITY FILTER ============
+    window.filterActivities = function() {
+      const q = document.getElementById('activity-search').value.toLowerCase().trim();
+      document.querySelectorAll('#day-list .item').forEach(item => {
+        if (!q) {
+          item.style.display = '';
+          return;
+        }
+        const name = item.querySelector('.item-name')?.textContent.toLowerCase() || '';
+        const sub = item.querySelector('.item-sub')?.textContent.toLowerCase() || '';
+        item.style.display = (name.includes(q) || sub.includes(q)) ? '' : 'none';
+      });
+    };
+
+    // ============ TODAY WIDGET ============
+    function renderToday() {
+      const now = new Date();
+      const todayStr = now.toISOString().split('T')[0];
+
+      const tripDates = DAYS.map(d => {
+        const parts = d.date.split(' ');
+        const monNum = parts[1] === 'Jul' ? '07' : '06';
+        const day = parts[2].padStart(2, '0');
+        return `2026-${monNum}-${day}`;
+      });
+
+      const tripIdx = tripDates.indexOf(todayStr);
+      const isBefore = now < new Date(tripDates[0] + 'T00:00:00');
+
+      let html = '';
+
+      if (isBefore || tripIdx < 0) {
+        const firstDayWeather = WEATHER[0];
+        const flightInfo = "Outbound Flights: DL/AM departs ABQ at 6:00 AM · Arrives CDMX T2 ~2:05 PM (July 3)";
+        const rainAlert = firstDayWeather.rainHours ? `<div style="font-size:12px; opacity:0.95; margin-top:8px; font-weight:700; color:#ffeef2">${firstDayWeather.rainHours}</div>` : '';
+
+        html += `
+          <div style="background:var(--gradient-sunset); border-radius:var(--radius-lg); padding:1.6rem; margin-bottom:18px; color:#fff; display:flex; justify-content:space-between; align-items:center; box-shadow:var(--card-shadow); flex-wrap:wrap; gap:14px">
+            <div style="flex:1; min-width:200px">
+              <div style="font-family:var(--font-title); font-size:22px; font-weight:900; letter-spacing:0.02em; text-transform:uppercase">Ready for Mexico City? 🇲🇽</div>
+              <div style="font-size:13px; opacity:0.88; margin-top:6px; font-weight:600">${flightInfo}</div>
+              ${rainAlert}
+            </div>
+            <div style="text-align:right; flex-shrink:0">
+              <div style="font-size:36px">${firstDayWeather.icon}</div>
+              <div style="font-size:18px; font-weight:800">${firstDayWeather.high}°F</div>
+              <div style="font-size:11px; opacity:0.8">${firstDayWeather.desc}</div>
+            </div>
+          </div>
+        `;
+
+        html += `<div class="section-title" style="margin-top:1.5rem">📅 Forecast for Trip Days</div>`;
+        html += `<div style="display:grid; grid-template-columns:repeat(${WEATHER.length}, minmax(0, 1fr)); gap:8px; margin-bottom:22px">`;
+        WEATHER.forEach(w => {
+          html += `
+            <div style="background:var(--bg-elev); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px 6px; text-align:center; box-shadow:var(--soft-shadow); transition:all 0.3s; cursor:default; display:flex; flex-direction:column; align-items:center" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
+              <div style="font-family:var(--font-title); font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:800">${w.day}</div>
+              <div style="font-size:26px; margin:6px 0">${w.icon}</div>
+              <div style="font-family:var(--font-title); font-size:14px; font-weight:800; color:var(--text-dark)">${w.high}°F</div>
+              <div style="font-size:10px; color:var(--sky-blue); margin-top:2px; font-weight:700">💧${w.rain}%</div>
+              ${w.rainHours ? `<div style="font-size:8px; color:var(--text-muted); margin-top:6px; line-height:1.2; font-weight:600; text-align:center; border-top:1px solid var(--border); padding-top:4px; width:100%">${w.rainHours}</div>` : ''}
+            </div>
+          `;
+        });
+        html += `</div>`;
+
+        html += `<div class="section-title">🎒 Pre-departure To-do Checklist</div>`;
+        html += `<div class="list-card"><div class="list-head">High Priority Preparations</div>`;
+        const preDepItems = [
+          { k: "pre0", n: "Check physical travel documents", s: "Must bring documents in carry-on bag for reentry." },
+          { k: "pre1", n: "Confirm clear bag for Arena México entry", s: "Arena has a strict clear bag policy. No backpacks or professional cameras." },
+          { k: "pre2", n: "Pre-book Wefly balloon over Teotihuacán", s: "Sunset/sunrise balloon spots sell out quickly. Secure booking before leaving." },
+          { k: "pre3", n: "Notify card bank for Mexico travel", s: "Ensure card remains active for hotel and restaurant payments." },
+          { k: "pre4", n: "Pre-book Lucha Libre Friday tickets", s: "Buy Viernes Espectacular tickets on Ticketmaster México." },
+          { k: "pre5", n: "Download Spanish translate offline packs", s: "Google Translate offline folders assist street taquería orders." }
+        ];
+        preDepItems.forEach(item => {
+          const done = state.checked[item.k];
+          html += `
+            <div class="list-item${done ? ' done' : ''}">
+              <div class="cb${done ? ' checked' : ''}" onclick="chk('${item.k}',this)"></div>
+              <div class="li-body">
+                <div class="li-name">${item.n}</div>
+                <div class="li-sub">${item.s}</div>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+
+      } else {
+        const day = DAYS[tripIdx];
+        const wdata = WEATHER[tripIdx];
+
+        const rainHoursAlert = wdata.rainHours ? `<div style="font-size:11.5px; color:var(--rosa-mexicano); font-weight:700; margin-top:6px; background:rgba(233,30,99,0.05); padding:6px 10px; border-radius:6px; border-left:3px solid var(--rosa-mexicano)">${wdata.rainHours}</div>` : '';
+
+        html += `
+          <div style="background:var(--bg-elev); border-radius:var(--radius-lg); padding:20px; margin-bottom:18px; border:1px solid var(--border); box-shadow:var(--soft-shadow); position:relative; overflow:hidden">
+            <div style="position:absolute; top:0; right:0; width:140px; height:140px; background:radial-gradient(circle, ${day.tc.includes('jade') ? 'rgba(0,137,123,0.12)' : day.tc.includes('rosa') ? 'rgba(233,30,99,0.12)' : day.tc.includes('marigold') ? 'rgba(255,145,0,0.12)' : 'rgba(3,169,244,0.12)'} 0%, transparent 70%); pointer-events:none"></div>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; position:relative">
+              <div style="flex:1">
+                <div style="font-family:var(--font-title); font-size:11px; font-weight:800; color:${day.tc}; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px">${day.label} · ${day.date} · LIVE</div>
+                <div style="font-family:var(--font-title); font-size:22px; color:var(--text-dark); font-weight:900; text-transform:uppercase; line-height:1.2">${day.title}</div>
+                <div style="font-size:13px; color:var(--text-muted); margin-top:8px; line-height:1.5">${day.wake}</div>
+                ${rainHoursAlert}
+              </div>
+              <div style="text-align:right; flex-shrink:0; margin-left:16px">
+                <div style="font-size:36px">${wdata.icon}</div>
+                <div style="font-size:17px; font-weight:800; color:var(--text-dark)">${wdata.high}°F</div>
+                <div style="font-size:12px; color:var(--text-muted)">${wdata.desc}</div>
+                <div style="font-size:11px; color:var(--sky-blue); font-weight:800; margin-top:2px">💧${wdata.rain}% rain</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Pack list
+        const bagClean = day.bag.replace(/\+/g, ',');
+        const bagTokens = bagClean.split(/[.,](?=\s|$)/).map(s => s.trim()).filter(s => s);
+
+        const packList = [];
+        const iconFor = (s) => {
+          const ls = s.toLowerCase();
+          if (ls.includes('shoe') || ls.includes('sneaker')) return '👟';
+          if (ls.includes('sunglass')) return '🕶️';
+          if (ls.includes('camera')) return '📷';
+          if (ls.includes('ticket')) return '🎫';
+          if (ls.includes('cash') || ls.includes('peso')) return '💵';
+          if (ls.includes('passport') || ls.includes('visa') || ls.includes('i-797')) return '🪪';
+          if (ls.includes('jacket') || ls.includes('layer')) return '🧥';
+          if (ls.includes('sunscreen')) return '🧴';
+          if (ls.includes('water')) return '💧';
+          if (ls.includes('umbrella') || ls.includes('rain')) return '☂️';
+          if (ls.includes('power') || ls.includes('charger')) return '🔋';
+          if (ls.includes('wallet') || ls.includes('card') || ls.includes('credit')) return '💳';
+          if (ls.includes('phone')) return '📱';
+          if (ls.includes('bag') || ls.includes('daypack')) return '🎒';
+          if (ls.includes('boarding')) return '🎫';
+          return '🎒';
+        };
+
+        bagTokens.forEach(s => {
+          packList.push({ n: s.charAt(0).toUpperCase() + s.slice(1), sub: 'Day-specific item', icon: iconFor(s), must: true });
+        });
+
+        const addEssential = (n, sub, icon, must) => {
+          if (!packList.some(p => p.n.toLowerCase().includes(n.toLowerCase().split(' ')[0]))) {
+            packList.push({ n, sub, icon, must });
+          }
+        };
+        addEssential('Wallet & ID', 'Must have on you at all times', '💳', true);
+        addEssential('Phone + charger cable', 'For Uber, maps, translate', '📱', true);
+        addEssential('Power bank (charged)', 'Full day out — battery dies fast', '🔋', true);
+        addEssential('Sunglasses', 'Every day essential', '🕶️', true);
+        if (tripIdx < 4) addEssential('Room key card', 'Hotel Geneve', '🏨', true);
+        if (tripIdx === 4) addEssential('All luggage packed', 'Nothing left behind in room', '🧳', true);
+        addEssential('Water bottle', 'Bottled only — never tap water', '💧', true);
+
+        const packedCount = packList.filter((_, ii) => state.checked['pack-' + tripIdx + '-' + ii]).length;
+        const pct = Math.round((packedCount / packList.length) * 100);
+
+        html += `<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px">
+          <div class="section-title" style="margin:0">🎒 Today's Pack Checklist</div>
+          <div style="font-family:var(--font-title); font-size:11px; color:var(--text-muted); font-weight:800">${packedCount}/${packList.length} packed · ${pct}%</div>
+        </div>`;
+        html += `<div style="height:6px; background:var(--bg-soft); border-radius:3px; overflow:hidden; margin-bottom:14px; border:1px solid var(--border)">
+          <div style="height:100%; width:${pct}%; background:var(--gradient-jade); transition:width 0.5s var(--ease-smooth); box-shadow:0 0 8px rgba(0,137,123,0.4)"></div>
+        </div>`;
+        html += `<div class="grid-pack">`;
+        packList.forEach((item, ii) => {
+          const key = `pack-${tripIdx}-${ii}`;
+          const done = state.checked[key];
+          const mustBadge = item.must ? '<span style="font-size:8px;font-weight:800;color:#fff;background:var(--rosa-mexicano);padding:2px 6px;border-radius:4px;text-transform:uppercase;margin-left:4px">must</span>' : '';
+          html += `
+            <div class="pack-card${done ? ' done' : ''}" onclick="chk('${key}',this)">
+              <div class="pack-icon">${item.icon}</div>
+              <div class="pack-info">
+                <div class="pack-title">${item.n}${mustBadge}</div>
+                <div class="pack-sub">${item.sub}</div>
+              </div>
+              <div class="pack-check">✓</div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+
+        html += `<div class="section-title">⏰ Today's Schedule</div>`;
+        html += `<div class="day-card">`;
+
+        day.items.forEach((item, ii) => {
+          let linksHtml = '';
+          const removed = state.removed[tripIdx + '-' + ii];
+
+          if (item.tx) {
+            linksHtml = `
+              <div class="item-links">
+                <a href="https://m.uber.com/ul/" target="_blank" class="item-link uber">🚗 Open Uber</a>
+              </div>
+            `;
+            html += `
+              <div class="item transport${removed ? " removed" : ""}">
+                <div class="item-time"></div>
+                <div class="item-dot">
+                  <div class="dot" style="background:var(--border); width:6px; height:6px; margin-top:4px"></div>
+                  <div class="vline" style="border-left:1.5px dashed var(--border); background:none; width:0; margin:4px auto 0"></div>
+                </div>
+                <div class="item-body" style="padding-left:12px">
+                  <div class="item-name" style="font-size:13px; color:var(--text-muted); font-weight:600">${item.name}</div>
+                  ${item.sub ? `<div class="item-sub">${item.sub}</div>` : ""}
+                  ${linksHtml}
+                </div>
+              </div>
+            `;
+          } else {
+            let rawName = item.name.split("—")[0].replace(/[^\x00-\x7F]/gu, "").trim();
+            if (rawName && rawName.length > 2 && !item.free && !item.name.toLowerCase().includes("wake") && !item.name.toLowerCase().includes("arrive")) {
+              linksHtml = `
+                <div class="item-links">
+                  <a href="https://maps.google.com/?q=${encodeURIComponent(rawName + ' Mexico City')}" target="_blank" class="item-link maps">🗺️ Google Maps</a>
+                </div>
+              `;
+            }
+            const ec = item.free ? " free-block" : item.lunch ? " lunch-block" : item.dinner ? " dinner-block" : "";
+            html += `
+              <div class="item${ec}${removed ? " removed" : ""}">
+                <div class="item-time">${item.t}</div>
+                <div class="item-dot">
+                  <div class="dot" style="background:${dotColor(item.tags)}"></div>
+                  <div class="vline"></div>
+                </div>
+                <div class="item-body">
+                  <div class="item-name">${item.name}</div>
+                  <div class="item-tags">${item.tags.map(tagEl).join("")}</div>
+                  <div class="item-sub">${item.sub}</div>
+                  ${linksHtml}
+                </div>
+              </div>
+            `;
+          }
+        });
+        html += `</div>`;
+      }
+
+      document.getElementById('today-panel').innerHTML = html;
+    }
+
+    // ============ SCHEDULE RENDERER ============
+    function renderSchedule() {
+      let html = "";
+      let activeCount = 0;
+      let totalCount = 0;
+
+      DAYS.forEach((day, di) => {
+        let rows = "";
+
+        day.items.forEach((item, ii) => {
+          const key = `${di}-${ii}`;
+          const removed = state.removed[key];
+
+          if (!item.tx) {
+            totalCount++;
+            if (!removed) activeCount++;
+          }
+
+          if (item.tx) {
+            rows += `
+              <div class="item transport">
+                <div class="item-time"></div>
+                <div class="item-dot">
+                  <div class="dot" style="background:var(--border); width:6px; height:6px; margin-top:4px"></div>
+                  <div class="vline" style="border-left:1.5px dashed var(--border); background:none; width:0; margin:4px auto 0"></div>
+                </div>
+                <div class="item-body" style="padding-left:12px">
+                  <div class="item-name" style="font-size:13px; color:var(--text-muted); font-weight:600">${item.name}</div>
+                  ${item.sub ? `<div class="item-sub">${item.sub}</div>` : ''}
+                </div>
+              </div>
+            `;
+          } else {
+            const btn = item.rm
+              ? (removed
+                  ? `<button class="btn-sm btn-restore" onclick="tog(${di},${ii})">restore</button>`
+                  : `<button class="btn-sm" onclick="tog(${di},${ii})">remove</button>`)
+              : "";
+
+            const ec = item.free ? " free-block" : item.lunch ? " lunch-block" : item.dinner ? " dinner-block" : "";
+
+            let linksHtml = '';
+            let rawName = item.name.split("—")[0].replace(/[^\x00-\x7F]/gu, "").trim();
+            if (rawName && rawName.length > 2 && !item.free && !item.name.toLowerCase().includes("wake") && !item.name.toLowerCase().includes("arrive")) {
+              linksHtml = `<div class="item-links"><a href="https://maps.google.com/?q=${encodeURIComponent(rawName + ' Mexico City')}" target="_blank" class="item-link maps">🗺️ Maps</a></div>`;
+            }
+
+            rows += `
+              <div class="item${ec}${removed ? ' removed' : ''}">
+                <div class="item-time">${item.t}</div>
+                <div class="item-dot">
+                  <div class="dot" style="background:${dotColor(item.tags)}"></div>
+                  <div class="vline"></div>
+                </div>
+                <div class="item-body">
+                  <div class="item-name">
+                    <span>${item.name}</span>
+                    <span>${btn}</span>
+                  </div>
+                  <div class="item-tags">${item.tags.map(tagEl).join("")}</div>
+                  <div class="item-sub">${item.sub}</div>
+                  ${linksHtml}
+                </div>
+              </div>
+            `;
+          }
+        });
+
+        const wakeHtml = `<div class="wake-bar">${day.wake}</div>`;
+        const bagHtml = `<div class="bag-bar"><b>🎒 Packed Layer:</b> ${day.bag}</div>`;
+        const noteHtml = day.note ? `<div class="note-bar">${day.note}</div>` : "";
+
+        const bgStyle = day.bgImg
+          ? `background: linear-gradient(to right, rgba(15,10,8,0.7) 0%, rgba(15,10,8,0.35) 100%), url('${day.bgImg}') center/cover no-repeat; color:#fff; padding:18px 22px; border-radius:var(--radius-md) var(--radius-md) 0 0; margin:-1px -1px 0 -1px;`
+          : '';
+        const txtStyle = day.bgImg ? 'color:#fff; text-shadow:0 1px 6px rgba(0,0,0,0.4)' : '';
+        const metaStyle = day.bgImg ? 'color:rgba(255,255,255,0.85)' : '';
+        const badgeStyle = day.bgImg ? `background:rgba(255,255,255,0.22); color:#fff; backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.28)` : `background:${day.color}; color:${day.tc}`;
+
+        const wIdx = di;
+        const wBadge = wIdx < WEATHER.length ? `<span style="font-size:12px; margin-left:auto; flex-shrink:0; ${day.bgImg ? 'color:rgba(255,255,255,0.95)' : 'color:var(--text-muted)'}">${WEATHER[wIdx].icon} ${WEATHER[wIdx].high}°F · 💧${WEATHER[wIdx].rain}%</span>` : '';
+
+        html += `
+          <div class="day-card" id="day-card-${di}">
+            <div class="day-head" style="${bgStyle}">
+              <span class="day-badge" style="${badgeStyle}">${day.label}</span>
+              <span class="day-title" style="${txtStyle}">${day.title}</span>
+              ${wBadge}
+              <span class="day-meta" style="${metaStyle}">${day.date}</span>
+            </div>
+            ${wakeHtml}
+            ${bagHtml}
+            ${noteHtml}
+            <div>${rows}</div>
+          </div>
+        `;
+      });
+
+      document.getElementById('day-list').innerHTML = html;
+      const sActEl = document.getElementById('s-act');
+      if (sActEl) sActEl.textContent = activeCount + "/" + totalCount;
+    }
+
+    // ============ CHECKLIST ============
+    function renderBook() {
+      let html = "";
+      TODOS.forEach(sec => {
+        const allItems = [...sec.items, ...(state.custom.book || []).filter(c => c.section === sec.section)];
+        const activeCount = allItems.filter((_, i) => !state.removed[(allItems[i].id ? 'custom-' + allItems[i].id : 'todo-' + sec.section + i)]).length;
+        html += `<div class="list-card"><div class="list-head">${sec.section} <span class="count-pill">${activeCount}</span></div>`;
+
+        let count = 0;
+        let htmlList = "";
+
+        allItems.forEach((item, i) => {
+          const key = item.id ? "custom-" + item.id : "todo-" + sec.section + i;
+          if (state.removed[key]) return;
+          count++;
+
+          const done = state.checked[key];
+          const urgHTML = item.urg ? `<span class="urg-${item.urg}">${item.urg === 'red' ? 'urgent' : item.urg === 'amber' ? 'this week' : 'low priority'}</span>` : "";
+          const subHTML = item.sub ? `<div class="li-sub">${item.sub}</div>` : "";
+          const whenHTML = item.when ? `<div class="li-when">📅 ${item.when}</div>` : "";
+
+          const delBtn = item.id
+            ? `<button onclick="delFromList('book', '${key}')" style="background:transparent; border:1px solid var(--border); color:var(--text-muted); border-radius:6px; width:26px; height:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0" title="Delete">🗑</button>`
+            : "";
+
+          htmlList += `
+            <div class="list-item${done ? ' done' : ''}">
+              <div class="cb${done ? ' checked' : ''}" onclick="chk('${key}',this)"></div>
+              <div class="li-body">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px">
+                  <div class="li-name">${item.name} ${urgHTML}</div>
+                  ${delBtn}
+                </div>
+                ${subHTML}
+                ${whenHTML}
+              </div>
+            </div>
+          `;
+        });
+
+        if (count === 0) {
+          html += `
+            <div class="list-item">
+              <div class="li-body" style="padding:8px 0; text-align:center;">
+                <div class="li-name" style="color:var(--jade); justify-content:center; gap:6px">✓ Checklist Cleared</div>
+                <div class="li-sub">Nothing left to do here.</div>
+              </div>
+            </div>
+          `;
+        } else {
+          html += htmlList;
+        }
+        html += "</div>";
+      });
+
+      let opts = TODOS.map(s => `<option value="${s.section}">${s.section}</option>`).join('');
+      html += `
+        <div class="list-card input-box">
+          <div style="font-family:var(--font-title); font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:12px; letter-spacing:0.08em; text-transform:uppercase">➕ Add to Checklist</div>
+          <div>
+            <select id="new-book-sec">${opts}</select>
+            <input id="new-book-name" type="text" placeholder="Task Name (e.g. Confirm hotel check-in)...">
+            <input id="new-book-sub" type="text" placeholder="Description / Details (optional)...">
+            <button onclick="addToList('book')">Add to Checklist</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('book-list').innerHTML = html;
+    }
+
+    // ============ FOOD GUIDE ============
+    let activeFoodSubTab = 'restaurants';
+    let currentFoodCategory = 'all';
+    let foodSearchQuery = '';
+
+    window.switchFoodSubTab = function(subTab, btn) {
+      document.querySelectorAll('.food-sub-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFoodSubTab = subTab;
+      
+      const resPanel = document.getElementById('food-restaurants-panel');
+      const specPanel = document.getElementById('food-specialties-panel');
+      
+      if (subTab === 'restaurants') {
+        resPanel.style.display = 'block';
+        specPanel.style.display = 'none';
+        renderFoodGuide();
+      } else {
+        resPanel.style.display = 'none';
+        specPanel.style.display = 'block';
+        renderFoodSpecialties();
+      }
+    };
+
+    window.filterFoodCat = function(category, btn) {
+      document.querySelectorAll('#food-categories .phrase-cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFoodCategory = category;
+      renderFoodGuide();
+    };
+
+    window.filterFood = function() {
+      foodSearchQuery = document.getElementById('food-search').value.toLowerCase().trim();
+      renderFoodGuide();
+    };
+
+    function renderFoodCategories() {
+      const container = document.getElementById('food-categories');
+      if (!container) return;
+      
+      let html = `<button class="phrase-cat-btn active" onclick="filterFoodCat('all', this)">All</button>`;
+      FOOD_GUIDE.forEach(cat => {
+        const emoji = cat.category.split(' ')[0] || "🍽️";
+        const text = cat.category.replace(/[^a-zA-Z0-9\s&]/g, '').trim();
+        html += `<button class="phrase-cat-btn" onclick="filterFoodCat('${cat.category}', this)">${emoji} ${text.split(' ').slice(1).join(' ')}</button>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function renderFoodGuide() {
+      const listContainer = document.getElementById('food-guide-list');
+      if (!listContainer) return;
+
+      let html = "";
+      FOOD_GUIDE.forEach(cat => {
+        if (currentFoodCategory !== 'all' && cat.category !== currentFoodCategory) return;
+
+        const filteredItems = cat.items.filter(item => {
+          if (!foodSearchQuery) return true;
+          return item.name.toLowerCase().includes(foodSearchQuery) || 
+                 item.sub.toLowerCase().includes(foodSearchQuery) ||
+                 item.pros.toLowerCase().includes(foodSearchQuery) ||
+                 item.cons.toLowerCase().includes(foodSearchQuery);
+        });
+
+        if (filteredItems.length === 0) return;
+
+        html += `
+          <div class="section-title" style="margin-top: 1.5rem;">${cat.category}</div>
+          <div class="food-grid">
+        `;
+
+        filteredItems.forEach(f => {
+          const key = `food-${f.id}`;
+          const done = state.checked[key];
+          
+          html += `
+            <div class="food-card${done ? ' done' : ''}" id="card-${key}">
+              <div class="food-card-header">
+                <div>
+                  <div class="food-card-title">${f.name}</div>
+                  ${f.star === 2 ? `<span class="food-card-star double">⭐⭐ Top Priority</span>` : f.star ? `<span class="food-card-star">⭐ Must Visit</span>` : ''}
+                  <div style="font-size:12px; color:var(--text-muted); margin-top:4px">${f.sub}</div>
+                </div>
+                <div class="cb${done ? ' checked' : ''}" onclick="chk('${key}',this)"></div>
+              </div>
+              <div class="food-pro-con">
+                <div class="pro-box"><strong>✅ Pros:</strong> ${f.pros}</div>
+                <div class="con-box"><strong>❌ Cons:</strong> ${f.cons}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+      });
+
+      if (!html) {
+        html = `
+          <div style="text-align:center; padding:40px; color:var(--text-muted)">
+            <div>🔍 No restaurants found matching your criteria.</div>
+          </div>
+        `;
+      }
+
+      listContainer.innerHTML = html;
+    }
+
+    function renderFoodSpecialties() {
+      const container = document.getElementById('food-specialties-list');
+      if (!container) return;
+
+      let html = "";
+      FOOD_SPECIALTIES.forEach(spec => {
+        const key = `specialty-${spec.id}`;
+        const done = state.checked[key];
+
+        html += `
+          <div class="food-card${done ? ' done' : ''}" id="card-${key}">
+            <div class="food-card-header">
+              <div class="food-card-title">${spec.name}</div>
+              <div class="cb${done ? ' checked' : ''}" onclick="chk('${key}',this)"></div>
+            </div>
+            <div style="font-size:13px; color:var(--text); line-height:1.5; margin-top:4px">${spec.desc}</div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    // ============ SHOPPING ============
+    function renderShop() {
+      let html = "";
+      SHOPS.forEach(sec => {
+        const allItems = [...sec.items, ...(state.custom.shop || []).filter(c => c.section === sec.section)];
+        html += `<div class="list-card"><div class="list-head">${sec.section} <span class="count-pill">${allItems.length}</span></div>`;
+        allItems.forEach((s, i) => {
+          const key = s.id ? "custom-" + s.id : "shop-" + sec.section + i;
+          if (state.removed[key]) return;
+          const done = state.checked[key];
+          const subHTML = s.sub ? `<div class="li-sub">${s.sub}</div>` : "";
+          const delBtn = s.id
+            ? `<button onclick="delFromList('shop', '${key}')" style="background:transparent; border:1px solid var(--border); color:var(--text-muted); border-radius:6px; width:26px; height:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0" title="Delete">🗑</button>`
+            : "";
+          html += `
+            <div class="list-item${done ? ' done' : ''}">
+              <div class="cb${done ? ' checked' : ''}" onclick="chk('${key}',this)"></div>
+              <div class="li-body">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px">
+                  <div class="li-name">${s.name}</div>
+                  ${delBtn}
+                </div>
+                ${subHTML}
+              </div>
+            </div>
+          `;
+        });
+        html += "</div>";
+      });
+
+      let opts = SHOPS.map(s => `<option value="${s.section}">${s.section}</option>`).join('');
+      html += `
+        <div class="list-card input-box">
+          <div style="font-family:var(--font-title); font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:12px; letter-spacing:0.08em; text-transform:uppercase">➕ Add to Shopping</div>
+          <div>
+            <select id="new-shop-sec">${opts}</select>
+            <input id="new-shop-name" type="text" placeholder="Item Name or Location...">
+            <input id="new-shop-sub" type="text" placeholder="Estimated Price / Shop details...">
+            <button onclick="addToList('shop')">Add Item</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('shop-list').innerHTML = html;
+    }
+
+    // ============ CONTACTS ============
+    function renderContacts() {
+      let html = `<div class="contact-grid">`;
+      const allItems = [...CONTACTS, ...(state.custom.contacts || [])];
+
+      allItems.forEach((c, i) => {
+        const key = c.id ? "custom-" + c.id : "contact-" + i;
+        if (state.removed[key]) return;
+
+        const isCustom = !!c.id;
+        const delBtn = isCustom
+          ? `<button onclick="delFromList('contacts', '${key}')" style="position:absolute; top:12px; right:12px; background:transparent; border:1px solid var(--border); color:var(--text-muted); border-radius:6px; width:26px; height:26px; display:flex; align-items:center; justify-content:center; cursor:pointer;" title="Delete">🗑</button>`
+          : "";
+
+        const detailText = isCustom ? (c.sub || "") : c.num;
+        html += `
+          <div class="contact-box">
+            ${delBtn}
+            <div class="contact-name">${c.name}</div>
+            <div class="contact-num">${detailText}</div>
+            ${isCustom ? '' : `<div class="li-sub" style="margin-top:6px; font-size:12px;">${c.note}</div>`}
+          </div>
+        `;
+      });
+      html += `</div>`;
+
+      html += `
+        <div class="list-card input-box" style="margin-top:18px">
+          <div style="font-family:var(--font-title); font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:12px; letter-spacing:0.08em; text-transform:uppercase">➕ Add Custom Contact</div>
+          <div>
+            <input id="new-contacts-name" type="text" placeholder="Business Name or Guide Name...">
+            <input id="new-contacts-sub" type="text" placeholder="Phone Number / Details...">
+            <button onclick="addToList('contacts')">Add Contact</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('contact-list').innerHTML = html;
+    }
+
+    // ============ FLIGHTS ============
+    function renderFlights() {
+      const CONFS = [
+        { label: "Delta PNR", val: "REDACTED", sub: "ABQ ⇄ LAX Flights" },
+        { label: "Aeromexico PNR", val: "REDACTED", sub: "LAX ⇄ MEX Flights" },
+        { label: "Hotel Confirmation", val: "REDACTED", sub: "Geneve Ciudad de México" },
+        { label: "Wefly Teotihuacán", val: "REDACTED", sub: "Pre-booked online" },
+        { label: "INAH Museum Entry", val: "Pre-booked online", sub: "Anthropology Museum ticket" }
+      ];
+
+      const FLIGHTS_DATA = [
+        {
+          id: 'dl4115',
+          num: 'DL 4115',
+          carrier: 'Delta',
+          depCity: 'ABQ',
+          arrCity: 'LAX T3',
+          depTime: new Date('2026-07-03T06:00:00-06:00'),
+          arrTime: new Date('2026-07-03T07:10:00-07:00'),
+          pnr: 'REDACTED',
+          type: 'Embraer 175 · Basic E',
+          duration: '1h 10m',
+          isOutbound: true
+        },
+        {
+          id: 'am649',
+          num: 'AM 649',
+          carrier: 'Aeromexico',
+          depCity: 'LAX T3',
+          arrCity: 'MEX T2',
+          depTime: new Date('2026-07-03T09:09:00-07:00'),
+          arrTime: new Date('2026-07-03T14:05:00-06:00'),
+          pnr: 'REDACTED',
+          type: 'Premium Tourist (W) · 2h 56m',
+          duration: '2h 56m',
+          isOutbound: true
+        },
+        {
+          id: 'am642',
+          num: 'AM 642',
+          carrier: 'Aeromexico',
+          depCity: 'MEX T2',
+          arrCity: 'LAX TBIT',
+          depTime: new Date('2026-07-07T13:40:00-06:00'),
+          arrTime: new Date('2026-07-07T16:42:00-07:00'),
+          pnr: 'REDACTED',
+          type: 'Premium Tourist (W) · 3h 02m',
+          duration: '3h 02m',
+          isOutbound: false
+        },
+        {
+          id: 'dl4098',
+          num: 'DL 4098',
+          carrier: 'Delta',
+          depCity: 'LAX T3',
+          arrCity: 'ABQ',
+          depTime: new Date('2026-07-07T20:47:00-07:00'),
+          arrTime: new Date('2026-07-07T23:48:00-06:00'),
+          pnr: 'REDACTED',
+          type: 'SkyWest DBA Delta Connection · 2h 01m',
+          duration: '2h 01m',
+          isOutbound: false
+        }
+      ];
+
+      const formatTimeHM = (date) => {
+        return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+      };
+
+      const renderFlightItem = (f) => {
+        const now = new Date();
+        const dep = f.depTime;
+        const arr = f.arrTime;
+        let statusHtml = '';
+        let progressHtml = '';
+        let telemetryHtml = '';
+
+        if (now < dep) {
+          const diff = dep - now;
+          const days = Math.floor(diff / 86400000);
+          const hours = Math.floor((diff % 86400000) / 3600000);
+          const mins = Math.floor((diff % 3600000) / 60000);
+          let cd = '';
+          if (days > 0) cd += `${days}d `;
+          cd += `${hours}h ${mins}m`;
+
+          statusHtml = `<span class="status-badge status-scheduled">⏳ Scheduled · in ${cd}</span>`;
+        } else if (now >= dep && now <= arr) {
+          const elapsed = now - dep;
+          const total = arr - dep;
+          const pct = Math.min(100, Math.max(0, (elapsed / total) * 100));
+
+          let alt = 35000;
+          let speed = 520;
+          if (pct < 10) {
+            alt = Math.round((pct / 10) * 35000);
+            speed = Math.round((pct / 10) * 520);
+          } else if (pct > 90) {
+            alt = Math.round(((100 - pct) / 10) * 35000);
+            speed = Math.round(((100 - pct) / 10) * 520);
+          }
+          const minsLeft = Math.ceil((arr - now) / 60000);
+          const remText = minsLeft > 60 ? `${Math.floor(minsLeft / 60)}h ${minsLeft % 60}m left` : `${minsLeft}m left`;
+
+          statusHtml = `<span class="status-badge status-active">🟢 In Flight · ${remText}</span>`;
+          progressHtml = `
+            <div class="tracker-bar">
+              <div class="tracker-progress" style="width: ${pct}%">
+                <div class="tracker-plane">✈️</div>
+              </div>
+            </div>
+          `;
+          telemetryHtml = `
+            <div class="flight-telemetry">
+              <div>Altitude: <span style="font-family:var(--font-mono); font-weight:700">${alt.toLocaleString()} ft</span></div>
+              <div>Speed: <span style="font-family:var(--font-mono); font-weight:700">${speed} mph</span></div>
+            </div>
+          `;
+        } else {
+          statusHtml = `<span class="status-badge status-landed">✅ Landed</span>`;
+          progressHtml = `
+            <div class="tracker-bar">
+              <div class="tracker-progress" style="width: 100%"></div>
+            </div>
+          `;
+        }
+
+        const cleanNum = f.num.replace(' ', '');
+        const lowerNum = f.num.toLowerCase().replace(' ', '');
+
+        return `
+          <div style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 16px; background: var(--bg-soft)">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px">
+              <div style="font-family:var(--font-title); font-size:14px; font-weight:800; color:var(--text-dark)">${f.num} · ${f.carrier}</div>
+              ${statusHtml}
+            </div>
+            <div class="frow">
+              <div>
+                <div class="ftime">${formatTimeHM(dep)}</div>
+                <div class="fcity">${f.depCity}</div>
+              </div>
+              <div class="fline">
+                <div class="fbadge">${f.type}</div>
+              </div>
+              <div style="text-align:right">
+                <div class="ftime">${formatTimeHM(arr)}</div>
+                <div class="fcity">${f.arrCity}</div>
+              </div>
+            </div>
+            ${progressHtml}
+            ${telemetryHtml}
+            <div style="display:flex; gap:12px; margin-top:12px; border-top:1px solid var(--border); padding-top:10px">
+              <a href="https://flightaware.com/live/flight/${cleanNum}" target="_blank" style="font-size:11px; font-weight:700; color:var(--sky-blue); text-decoration:none; display:flex; align-items:center; gap:4px">✈️ FlightAware</a>
+              <a href="https://www.flightradar24.com/data/flights/${lowerNum}" target="_blank" style="font-size:11px; font-weight:700; color:var(--rosa-mexicano); text-decoration:none; display:flex; align-items:center; gap:4px">🛰️ FlightRadar24</a>
+            </div>
+          </div>
+        `;
+      };
+
+      const outboundHTML = FLIGHTS_DATA.filter(f => f.isOutbound).map(renderFlightItem).join('');
+      const returnHTML = FLIGHTS_DATA.filter(f => !f.isOutbound).map(renderFlightItem).join('');
+
+      let html = `
+        <div class="flight-card">
+          <div style="font-family:var(--font-title); font-size:18px; font-weight:900; margin-bottom:16px; color:var(--text-dark); text-transform:uppercase; display:flex; align-items:center; gap:8px">
+            <span style="width:8px; height:24px; background:var(--gradient-sunset); border-radius:2px"></span>
+            Outbound Flights — Fri July 3
+          </div>
+          ${outboundHTML}
+          <div style="font-size:12px; color:var(--text-muted); margin-top:8px; padding:10px 12px; background:rgba(211,47,47,0.05); border-left:3px solid var(--alert-red); border-radius:6px; line-height:1.5">
+            <b>⚠️ LAX TRANSIT CRITICAL:</b> Layover is ~1h 59m. Carry-on only. Do NOT exit security. Walk post-security connector bridge from T3 to TBIT. Check in online for Aeromexico exactly 24h prior (Thursday at 9:09 AM).
+          </div>
+          <div class="fmeta" style="margin-top:10px">Total Outbound Travel Time: 7h 05m</div>
+        </div>
+
+        <div class="flight-card">
+          <div style="font-family:var(--font-title); font-size:18px; font-weight:900; margin-bottom:16px; color:var(--text-dark); text-transform:uppercase; display:flex; align-items:center; gap:8px">
+            <span style="width:8px; height:24px; background:var(--gradient-jade); border-radius:2px"></span>
+            Return Flights — Tue July 7
+          </div>
+          ${returnHTML}
+          <div style="font-size:12px; color:var(--text-muted); margin-top:8px; padding:10px 12px; background:rgba(211,47,47,0.05); border-left:3px solid var(--alert-red); border-radius:6px; line-height:1.5">
+            <b>⚠️ LAX RETURN RULES:</b> Layover is ~4h 05m. Clear US customs at TBIT, re-check bags if checked, walk post-security connector bridge to T3 for Delta flight.
+          </div>
+          <div class="fmeta" style="margin-top:10px">Total Return Travel Time: 9h 08m</div>
+        </div>
+      `;
+
+      html += `
+        <div class="flight-card">
+          <div style="font-family:var(--font-title); font-size:18px; font-weight:900; margin-bottom:14px; color:var(--text-dark); text-transform:uppercase; display:flex; align-items:center; gap:8px">
+            <span style="width:8px; height:24px; background:var(--gradient-marigold); border-radius:2px"></span>
+            All Booking Identifiers
+          </div>
+          <div class="conf-grid">
+      `;
+      CONFS.forEach(c => {
+        html += `
+          <div class="conf-box">
+            <div class="conf-label">${c.label}</div>
+            <div class="conf-val">${c.val}</div>
+            <div class="conf-sub">${c.sub}</div>
+          </div>
+        `;
+      });
+      html += `
+          </div>
+        </div>
+
+        <div class="flight-card">
+          <div style="font-family:var(--font-title); font-size:18px; font-weight:900; margin-bottom:12px; color:var(--text-dark); text-transform:uppercase; display:flex; align-items:center; gap:8px">
+            <span style="width:8px; height:24px; background:var(--gradient-sky); border-radius:2px"></span>
+            🏨 Hotel Details
+          </div>
+          <div style="font-family:var(--font-title); font-size:15px; font-weight:800; color:var(--text-dark)">Geneve Ciudad de México</div>
+          <div style="font-size:12px; color:var(--text-muted); margin:6px 0 14px">
+            Londres 130, Zona Rosa, Mexico City, 06600 &nbsp;·&nbsp; Deluxe Room &nbsp;·&nbsp; Ph: +52 55 5080 0800
+          </div>
+          <div class="conf-grid">
+            <div class="conf-box">
+              <div class="conf-label">Check-in</div>
+              <div class="conf-val" style="font-size:14px">Fri July 3, 3:00 PM</div>
+            </div>
+            <div class="conf-box">
+              <div class="conf-label">Check-out</div>
+              <div class="conf-val" style="font-size:14px">Tue July 7, 1:00 PM</div>
+              <div class="conf-sub">Leave hotel by 10:00 AM due to flight timing.</div>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('flight-list').innerHTML = html;
+    }
+
+    // ============ LIST MODIFICATION ============
+    window.addToList = function(t) {
+      const secEl = document.getElementById('new-' + t + '-sec');
+      const nameEl = document.getElementById('new-' + t + '-name');
+      const subEl = document.getElementById('new-' + t + '-sub');
+
+      if (!nameEl || !nameEl.value.trim()) {
+        showToast('⚠️ Please enter a name', 'warn');
+        return;
+      }
+
+      const itemObj = {
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
+        name: nameEl.value.trim(),
+        sub: subEl ? subEl.value.trim() : ""
+      };
+      if (secEl) itemObj.section = secEl.value;
+
+      state.custom[t].push(itemObj);
+      nameEl.value = "";
+      if (subEl) subEl.value = "";
+
+      save();
+
+      if (t === 'book') renderBook();
+      else if (t === 'food') renderFoodGuide();
+      else if (t === 'shop') renderShop();
+      else if (t === 'contacts') renderContacts();
+
+      showToast('✓ Added successfully', 'success');
+    };
+
+    window.delFromList = function(t, id) {
+      if (id.startsWith('custom-')) {
+        const rawId = id.replace('custom-', '');
+        state.custom[t] = state.custom[t].filter(c => c.id !== rawId);
+      } else {
+        state.removed[id] = true;
+      }
+      save();
+      if (t === 'book') renderBook();
+      else if (t === 'food') renderFoodGuide();
+      else if (t === 'shop') renderShop();
+      else if (t === 'contacts') renderContacts();
+    };
+
+    // ============ INTERACTIVE ACTIONS ============
+    window.tog = function(di, ii) {
+      const key = `${di}-${ii}`;
+      state.removed[key] = !state.removed[key];
+      save();
+      renderSchedule();
+      if (document.getElementById('schedule-tab').classList.contains('active')) renderToday();
+    };
+
+    window.chk = function(key, el) {
+      state.checked[key] = !state.checked[key];
+      save();
+
+      const item = el.classList.contains('list-item') || el.classList.contains('pack-card') || el.classList.contains('food-card')
+        ? el
+        : (el.closest('.list-item') || el.closest('.food-card'));
+
+      if (item) {
+        if (state.checked[key]) {
+          if (el.classList.contains('cb')) el.classList.add('checked');
+          item.classList.add('done');
+        } else {
+          if (el.classList.contains('cb')) el.classList.remove('checked');
+          item.classList.remove('done');
+        }
+      }
+
+      if (document.getElementById('schedule-tab').classList.contains('active')) {
+        renderToday();
+      }
+      if (document.getElementById('food-tab')?.classList.contains('active')) {
+        if (activeFoodSubTab === 'restaurants') {
+          renderFoodGuide();
+        } else {
+          renderFoodSpecialties();
+        }
+      }
+    };
+
+    // ============ TAG HELPERS ============
+    function tagEl(t) {
+      const tagLabels = {
+        pass: "Match Guide ⚽",
+        book: "Booked Check",
+        food: "Food Spot 🌮",
+        shop: "Shopping Details 🛍️",
+        relax: "Sightseeing",
+        sep: "Separate booking",
+        anchor: "Highlight event 🌟",
+        alert: "Security Alert ⚠️",
+        booked: "Confirmed ✓",
+        free: "Free window",
+        lunch: "Lunch Stop",
+        dinner: "Dinner Stop",
+        bike: "Biking",
+        drive: ""
+      };
+      if (t === "drive" || !tagLabels[t]) return "";
+      return `<span class="tag tag-${t}">${tagLabels[t]}</span>`;
+    }
+
+    function dotColor(tags) {
+      if (tags.includes("alert")) return "var(--alert-red)";
+      if (tags.includes("anchor")) return "var(--rosa-mexicano)";
+      if (tags.includes("booked")) return "var(--jade)";
+      if (tags.includes("free")) return "var(--text-muted)";
+      if (tags.includes("lunch") || tags.includes("dinner") || tags.includes("food")) return "var(--marigold)";
+      if (tags.includes("sep")) return "var(--rosa-mexicano)";
+      if (tags.includes("shop") || tags.includes("bike")) return "var(--sky-blue)";
+      return "var(--border)";
+    }
+
+
+
+    // ============ CURRENCY CONVERTER ============
+    async function fetchExchangeRate() {
+      try {
+        const resp = await fetch('https://open.er-api.com/v6/latest/USD');
+        if (!resp.ok) throw new Error('Rate fetch failed');
+        const data = await resp.json();
+        if (data.rates && data.rates.MXN) {
+          state.mxnRate = data.rates.MXN;
+          const rateEl = document.getElementById('conv-rate');
+          if (rateEl) rateEl.textContent = `1 USD = ${state.mxnRate.toFixed(2)} MXN · Updated ${new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+        }
+      } catch (e) {
+        console.log('Using fallback exchange rate');
+        const rateEl = document.getElementById('conv-rate');
+        if (rateEl) rateEl.textContent = `1 USD ≈ ${state.mxnRate.toFixed(2)} MXN · (offline estimate)`;
+      }
+    }
+
+    window.convertCurrency = function(from) {
+      if (from === 'mxn') {
+        const mxn = parseFloat(document.getElementById('conv-mxn').value) || 0;
+        const usd = mxn / state.mxnRate;
+        document.getElementById('conv-usd').value = usd.toFixed(2);
+      } else {
+        const usd = parseFloat(document.getElementById('conv-usd').value) || 0;
+        const mxn = usd * state.mxnRate;
+        document.getElementById('conv-mxn').value = mxn.toFixed(2);
+      }
+    };
+
+    window.swapCurrency = function() {
+      const mxnEl = document.getElementById('conv-mxn');
+      const usdEl = document.getElementById('conv-usd');
+      const tmp = mxnEl.value;
+      mxnEl.value = usdEl.value;
+      usdEl.value = tmp;
+    };
+
+    // ============ PHRASEBOOK ============
+    function renderPhrasebook() {
+      const cats = Object.keys(PHRASES);
+      if (!state.activePhraseCat) state.activePhraseCat = cats[0];
+
+      // Categories
+      let catHTML = '';
+      cats.forEach(c => {
+        catHTML += `<button class="phrase-cat-btn${c === state.activePhraseCat ? ' active' : ''}" onclick="setPhraseCat('${c}')">${c}</button>`;
+      });
+      document.getElementById('phrase-categories').innerHTML = catHTML;
+
+      // Phrases
+      let listHTML = '';
+      PHRASES[state.activePhraseCat].forEach((p, i) => {
+        listHTML += `
+          <div class="phrase-card">
+            <div class="phrase-content">
+              <div class="phrase-es">${p.es}</div>
+              <div class="phrase-en">${p.en}</div>
+              <div class="phrase-pron">/${p.pron}/</div>
+            </div>
+            <button class="phrase-speak" onclick="speakPhrase(this, '${p.es.replace(/'/g, "\\'")}')" title="🔊 Hear pronunciation">🔊</button>
+          </div>
+        `;
+      });
+      document.getElementById('phrase-list').innerHTML = listHTML;
+    }
+
+    window.setPhraseCat = function(cat) {
+      state.activePhraseCat = cat;
+      renderPhrasebook();
+    };
+
+    window.speakPhrase = function(btn, text) {
+      if ('speechSynthesis' in window) {
+        btn.classList.add('speaking');
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'es-MX';
+        u.rate = 0.85;
+        u.onend = () => btn.classList.remove('speaking');
+        u.onerror = () => btn.classList.remove('speaking');
+        speechSynthesis.cancel();
+        speechSynthesis.speak(u);
+      } else {
+        showToast('🔊 Speech not supported in this browser', 'warn');
+      }
+    };
+
+
+
+    // ============ LEAFLET MAP ============
+    let mapInitialized = false;
+    let markersLayer = null;
+
+    function initMap() {
+      if (mapInitialized) {
+        setTimeout(() => window.cdmxMap.invalidateSize(), 50);
+        return;
+      }
+      mapInitialized = true;
+      const map = L.map('cdmx-map').setView([19.4000, -99.1300], 11);
+      
+      const tileUrl = state.theme === 'dark'
+        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+      const tiles = L.tileLayer(tileUrl, {
+        attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+      }).addTo(map);
+      
+      window.cdmxMap = map;
+      window.cdmxTiles = tiles;
+      window.cdmxLine = null;
+      rebuildMapMarkers();
+      rebuildRouteButtons();
+      setTimeout(() => map.invalidateSize(), 150);
+    }
+
+    function rebuildMapMarkers() {
+      if (markersLayer) window.cdmxMap.removeLayer(markersLayer);
+      markersLayer = L.layerGroup().addTo(window.cdmxMap);
+      
+      // Plot all trip locations defined in MAP_LOCATIONS to ensure none are missing (like Pyramids, Basilica, etc.)
+      const relevantLocNames = Object.keys(MAP_LOCATIONS);
+
+      relevantLocNames.forEach(name => {
+        const coords = MAP_LOCATIONS[name];
+        if (coords) {
+          // Determine color based on location type and legend alignment
+          let color = 'var(--plum)'; // Default to Sightseeing (Plum)
+          const lc = name.toLowerCase();
+          
+          if (lc.includes('airport')) {
+            color = 'var(--sky-blue)'; // Transit/Shopping
+          } else if (lc.includes('hotel') || lc.includes('geneve')) {
+            color = 'var(--jade)'; // Lodging / Confirmed Booking
+          } else if (lc.includes('arena') || lc.includes('lucha libre') || lc.includes('balloon') || lc.includes('world cup')) {
+            color = 'var(--rosa-mexicano)'; // Highlight / Anchor
+          } else if (lc.includes('market') || lc.includes('san juan') || lc.includes('coyoacán') || lc.includes('food') || lc.includes('dining')) {
+            color = 'var(--marigold)'; // Food / Dining
+          } else if (lc.includes('friki') || lc.includes('polanco') || lc.includes('antara') || lc.includes('shopping') || lc.includes('ciudadela')) {
+            color = 'var(--sky-blue)'; // Shopping
+          }
+
+          const glowIcon = L.divIcon({
+            className: 'glowing-marker',
+            html: `<div class="marker-dot" style="background-color:${color}; box-shadow:0 0 10px ${color}"></div><div class="marker-pulse" style="background-color:${color}40"></div>`,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+          });
+
+          L.marker(coords, { icon: glowIcon })
+            .addTo(markersLayer)
+            .bindPopup(`
+              <div style="font-family:'Outfit',sans-serif; font-size:13px; font-weight:800; color:var(--text-dark); text-align:center; text-transform:uppercase; padding:4px 8px">
+                ${name}
+              </div>
+            `);
+        }
+      });
+    }
+
+    function rebuildRouteButtons() {
+      const container = document.getElementById('route-buttons');
+      let html = `<button class="route-btn active" onclick="showRoute('all', event)">📍 Show All Pins</button>`;
+      Object.keys(ROUTES).forEach((dayKey, idx) => {
+        html += `<button class="route-btn" onclick="showRoute('${dayKey}', event)">Day ${idx + 1} Path</button>`;
+      });
+      container.innerHTML = html;
+    }
+
+    window.showRoute = function(dayId, event) {
+      document.querySelectorAll('.route-btn').forEach(b => b.classList.remove('active'));
+      if (event && event.target) event.target.classList.add('active');
+
+      if (window.cdmxLine) {
+        window.cdmxMap.removeLayer(window.cdmxLine);
+        window.cdmxLine = null;
+      }
+
+      if (dayId === 'all') {
+        window.cdmxMap.setView([19.4000, -99.1300], 11);
+        return;
+      }
+
+      const pathPoints = [];
+      const dayColors = ['var(--jade)', 'var(--marigold)', 'var(--rosa-mexicano)', 'var(--sky-blue)', 'var(--jade)'];
+      const dayIdx = parseInt(dayId.replace('day', '')) - 1;
+      const rawLineColor = dayColors[dayIdx] || 'var(--rosa-mexicano)';
+      
+      // Resolve theme variables to hex for Leaflet drawing
+      const colorMap = {
+        'var(--jade)': '#00897b',
+        'var(--marigold)': '#ff9100',
+        'var(--rosa-mexicano)': '#e91e63',
+        'var(--sky-blue)': '#0288d1',
+        'var(--plum)': '#6a1b9a'
+      };
+      const lineColor = colorMap[rawLineColor] || rawLineColor;
+
+      ROUTES[dayId].forEach(n => {
+        let coords = MAP_LOCATIONS[n];
+        if (!coords) {
+          const matchKey = Object.keys(MAP_LOCATIONS).find(k => k.toLowerCase().includes(n.toLowerCase().split(" (")[0]));
+          if (matchKey) coords = MAP_LOCATIONS[matchKey];
+        }
+        if (coords) pathPoints.push(coords);
+      });
+
+      if (pathPoints.length > 1) {
+        window.cdmxLine = L.polyline(pathPoints, {
+          color: lineColor,
+          weight: 4,
+          opacity: 0.85,
+          dashArray: '8, 8',
+          lineJoin: 'round'
+        }).addTo(window.cdmxMap);
+        window.cdmxMap.fitBounds(window.cdmxLine.getBounds(), { padding: [50, 50] });
+      }
+    };
+
+    // ============ CLOCKS ============
+    function updateClocks() {
+      const now = new Date();
+      const timeOpts = { hour: 'numeric', minute: '2-digit', hour12: true };
+      const dateOpts = { weekday: 'short', month: 'short', day: 'numeric' };
+
+      if (document.getElementById('clock-hi')) {
+        document.getElementById('clock-hi').textContent = now.toLocaleTimeString('en-US', { ...timeOpts, timeZone: 'America/Mexico_City' });
+        document.getElementById('clock-abq').textContent = now.toLocaleTimeString('en-US', { ...timeOpts, timeZone: 'America/Denver' });
+        document.getElementById('clock-in').textContent = now.toLocaleTimeString('en-US', { ...timeOpts, timeZone: 'Asia/Kolkata' });
+        document.getElementById('clock-hi-date').textContent = now.toLocaleDateString('en-US', { ...dateOpts, timeZone: 'America/Mexico_City' });
+        document.getElementById('clock-abq-date').textContent = now.toLocaleDateString('en-US', { ...dateOpts, timeZone: 'America/Denver' });
+        document.getElementById('clock-in-date').textContent = now.toLocaleDateString('en-US', { ...dateOpts, timeZone: 'Asia/Kolkata' });
+      }
+    }
+
+    // ============ LIVE WEATHER ============
+    function getRainHoursForDay(hourly, dateStr) {
+      if (!hourly || !hourly.time || !hourly.precipitation_probability) return '';
+      const rainHours = [];
+      for (let h = 0; h < 24; h++) {
+        const timeStr = `${dateStr}T${String(h).padStart(2, '0')}:00`;
+        const idx = hourly.time.indexOf(timeStr);
+        if (idx >= 0) {
+          const prob = hourly.precipitation_probability[idx];
+          if (prob >= 30) {
+            rainHours.push({ hour: h, prob: prob });
+          }
+        }
+      }
+
+      if (rainHours.length === 0) return '';
+
+      const groups = [];
+      let currentGroup = null;
+
+      rainHours.forEach(rh => {
+        if (!currentGroup) {
+          currentGroup = [rh];
+        } else if (rh.hour === currentGroup[currentGroup.length - 1].hour + 1) {
+          currentGroup.push(rh);
+        } else {
+          groups.push(currentGroup);
+          currentGroup = [rh];
+        }
+      });
+      if (currentGroup) {
+        groups.push(currentGroup);
+      }
+
+      const formattedGroups = groups.map(g => {
+        const startHour = g[0].hour;
+        const endHour = g[g.length - 1].hour;
+        const maxProb = Math.max(...g.map(item => item.prob));
+        
+        const formatTime = (h) => {
+          const ampm = h >= 12 ? 'PM' : 'AM';
+          const hr = h % 12 === 0 ? 12 : h % 12;
+          return `${hr} ${ampm}`;
+        };
+
+        if (startHour === endHour) {
+          return `${formatTime(startHour)} (${maxProb}%)`;
+        } else {
+          return `${formatTime(startHour)} – ${formatTime(endHour + 1)} (${maxProb}%)`;
+        }
+      });
+
+      return `🌧️ Rain: ${formattedGroups.join(', ')}`;
+    }
+
+    async function fetchLiveWeather() {
+      try {
+        const url = 'https://api.open-meteo.com/v1/forecast?latitude=19.4326&longitude=-99.1332&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=precipitation_probability&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/Mexico_City&forecast_days=7';
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error('Weather fetch failed');
+        const data = await resp.json();
+        const current = data.current;
+        const daily = data.daily;
+ 
+        const wmoIcon = (code) => {
+          if (code <= 1) return '☀️';
+          if (code <= 3) return '⛅';
+          if (code <= 48) return '🌫️';
+          if (code <= 57) return '🌦️';
+          if (code <= 67) return '🌧️';
+          if (code <= 77) return '🌨️';
+          if (code <= 82) return '⛈️';
+          if (code <= 86) return '🌨️';
+          return '⛈️';
+        };
+        const wmoDesc = (code) => {
+          if (code === 0) return 'Clear sky';
+          if (code <= 3) return 'Partly cloudy';
+          if (code <= 48) return 'Foggy';
+          if (code <= 57) return 'Drizzle';
+          if (code <= 67) return 'Rain';
+          if (code <= 77) return 'Snow';
+          if (code <= 82) return 'Rain showers';
+          if (code <= 86) return 'Snow showers';
+          return 'Thunderstorm';
+        };
+ 
+        const tripDates = ['2026-07-03', '2026-07-04', '2026-07-05', '2026-07-06', '2026-07-07'];
+        tripDates.forEach((td, i) => {
+          const dIdx = daily.time.indexOf(td);
+          if (dIdx >= 0 && i < WEATHER.length) {
+            WEATHER[i].high = Math.round(daily.temperature_2m_max[dIdx]);
+            WEATHER[i].rain = daily.precipitation_probability_max[dIdx];
+            WEATHER[i].icon = wmoIcon(daily.weather_code[dIdx]);
+            WEATHER[i].desc = wmoDesc(daily.weather_code[dIdx]);
+            WEATHER[i].rainHours = getRainHoursForDay(data.hourly, td);
+          }
+        });
+
+        const weatherEl = document.getElementById('live-weather');
+        const contentEl = document.getElementById('live-weather-content');
+        weatherEl.style.display = 'block';
+
+        const curIcon = wmoIcon(current.weather_code);
+        const curDesc = wmoDesc(current.weather_code);
+        const uvLevel = current.uv_index >= 8 ? 'Very High ⚠️' : current.uv_index >= 6 ? 'High' : current.uv_index >= 3 ? 'Moderate' : 'Low';
+
+        contentEl.innerHTML = `
+          <div style="background:linear-gradient(135deg, rgba(2,136,209,0.08), rgba(0,137,123,0.06)); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px; display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:center; box-shadow:var(--soft-shadow)">
+            <div style="text-align:center">
+              <div style="font-size:48px; line-height:1">${curIcon}</div>
+              <div style="font-family:var(--font-title); font-size:28px; font-weight:900; color:var(--text-dark); margin-top:4px">${Math.round(current.temperature_2m)}°F</div>
+              <div style="font-size:12px; color:var(--text-muted); font-weight:700">${curDesc}</div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
+              <div style="background:var(--bg-elev); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border)">
+                <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:800; letter-spacing:0.05em">Feels Like</div>
+                <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--text-dark); margin-top:2px">${Math.round(current.apparent_temperature)}°F</div>
+              </div>
+              <div style="background:var(--bg-elev); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border)">
+                <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:800; letter-spacing:0.05em">Humidity</div>
+                <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--sky-blue); margin-top:2px">${current.relative_humidity_2m}%</div>
+              </div>
+              <div style="background:var(--bg-elev); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border)">
+                <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:800; letter-spacing:0.05em">Wind</div>
+                <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--text-dark); margin-top:2px">${Math.round(current.wind_speed_10m)} mph</div>
+              </div>
+              <div style="background:var(--bg-elev); border-radius:var(--radius-sm); padding:10px 12px; border:1px solid var(--border)">
+                <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; font-weight:800; letter-spacing:0.05em">UV Index</div>
+                <div style="font-family:var(--font-mono); font-size:14px; font-weight:700; color:${current.uv_index >= 6 ? 'var(--marigold)' : 'var(--jade)'}; margin-top:2px">${current.uv_index.toFixed(1)} ${uvLevel}</div>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:8px; font-weight:600">Live data from Open-Meteo · Updated ${new Date().toLocaleTimeString('en-US', { timeZone: 'America/Mexico_City', hour: 'numeric', minute: '2-digit' })} CST</div>
+        `;
+
+        renderToday();
+        renderSchedule();
+      } catch (e) {
+        console.log('Live weather unavailable, using cached forecast:', e.message);
+      }
+    }
+
+    // ============ THEME ============
+    function applyTheme() {
+      document.documentElement.setAttribute('data-theme', state.theme);
+      const btn = document.getElementById('btn-theme-fab');
+      if (btn) {
+        btn.innerHTML = `${state.theme === 'dark' ? '☀️' : '🌙'}<span class="fab-item-label">Toggle Theme</span>`;
+      }
+      
+      // Dynamically update map tile layer when the theme switches
+      if (window.cdmxMap && window.cdmxTiles) {
+        const newUrl = state.theme === 'dark'
+          ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+          : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+        window.cdmxTiles.setUrl(newUrl);
+      }
+    }
+
+    window.toggleTheme = function() {
+      state.theme = state.theme === 'dark' ? 'light' : 'dark';
+      save();
+      applyTheme();
+      showToast(state.theme === 'dark' ? '🌙 Dark mode on' : '☀️ Light mode on', 'success');
+    };
+
+    // ============ FAB ============
+    window.toggleFab = function() {
+      const c = document.getElementById('fab-container');
+      const btn = document.getElementById('fab-main');
+      c.classList.toggle('open');
+      btn.classList.toggle('open');
+    };
+
+    window.quickAction = function(action) {
+      toggleFab();
+      if (action === 'todo') {
+        showTab('schedule-tab', document.querySelector('[data-target="schedule-tab"]'));
+        setTimeout(() => document.getElementById('new-book-name')?.focus(), 350);
+      } else if (action === 'top') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Fallback for environment constraints where smooth scroll doesn't fire
+        setTimeout(() => {
+          if (window.scrollY > 0) {
+            window.scrollTo(0, 0);
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+          }
+        }, 100);
+      }
+    };
+
+    // ============ BOOT ============
+    load();
+    applyTheme();
+    renderDayPills();
+    renderToday();
+    renderSchedule();
+    renderBook();
+    renderFoodCategories();
+    renderFoodGuide();
+    renderFoodSpecialties();
+    renderShop();
+    renderContacts();
+    renderFlights();
+    renderPhrasebook();
+    updateCountdown();
+    updateProgressBar();
+    updateClocks();
+    fetchLiveWeather();
+    fetchExchangeRate();
+
+    // Intervals
+    setInterval(updateClocks, 1000);
+    setInterval(updateCountdown, 1000);
+    setInterval(updateProgressBar, 60000);
+    setInterval(fetchLiveWeather, 15 * 60 * 1000);
+    setInterval(fetchExchangeRate, 60 * 60 * 1000);
+    setInterval(renderFlights, 30 * 1000);
+  </script>
+</body>
+</html>
