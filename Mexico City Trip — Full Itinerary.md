@@ -139,18 +139,19 @@
 
 ### Day 4 — Monday, July 6 · Polanco & Ciudadela Craft Shopping · Final Full Day
 
-*Federally run museums are closed Mondays — this is the perfect day for high-quality local craft shopping and walking the neighborhoods.*
+*Federally run museums are closed Mondays — this is the perfect day for high-quality local craft shopping and walking the neighborhoods. Optimized for weather to keep outdoor walking in the dry morning and indoor/covered activities in the afternoon.*
 
 | Time | Plan |
 |------|------|
-| 9:00 AM | Slow morning — breakfast in Roma Norte or Condesa |
-| 10:30 AM | 🏺 **Mercado de Artesanías de la Ciudadela** — the best market for Mexican handicrafts, Talavera pottery, and premium leather jackets |
-| 1:00 PM | Lunch in Centro (eat traditional dishes at Casa de los Azulejos) |
-| 2:30 PM | 🎮 **FrikiPlaza gaming bazaar** — anime, gaming, and trading card bazaar (moved here from Saturday) |
-| 4:00 PM | 🛍️ **Avenida Presidente Masaryk & Antara** — upscale walking and shopping in Polanco. ⛈️ Afternoon storms 2-5 PM |
-| 6:30 PM | Paseo de la Reforma evening stroll (usually clears up post-rain) |
-| 8:00 PM | 🎉 **Final dinner** — celebrate at a premier dining spot in Roma Norte or Condesa |
-| 10:00 PM | ⚠️ Pack bags tonight |
+| 9:30 AM | 🥐 **Brunch at Panadería Rosetta** — Best pastry in the city (guava roll is non-negotiable). Grab a quick breakfast to maximize the dry morning window |
+| 10:15 AM | 🛍️ **Avenida Presidente Masaryk & Antara Walk** — Walk the luxury boulevard and open-air mall in Polanco. **Moved to morning to beat the storm** (100% afternoon rain) |
+| 1:00 PM | 🐑 **Lunch at El Hidalguense** — Cozy indoor lunch as afternoon rain starts. Wood-fired lamb barbacoa and hot consommé in Roma Sur (Cash only) |
+| 2:30 PM | ✂️ **Haircut** — Top Roma Norte spots (The Strand Barbers or Bodega Barbers). Great indoor activity for when storms pick up. Book ahead on Fresha/Booksy |
+| 3:45 PM | 🏺 **Mercado de Artesanías de la Ciudadela** — Shop handicrafts under covered market stalls which shield you from the heavy afternoon deluge |
+| 5:45 PM | 🎒 **Return to Hotel Geneve / Pack** — Unwind at hotel during the heaviest rainfall. Get a head start on packing |
+| 6:45 PM | 🚶 **Paseo de la Reforma evening stroll** — Relaxed walk down quiet monument lanes as the storm clears. Sturdy walking shoes recommended |
+| 8:00 PM | 🎉 **Final Dinner** — Celebration dinner at Masala y Maíz (Juárez) or Máximo Bistrot (Roma Norte). Book ahead |
+| 10:00 PM | ⚠️ **Final Packing Check** — Confirm all bags packed and travel docs ready for tomorrow's early checkout |
 
 ---
 
