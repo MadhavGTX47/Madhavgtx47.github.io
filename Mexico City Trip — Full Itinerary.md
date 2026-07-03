@@ -98,9 +98,9 @@
 
 | Time | Plan |
 |------|------|
-| 4:30 AM | Wake up |
-| 5:00 AM | Depart hotel via pre-booked balloon transport or Uber (~1 hr north) |
-| 6:00 AM | 🎈 **Hot air balloon over Teotihuacán** — sunrise over the pyramids is extraordinary |
+| 3:00 AM | Wake up |
+| 3:30 AM | Depart hotel via self-organized Uber or private driver (~1 hr north, no pickup selected) |
+| 4:30 AM | 🎈 **We Fly Teotihuacán Check-in** — Arrive at We Fly office for coffee and flight prep. Sunrise balloon takes off shortly after. *(Confirmation ID: 1547607034530290)* |
 | 8:00 AM | 🏛️ **Teotihuacán Archaeological Zone** — Enter Gate 1, walk the **Avenue of the Dead**, Pyramids of the Sun & Moon. Check gate signage for Moon climbing access |
 | 11:00 AM | Depart ruins, head back toward the city |
 | 12:30 PM | 🕍 **Basilica of Our Lady of Guadalupe** — stop en route back. Major religious site, worth a 30-min stop |
@@ -112,8 +112,8 @@
 | 7:15 PM | 🏛️ **The Zócalo** — main square at dusk: street food, architecture, atmosphere |
 | 8:00 PM | 🍽️ **Dinner in Centro Histórico** — traditional Mexican dinner at Cafe de Tacuba or El Cardenal (Hint: Or do a DIY taco crawl! Hit Tacos de Canasta Los Especiales on Madero, and the legendary Taquería Los Cocuyos on Bolívar) |
 
-> 🎟️ **Book now:** Hot air balloon in advance (WE FLY or Vuelos en Globo MX).
-> 🎒 **Teotihuacán essentials:** Sunscreen, 2L water, comfortable shoes. Elevation is high — take it slow.
+> 🎟️ **Booked:** We Fly Teotihuacán sunrise balloon tour (Confirmation ID: 1547607034530290). No CDMX transport selected; self-transit required.
+> 🎒 **Teotihuacán essentials:** Warm jacket (Pyramids site is freezing before dawn), sunscreen, 2L water, comfortable shoes. Elevation is high — take it slow.
 
 ---
 
@@ -214,7 +214,7 @@ Do not treat the rain as a "maybe." July averages **50% to 80% precipitation cha
 | What | When Needed | Book Via | Est. Cost |
 |------|-------------|----------|-----------|
 | Lucha Libre tickets | Fri Jul 3 night | Ticketmaster México | 200–500 MXN |
-| Hot air balloon | Sat Jul 4 morning | wefly.com.mx | ~2,300–2,590 MXN |
+| Hot air balloon (Booked) | Sat Jul 4 morning | WeFly (ID: 1547607034530290) | Paid: 3,640 MXN |
 | Anthropology Museum | Sun Jul 5 afternoon | INAH website or Tiqets | ~100–210 MXN |
 
 ---
