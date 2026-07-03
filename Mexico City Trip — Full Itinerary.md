@@ -128,7 +128,7 @@
 | 9:30 AM | 🛶 **Xochimilco Canals** — rent a *trajinera* at **Embarcadero Nuevo Nativitas**. Float the canals (morning is usually dry). ~750 MXN/hr per boat |
 | 11:30 AM | 🍱 **Coyoacán Market** — bohemian neighborhood, grab famous local tostadas and crafts |
 | 12:30 PM | 🚗 **CRITICAL TRANSIT:** Uber northwest to Chapultepec. You must escape south boroughs before match traffic locks the roads |
-| 2:00 PM | 🏛️ **National Museum of Anthropology** — **Booked via Amigo Tours** (Booking #: SXX664465). Note: tickets are sent the day before (July 4). Explore world-class collection; closes at 5:00 PM. |
+| 2:00 PM | 🏛️ **National Museum of Anthropology** — **Booked via Amigo Tours** (Booking #: SXX664465). Note: tickets are sent the day before (July 4). Closes at 6:00 PM. Expect heavy crowds as Sundays are free for Mexican residents. |
 | 5:00 PM | Back to Roma Norte/Condesa. Secure a table at a local pub or sports bar |
 | 6:00 PM | ⚽ **World Cup Kickoff:** Watch the Mexico Round of 16 match broadcast. Electric atmosphere |
 | 8:00 PM | 📍 **Post-Match:** If Mexico wins, walk to the Angel of Independence to join massive street celebrations. Keep phone safe from pickpockets |
@@ -149,7 +149,6 @@
 | 1:00 PM | 🐑 **Lunch at El Hidalguense** — Cozy indoor lunch as afternoon rain starts. Wood-fired lamb barbacoa and hot consommé in Roma Sur (Cash only) |
 | 2:30 PM | 🏺 **Mercado de Artesanías de la Ciudadela** — Shop handicrafts under covered market stalls which shield you from the heavy afternoon deluge |
 | 4:30 PM | 🎒 **Return to Hotel Geneve / Pack** — Unwind at hotel during the heaviest rainfall. Get a head start on packing |
-| 5:30 PM | ✂️ **Haircut** — Top Roma Norte spots (The Strand Barbers or Bodega Barbers). Book via Fresha or Booksy in advance (~45 min, bring reference photo) |
 | 6:30 PM | 🚶 **Paseo de la Reforma evening stroll** — Relaxed walk down quiet monument lanes as the storm clears. Sturdy walking shoes recommended |
 | 8:00 PM | 🎉 **Final Dinner** — Celebration dinner at Masala y Maíz (Juárez) or Máximo Bistrot (Roma Norte). Book ahead |
 | 10:00 PM | ⚠️ **Final Packing Check** — Confirm all bags packed and travel docs ready for tomorrow's early checkout |
