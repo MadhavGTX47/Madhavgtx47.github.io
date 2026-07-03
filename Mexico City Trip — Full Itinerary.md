@@ -227,7 +227,7 @@ Do not treat the rain as a "maybe." July averages **50% to 80% precipitation cha
 | U.S. Embassy Mexico City | +52 55 2579 2000 | Presa Angostura 225, Col. Irrigación |
 | Embassy of India Mexico City | +52 55 9680 9992 | Musset 325, Polanco — Emergency helpline: +52 55-4847-7539 |
 | Hotel Geneve Front Desk | +52 55 5080 0800 | Londres 130, Zona Rosa |
-| Teotihuacán Balloon (Wefly) | +52 55 4505 5334 | Confirm sunrise shuttle time |
+| Teotihuacán Balloon (Wefly) | +52 55 4505 5334 | Book sunrise balloon tour & shuttle |
 
 ---
 
