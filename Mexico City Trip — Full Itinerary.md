@@ -78,9 +78,8 @@
 |------|------|
 | 2:05 PM | Land at MEX Terminal 2. Clear immigration. Grab Uber/DiDi to hotel (~40–50 min Friday traffic, ~200–300 MXN) |
 | 3:00 PM | Check in — Geneve Ciudad de México. Settle in, unpack, and hydrate |
-| 4:00 PM | ✂️ **Haircut** — Top Roma Norte spots (The Strand Barbers or Bodega Barbers). Book via Fresha or Booksy in advance (~45 min, bring reference photo) |
-| 5:00 PM | Walk west along **Paseo de la Reforma** toward El Ángel. *(Check hotel reception for any active CNTE teacher blockades on Reforma before walking).* |
-| 5:30 PM | 📍 **Angel of Independence** — golden monument at the Reforma roundabout. Pace yourself (elevation: 2,240m) |
+| 4:30 PM | Walk west along **Paseo de la Reforma** toward El Ángel. *(Check hotel reception for any active CNTE teacher blockades on Reforma before walking).* |
+| 5:00 PM | 📍 **Angel of Independence** — golden monument at the Reforma roundabout. Pace yourself (elevation: 2,240m) |
 | 6:00 PM | Wander back through **Roma Norte** streets — get a feel for the neighborhood |
 | 6:30 PM | 🌮 Dinner: al pastor or guisados taquería in Roma Norte |
 | 7:30 PM | 🚗 Uber to **Arena México** (Friday rush + seasonal rain requires a 45-min transit buffer) |
@@ -149,6 +148,7 @@
 | 1:00 PM | 🐑 **Lunch at El Hidalguense** — Cozy indoor lunch as afternoon rain starts. Wood-fired lamb barbacoa and hot consommé in Roma Sur (Cash only) |
 | 2:30 PM | 🏺 **Mercado de Artesanías de la Ciudadela** — Shop handicrafts under covered market stalls which shield you from the heavy afternoon deluge |
 | 4:30 PM | 🎒 **Return to Hotel Geneve / Pack** — Unwind at hotel during the heaviest rainfall. Get a head start on packing |
+| 5:30 PM | ✂️ **Haircut** — Top Roma Norte spots (The Strand Barbers or Bodega Barbers). Book via Fresha or Booksy in advance (~45 min, bring reference photo) |
 | 6:30 PM | 🚶 **Paseo de la Reforma evening stroll** — Relaxed walk down quiet monument lanes as the storm clears. Sturdy walking shoes recommended |
 | 8:00 PM | 🎉 **Final Dinner** — Celebration dinner at Masala y Maíz (Juárez) or Máximo Bistrot (Roma Norte). Book ahead |
 | 10:00 PM | ⚠️ **Final Packing Check** — Confirm all bags packed and travel docs ready for tomorrow's early checkout |

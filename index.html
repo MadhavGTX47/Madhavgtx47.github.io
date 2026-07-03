@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,9 @@
   <!-- Premium Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+    rel="stylesheet">
 
   <!-- Leaflet Maps -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
@@ -51,7 +54,7 @@
       --font-mono: 'JetBrains Mono', monospace;
 
       --card-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.10),
-                     0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+        0 0 0 1px rgba(255, 255, 255, 0.15) inset;
       --soft-shadow: 0 2px 12px rgba(139, 115, 107, 0.06);
       --lift-shadow: 0 18px 50px -12px rgba(139, 115, 107, 0.22);
 
@@ -82,7 +85,7 @@
       --soft-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
       --lift-shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.6);
       --card-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5),
-                     0 0 0 1px rgba(255, 220, 200, 0.05) inset;
+        0 0 0 1px rgba(255, 220, 200, 0.05) inset;
     }
 
     * {
@@ -91,7 +94,9 @@
       padding: 0;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: var(--font-body);
@@ -147,8 +152,15 @@
     }
 
     @keyframes heroGlow {
-      0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
-      100% { transform: scale(1.15) translate(-3%, 2%); opacity: 1; }
+      0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 0.8;
+      }
+
+      100% {
+        transform: scale(1.15) translate(-3%, 2%);
+        opacity: 1;
+      }
     }
 
     .hero-inner {
@@ -179,7 +191,8 @@
     }
 
     .hero-pilot .pulse-dot {
-      width: 7px; height: 7px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: #00ff9d;
       box-shadow: 0 0 8px #00ff9d;
@@ -187,8 +200,15 @@
     }
 
     @keyframes livePulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
     }
 
     .hero h1 {
@@ -258,8 +278,15 @@
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* ============ COUNTDOWN ============ */
@@ -308,7 +335,9 @@
       transition: transform 0.3s var(--ease-spring);
     }
 
-    .cd-unit:hover { transform: translateY(-2px); }
+    .cd-unit:hover {
+      transform: translateY(-2px);
+    }
 
     .cd-num {
       font-family: var(--font-title);
@@ -352,7 +381,8 @@
     }
 
     .nav-btn {
-      width: 42px; height: 42px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       border: 1px solid rgba(255, 255, 255, 0.25);
       background: rgba(255, 255, 255, 0.12);
@@ -400,76 +430,94 @@
       z-index: 10;
       box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.08), var(--card-shadow);
       min-height: 100vh;
-       [data-theme="dark"] .app {
-      background: rgba(28, 22, 20, 0.94);
-      border-color: rgba(255, 220, 200, 0.08);
-    }
 
-    /* ============ FLIGHT TRACKER WIDGET ============ */
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      [data-theme="dark"] .app {
+        background: rgba(28, 22, 20, 0.94);
+        border-color: rgba(255, 220, 200, 0.08);
+      }
+
+      /* ============ FLIGHT TRACKER WIDGET ============ */
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .status-scheduled {
+        background: rgba(2, 136, 209, 0.08);
+        color: var(--sky-blue);
+        border: 1px solid rgba(2, 136, 209, 0.15);
+      }
+
+      .status-active {
+        background: rgba(0, 137, 123, 0.08);
+        color: var(--jade);
+        border: 1px solid rgba(0, 137, 123, 0.15);
+        animation: pulseGreen 2s infinite;
+      }
+
+      .status-landed {
+        background: rgba(120, 102, 98, 0.08);
+        color: var(--text-muted);
+        border: 1px solid rgba(120, 102, 98, 0.15);
+      }
+
+      @keyframes pulseGreen {
+        0% {
+          box-shadow: 0 0 0 0 rgba(0, 137, 123, 0.2);
+        }
+
+        70% {
+          box-shadow: 0 0 0 6px rgba(0, 137, 123, 0);
+        }
+
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 137, 123, 0);
+        }
+      }
+
+      .tracker-bar {
+        height: 6px;
+        background: var(--border);
+        border-radius: 3px;
+        position: relative;
+        margin: 16px 0 10px;
+        overflow: visible;
+      }
+
+      .tracker-progress {
+        height: 100%;
+        background: var(--gradient-sunset);
+        border-radius: 3px;
+        position: relative;
+      }
+
+      .tracker-plane {
+        position: absolute;
+        right: -8px;
+        top: -6px;
+        font-size: 14px;
+        transform: rotate(90deg);
+        line-height: 1;
+      }
+
+      .flight-telemetry {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 10px;
+        background: var(--bg-soft);
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        font-size: 11px;
+      }
     }
-    .status-scheduled {
-      background: rgba(2, 136, 209, 0.08);
-      color: var(--sky-blue);
-      border: 1px solid rgba(2, 136, 209, 0.15);
-    }
-    .status-active {
-      background: rgba(0, 137, 123, 0.08);
-      color: var(--jade);
-      border: 1px solid rgba(0, 137, 123, 0.15);
-      animation: pulseGreen 2s infinite;
-    }
-    .status-landed {
-      background: rgba(120, 102, 98, 0.08);
-      color: var(--text-muted);
-      border: 1px solid rgba(120, 102, 98, 0.15);
-    }
-    @keyframes pulseGreen {
-      0% { box-shadow: 0 0 0 0 rgba(0, 137, 123, 0.2); }
-      70% { box-shadow: 0 0 0 6px rgba(0, 137, 123, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(0, 137, 123, 0); }
-    }
-    .tracker-bar {
-      height: 6px;
-      background: var(--border);
-      border-radius: 3px;
-      position: relative;
-      margin: 16px 0 10px;
-      overflow: visible;
-    }
-    .tracker-progress {
-      height: 100%;
-      background: var(--gradient-sunset);
-      border-radius: 3px;
-      position: relative;
-    }
-    .tracker-plane {
-      position: absolute;
-      right: -8px;
-      top: -6px;
-      font-size: 14px;
-      transform: rotate(90deg);
-      line-height: 1;
-    }
-    .flight-telemetry {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-      background: var(--bg-soft);
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      font-size: 11px;
-    }   }
 
     /* ============ CLOCKS ============ */
     .clocks {
@@ -489,8 +537,10 @@
     .clocks::after {
       content: '';
       position: absolute;
-      top: -50%; right: -10%;
-      width: 200px; height: 200px;
+      top: -50%;
+      right: -10%;
+      width: 200px;
+      height: 200px;
       background: radial-gradient(circle, rgba(233, 30, 99, 0.06) 0%, transparent 70%);
       pointer-events: none;
     }
@@ -501,8 +551,14 @@
       position: relative;
       z-index: 1;
     }
-    .clock-item.left { text-align: left; }
-    .clock-item.right { text-align: right; }
+
+    .clock-item.left {
+      text-align: left;
+    }
+
+    .clock-item.right {
+      text-align: right;
+    }
 
     .clock-label {
       font-family: var(--font-title);
@@ -541,7 +597,9 @@
       scroll-snap-type: x mandatory;
     }
 
-    .tabs::-webkit-scrollbar { display: none; }
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
 
     .tab {
       padding: 11px 20px;
@@ -600,11 +658,20 @@
       animation: tabFadeIn 0.4s var(--ease-smooth) forwards;
     }
 
-    .section.active { display: block; }
+    .section.active {
+      display: block;
+    }
 
     @keyframes tabFadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .section-title {
@@ -647,7 +714,10 @@
       padding-bottom: 4px;
       scrollbar-width: none;
     }
-    .day-pills::-webkit-scrollbar { display: none; }
+
+    .day-pills::-webkit-scrollbar {
+      display: none;
+    }
 
     .day-pill {
       flex-shrink: 0;
@@ -689,6 +759,7 @@
       background: var(--gradient-sunset);
       border-color: transparent;
     }
+
     .day-pill.today .day-pill-label,
     .day-pill.today .day-pill-date {
       color: #fff;
@@ -783,7 +854,10 @@
     }
 
     /* Notification bars */
-    .wake-bar, .bag-bar, .note-bar, .warn-bar {
+    .wake-bar,
+    .bag-bar,
+    .note-bar,
+    .warn-bar {
       font-family: var(--font-body);
       font-size: 13px;
       border-bottom: 1px solid var(--border);
@@ -795,12 +869,35 @@
       line-height: 1.5;
     }
 
-    .wake-bar { color: var(--jade); background: rgba(0, 137, 123, 0.05); border-left: 4px solid var(--jade); }
-    .bag-bar { color: #b26a00; background: rgba(255, 145, 0, 0.05); border-left: 4px solid var(--marigold); }
-    .note-bar { color: #0277bd; background: rgba(3, 169, 244, 0.05); border-left: 4px solid var(--sky-blue); }
-    .warn-bar { color: var(--alert-red); background: rgba(211, 47, 47, 0.05); border-left: 4px solid var(--alert-red); font-weight: 700; }
+    .wake-bar {
+      color: var(--jade);
+      background: rgba(0, 137, 123, 0.05);
+      border-left: 4px solid var(--jade);
+    }
 
-    .bag-bar b, .warn-bar b { font-weight: 800; }
+    .bag-bar {
+      color: #b26a00;
+      background: rgba(255, 145, 0, 0.05);
+      border-left: 4px solid var(--marigold);
+    }
+
+    .note-bar {
+      color: #0277bd;
+      background: rgba(3, 169, 244, 0.05);
+      border-left: 4px solid var(--sky-blue);
+    }
+
+    .warn-bar {
+      color: var(--alert-red);
+      background: rgba(211, 47, 47, 0.05);
+      border-left: 4px solid var(--alert-red);
+      font-weight: 700;
+    }
+
+    .bag-bar b,
+    .warn-bar b {
+      font-weight: 800;
+    }
 
     /* ============ TIMELINE ITEMS ============ */
     .item {
@@ -812,9 +909,13 @@
       position: relative;
     }
 
-    .item:last-child { border-bottom: none; }
+    .item:last-child {
+      border-bottom: none;
+    }
 
-    .item:hover { background-color: var(--bg-soft); }
+    .item:hover {
+      background-color: var(--bg-soft);
+    }
 
     .item.removed {
       opacity: 0.35;
@@ -825,9 +926,17 @@
       background: var(--bg-soft);
     }
 
-    .item.free-block { background: linear-gradient(90deg, rgba(3, 169, 244, 0.04) 0%, transparent 100%); }
-    .item.lunch-block { background: linear-gradient(90deg, rgba(255, 145, 0, 0.04) 0%, transparent 100%); }
-    .item.dinner-block { background: linear-gradient(90deg, rgba(233, 30, 99, 0.04) 0%, transparent 100%); }
+    .item.free-block {
+      background: linear-gradient(90deg, rgba(3, 169, 244, 0.04) 0%, transparent 100%);
+    }
+
+    .item.lunch-block {
+      background: linear-gradient(90deg, rgba(255, 145, 0, 0.04) 0%, transparent 100%);
+    }
+
+    .item.dinner-block {
+      background: linear-gradient(90deg, rgba(233, 30, 99, 0.04) 0%, transparent 100%);
+    }
 
     .item-time {
       width: 76px;
@@ -857,7 +966,9 @@
       transition: transform 0.3s var(--ease-spring);
     }
 
-    .item:hover .dot { transform: scale(1.3); }
+    .item:hover .dot {
+      transform: scale(1.3);
+    }
 
     .vline {
       width: 2px;
@@ -923,10 +1034,12 @@
       border: 1px solid var(--border);
       color: var(--text-dark);
     }
+
     [data-theme="dark"] .item-link.maps {
       background: rgba(255, 255, 255, 0.04);
       color: var(--text);
     }
+
     .item-link.maps:hover {
       background: var(--sky-blue);
       color: #fff;
@@ -939,7 +1052,11 @@
       color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .item-link.uber:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+
+    .item-link.uber:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
 
     /* ============ TAGS ============ */
     .tag {
@@ -952,25 +1069,101 @@
       text-transform: uppercase;
     }
 
-    .tag-pass { background: rgba(0, 137, 123, 0.1); color: var(--jade); border: 1px solid rgba(0, 137, 123, 0.2); }
-    .tag-book { background: rgba(233, 30, 99, 0.08); color: var(--rosa-mexicano); border: 1px solid rgba(233, 30, 99, 0.2); }
-    .tag-food { background: rgba(255, 145, 0, 0.08); color: #c46200; border: 1px solid rgba(255, 145, 0, 0.2); }
-    [data-theme="dark"] .tag-food { color: var(--marigold); }
-    .tag-shop { background: rgba(3, 169, 244, 0.08); color: #0277bd; border: 1px solid rgba(3, 169, 244, 0.2); }
-    [data-theme="dark"] .tag-shop { color: #4fc3f7; }
-    .tag-relax { background: rgba(0, 0, 0, 0.04); color: var(--text-muted); border: 1px solid var(--border); }
-    [data-theme="dark"] .tag-relax { background: rgba(255, 255, 255, 0.04); }
-    .tag-sep { background: rgba(255, 61, 0, 0.08); color: var(--alert-red); border: 1px solid rgba(255, 61, 0, 0.2); }
-    .tag-anchor { background: rgba(233, 30, 99, 0.14); color: var(--rosa-mexicano); border: 1px solid var(--rosa-mexicano); }
-    .tag-alert { background: var(--alert-red); color: #fff; }
-    .tag-booked { background: rgba(0, 137, 123, 0.08); color: var(--jade); }
-    .tag-free { background: rgba(0, 0, 0, 0.03); color: var(--text-muted); }
-    [data-theme="dark"] .tag-free { background: rgba(255, 255, 255, 0.04); }
-    .tag-lunch { background: rgba(255, 145, 0, 0.08); color: #b26a00; }
-    [data-theme="dark"] .tag-lunch { color: var(--marigold); }
-    .tag-dinner { background: rgba(233, 30, 99, 0.08); color: var(--rosa-mexicano); }
-    .tag-bike { background: rgba(3, 169, 244, 0.08); color: #0277bd; }
-    [data-theme="dark"] .tag-bike { color: #4fc3f7; }
+    .tag-pass {
+      background: rgba(0, 137, 123, 0.1);
+      color: var(--jade);
+      border: 1px solid rgba(0, 137, 123, 0.2);
+    }
+
+    .tag-book {
+      background: rgba(233, 30, 99, 0.08);
+      color: var(--rosa-mexicano);
+      border: 1px solid rgba(233, 30, 99, 0.2);
+    }
+
+    .tag-food {
+      background: rgba(255, 145, 0, 0.08);
+      color: #c46200;
+      border: 1px solid rgba(255, 145, 0, 0.2);
+    }
+
+    [data-theme="dark"] .tag-food {
+      color: var(--marigold);
+    }
+
+    .tag-shop {
+      background: rgba(3, 169, 244, 0.08);
+      color: #0277bd;
+      border: 1px solid rgba(3, 169, 244, 0.2);
+    }
+
+    [data-theme="dark"] .tag-shop {
+      color: #4fc3f7;
+    }
+
+    .tag-relax {
+      background: rgba(0, 0, 0, 0.04);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    [data-theme="dark"] .tag-relax {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tag-sep {
+      background: rgba(255, 61, 0, 0.08);
+      color: var(--alert-red);
+      border: 1px solid rgba(255, 61, 0, 0.2);
+    }
+
+    .tag-anchor {
+      background: rgba(233, 30, 99, 0.14);
+      color: var(--rosa-mexicano);
+      border: 1px solid var(--rosa-mexicano);
+    }
+
+    .tag-alert {
+      background: var(--alert-red);
+      color: #fff;
+    }
+
+    .tag-booked {
+      background: rgba(0, 137, 123, 0.08);
+      color: var(--jade);
+    }
+
+    .tag-free {
+      background: rgba(0, 0, 0, 0.03);
+      color: var(--text-muted);
+    }
+
+    [data-theme="dark"] .tag-free {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tag-lunch {
+      background: rgba(255, 145, 0, 0.08);
+      color: #b26a00;
+    }
+
+    [data-theme="dark"] .tag-lunch {
+      color: var(--marigold);
+    }
+
+    .tag-dinner {
+      background: rgba(233, 30, 99, 0.08);
+      color: var(--rosa-mexicano);
+    }
+
+    .tag-bike {
+      background: rgba(3, 169, 244, 0.08);
+      color: #0277bd;
+    }
+
+    [data-theme="dark"] .tag-bike {
+      color: #4fc3f7;
+    }
 
     /* ============ BUTTONS ============ */
     .btn-sm {
@@ -1072,20 +1265,27 @@
       transition: background 0.25s var(--ease-smooth);
     }
 
-    .list-item:hover { background: var(--bg-soft); }
-    .list-item:last-child { border-bottom: none; }
+    .list-item:hover {
+      background: var(--bg-soft);
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
 
     .list-item.done .li-name {
       text-decoration: line-through;
       color: var(--text-muted);
     }
+
     .list-item.done .li-sub {
       color: var(--text-muted);
       opacity: 0.7;
     }
 
     .cb {
-      width: 22px; height: 22px;
+      width: 22px;
+      height: 22px;
       border: 2px solid rgba(139, 115, 107, 0.28);
       border-radius: 6px;
       cursor: pointer;
@@ -1113,14 +1313,18 @@
     .cb.checked::after {
       content: '';
       display: block;
-      width: 5px; height: 9px;
+      width: 5px;
+      height: 9px;
       border: 2.5px solid #ffffff;
       border-top: none;
       border-left: none;
       transform: rotate(45deg) translate(-0.5px, -1px);
     }
 
-    .li-body { flex: 1; min-width: 0; }
+    .li-body {
+      flex: 1;
+      min-width: 0;
+    }
 
     .li-name {
       font-family: var(--font-title);
@@ -1152,7 +1356,9 @@
       letter-spacing: 0.05em;
     }
 
-    .urg-red, .urg-amber, .urg-green {
+    .urg-red,
+    .urg-amber,
+    .urg-green {
       font-size: 9px;
       font-weight: 800;
       color: #ffffff;
@@ -1161,9 +1367,18 @@
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
-    .urg-red { background: var(--alert-red); }
-    .urg-amber { background: var(--marigold); }
-    .urg-green { background: var(--jade); }
+
+    .urg-red {
+      background: var(--alert-red);
+    }
+
+    .urg-amber {
+      background: var(--marigold);
+    }
+
+    .urg-green {
+      background: var(--jade);
+    }
 
     /* ============ PACK GRID ============ */
     .grid-pack {
@@ -1206,7 +1421,10 @@
       text-align: center;
     }
 
-    .pack-info { flex: 1; min-width: 0; }
+    .pack-info {
+      flex: 1;
+      min-width: 0;
+    }
 
     .pack-title {
       font-family: var(--font-title);
@@ -1240,7 +1458,9 @@
       font-weight: bold;
     }
 
-    .pack-card.done .pack-check { display: block; }
+    .pack-card.done .pack-check {
+      display: block;
+    }
 
     /* ============ FLIGHT CARDS ============ */
     .conf-grid {
@@ -1406,7 +1626,10 @@
       margin-bottom: 12px;
       scrollbar-width: none;
     }
-    .route-btn-container::-webkit-scrollbar { display: none; }
+
+    .route-btn-container::-webkit-scrollbar {
+      display: none;
+    }
 
     .route-btn {
       padding: 8px 16px;
@@ -1448,25 +1671,38 @@
 
     /* .glowing-marker does not need position overrides since Leaflet handles it */
     .marker-dot {
-      width: 12px; height: 12px;
+      width: 12px;
+      height: 12px;
       background-color: var(--rosa-mexicano);
       border-radius: 50%;
       position: absolute;
-      top: 4px; left: 4px;
+      top: 4px;
+      left: 4px;
       border: 2px solid #ffffff;
       box-shadow: 0 0 10px var(--rosa-mexicano);
     }
+
     .marker-pulse {
-      width: 20px; height: 20px;
+      width: 20px;
+      height: 20px;
       background-color: rgba(233, 30, 99, 0.4);
       border-radius: 50%;
       animation: markerPulse 1.8s infinite ease-out;
       position: absolute;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
     }
+
     @keyframes markerPulse {
-      0% { transform: scale(0.6); opacity: 1; }
-      100% { transform: scale(1.9); opacity: 0; }
+      0% {
+        transform: scale(0.6);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.9);
+        opacity: 0;
+      }
     }
 
     .map-legend {
@@ -1482,11 +1718,17 @@
       color: var(--text-muted);
       font-weight: 600;
     }
+
     .map-legend-item {
-      display: flex; align-items: center; gap: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
+
     .map-legend-dot {
-      width: 10px; height: 10px; border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
     }
 
     /* ============ INPUT BOXES ============ */
@@ -1565,13 +1807,20 @@
     .budget-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 4px;
       background: var(--gradient-sunset);
     }
 
-    .budget-card.jade::before { background: var(--gradient-jade); }
-    .budget-card.sky::before { background: var(--gradient-sky); }
+    .budget-card.jade::before {
+      background: var(--gradient-jade);
+    }
+
+    .budget-card.sky::before {
+      background: var(--gradient-sky);
+    }
 
     .budget-card-label {
       font-family: var(--font-title);
@@ -1640,11 +1889,18 @@
       border-bottom: 1px solid var(--border);
       transition: background 0.2s;
     }
-    .expense-item:hover { background: var(--bg-soft); }
-    .expense-item:last-child { border-bottom: none; }
+
+    .expense-item:hover {
+      background: var(--bg-soft);
+    }
+
+    .expense-item:last-child {
+      border-bottom: none;
+    }
 
     .exp-icon {
-      width: 36px; height: 36px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -1653,19 +1909,25 @@
       flex-shrink: 0;
     }
 
-    .exp-body { flex: 1; min-width: 0; }
+    .exp-body {
+      flex: 1;
+      min-width: 0;
+    }
+
     .exp-name {
       font-family: var(--font-title);
       font-size: 13px;
       font-weight: 800;
       color: var(--text-dark);
     }
+
     .exp-meta {
       font-size: 11px;
       color: var(--text-muted);
       margin-top: 2px;
       font-weight: 600;
     }
+
     .exp-amount {
       font-family: var(--font-mono);
       font-size: 15px;
@@ -1725,7 +1987,8 @@
     }
 
     .converter-swap {
-      width: 42px; height: 42px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       border: 1px solid var(--border);
       background: var(--bg-elev);
@@ -1759,7 +2022,10 @@
       margin-bottom: 14px;
       scrollbar-width: none;
     }
-    .phrase-categories::-webkit-scrollbar { display: none; }
+
+    .phrase-categories::-webkit-scrollbar {
+      display: none;
+    }
 
     .phrase-cat-btn {
       padding: 7px 14px;
@@ -1777,7 +2043,9 @@
       letter-spacing: 0.03em;
     }
 
-    .phrase-cat-btn:hover { border-color: var(--border-hover); }
+    .phrase-cat-btn:hover {
+      border-color: var(--border-hover);
+    }
 
     .phrase-cat-btn.active {
       background: var(--gradient-jade);
@@ -1804,7 +2072,10 @@
       transform: translateX(4px);
     }
 
-    .phrase-content { flex: 1; min-width: 0; }
+    .phrase-content {
+      flex: 1;
+      min-width: 0;
+    }
 
     .phrase-es {
       font-family: var(--font-title);
@@ -1831,7 +2102,8 @@
     }
 
     .phrase-speak {
-      width: 36px; height: 36px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       border: 1px solid var(--border);
       background: var(--bg-soft);
@@ -1853,8 +2125,15 @@
     }
 
     @keyframes speakPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 137, 123, 0.5); }
-      50% { box-shadow: 0 0 0 8px rgba(0, 137, 123, 0); }
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 137, 123, 0.5);
+      }
+
+      50% {
+        box-shadow: 0 0 0 8px rgba(0, 137, 123, 0);
+      }
     }
 
     /* ============ FOOD GUIDE ============ */
@@ -1863,6 +2142,7 @@
       gap: 12px;
       margin-bottom: 20px;
     }
+
     .food-sub-tab-btn {
       background: var(--bg-elev);
       border: 1px solid var(--border);
@@ -1875,23 +2155,27 @@
       font-size: 13px;
       transition: all 0.3s;
     }
+
     .food-sub-tab-btn.active {
       background: var(--gradient-sunset);
       color: #fff;
       border-color: transparent;
       box-shadow: var(--soft-shadow);
     }
+
     .food-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 16px;
       margin-bottom: 24px;
     }
+
     @media (min-width: 600px) {
       .food-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
+
     .food-card {
       background: var(--bg-elev);
       border: 1px solid var(--border);
@@ -1903,20 +2187,24 @@
       flex-direction: column;
       justify-content: space-between;
     }
+
     .food-card:hover {
       border-color: var(--marigold);
       transform: translateY(-2px);
       box-shadow: var(--lift-shadow);
     }
+
     .food-card.done {
       border-color: var(--jade);
       opacity: 0.85;
       background: rgba(0, 137, 123, 0.02);
     }
+
     .food-card.done .food-card-title {
       text-decoration: line-through;
       color: var(--text-muted);
     }
+
     .food-card-star {
       display: inline-flex;
       align-items: center;
@@ -1932,6 +2220,7 @@
       margin-top: 3px;
       white-space: nowrap;
     }
+
     .food-card-star.double {
       color: #fff;
       background: linear-gradient(135deg, #d97706, #b45309);
@@ -1940,6 +2229,7 @@
       font-size: 12px;
       padding: 3px 10px;
     }
+
     .food-card-header {
       display: flex;
       justify-content: space-between;
@@ -1947,6 +2237,7 @@
       gap: 12px;
       margin-bottom: 12px;
     }
+
     .food-card-title {
       font-family: var(--font-title);
       font-size: 16px;
@@ -1954,12 +2245,14 @@
       color: var(--text-dark);
       transition: color 0.3s;
     }
+
     .food-pro-con {
       margin-top: 8px;
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
+
     .pro-box {
       background: rgba(0, 137, 123, 0.04);
       border: 1px solid rgba(0, 137, 123, 0.12);
@@ -1969,6 +2262,7 @@
       color: var(--text);
       line-height: 1.4;
     }
+
     .con-box {
       background: rgba(233, 30, 99, 0.04);
       border: 1px solid rgba(233, 30, 99, 0.12);
@@ -2044,7 +2338,8 @@
     }
 
     .fab {
-      width: 56px; height: 56px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: var(--gradient-sunset);
       color: #fff;
@@ -2087,7 +2382,8 @@
     }
 
     .fab-item {
-      width: 44px; height: 44px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       border: 1px solid var(--border);
       background: var(--bg-elev);
@@ -2126,7 +2422,9 @@
       pointer-events: none;
     }
 
-    .fab-item:hover .fab-item-label { opacity: 1; }
+    .fab-item:hover .fab-item-label {
+      opacity: 1;
+    }
 
     /* ============ TOAST ============ */
     .toast-container {
@@ -2157,13 +2455,28 @@
     }
 
     @keyframes toastIn {
-      from { opacity: 0; transform: translateY(20px) scale(0.9); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
-    .toast.success { background: var(--gradient-jade); }
-    .toast.warn { background: var(--gradient-marigold); }
-    .toast.error { background: var(--alert-red); }
+    .toast.success {
+      background: var(--gradient-jade);
+    }
+
+    .toast.warn {
+      background: var(--gradient-marigold);
+    }
+
+    .toast.error {
+      background: var(--alert-red);
+    }
 
     /* ============ MISC ============ */
     .empty-state {
@@ -2195,16 +2508,23 @@
     }
 
     @media(max-width: 768px) {
+
       .conf-grid,
       .contact-grid {
         grid-template-columns: 1fr;
       }
 
-      .hero { padding: 3rem 1rem 4.5rem; }
+      .hero {
+        padding: 3rem 1rem 4.5rem;
+      }
 
-      .app { padding: 2rem 1rem 5rem; }
+      .app {
+        padding: 2rem 1rem 5rem;
+      }
 
-      .grid-pack { grid-template-columns: 1fr; }
+      .grid-pack {
+        grid-template-columns: 1fr;
+      }
 
       .converter-row {
         grid-template-columns: 1fr;
@@ -2215,16 +2535,37 @@
         justify-self: center;
         transform: rotate(90deg);
       }
-      .converter-swap:hover { transform: rotate(270deg); }
 
-      .clocks { flex-wrap: wrap; }
-      .clock-item { flex: 1 1 33%; min-width: 100px; }
-      .clock-item.left, .clock-item.right { text-align: center; }
+      .converter-swap:hover {
+        transform: rotate(270deg);
+      }
 
-      .nav-brand { font-size: 11px; }
-      .nav-brand .brand-full { display: none; }
+      .clocks {
+        flex-wrap: wrap;
+      }
 
-      .fab-container { bottom: 16px; right: 16px; }
+      .clock-item {
+        flex: 1 1 33%;
+        min-width: 100px;
+      }
+
+      .clock-item.left,
+      .clock-item.right {
+        text-align: center;
+      }
+
+      .nav-brand {
+        font-size: 11px;
+      }
+
+      .nav-brand .brand-full {
+        display: none;
+      }
+
+      .fab-container {
+        bottom: 16px;
+        right: 16px;
+      }
 
       /* Budget Form Mobile Stack */
       .budget-form-row {
@@ -2244,12 +2585,15 @@
         font-size: clamp(26px, 6.5vw, 42px) !important;
         letter-spacing: 0.08em;
       }
+
       .hero p {
         font-size: 11px;
       }
+
       .hero-tags {
         gap: 6px;
       }
+
       .hero-edition {
         padding: 5px 12px;
         font-size: 10px;
@@ -2261,28 +2605,34 @@
         gap: 8px;
         border-radius: var(--radius-md);
       }
+
       .countdown-label {
         font-size: 10px;
         width: 100%;
         text-align: center;
         justify-content: center;
       }
+
       .countdown-units {
         justify-content: center;
         width: 100%;
         gap: 6px;
       }
+
       .cd-unit {
         min-width: 50px;
         padding: 4px 8px;
         border-radius: var(--radius-xs);
       }
+
       .cd-num {
         font-size: 16px;
       }
+
       .cd-lbl {
         font-size: 8px;
       }
+
       .cd-status {
         width: 100%;
         text-align: center;
@@ -2296,16 +2646,20 @@
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
+
       .clock-item {
         min-width: 0 !important;
         flex: none !important;
       }
+
       .clock-label {
         font-size: 8.5px;
       }
+
       .clock-val {
         font-size: 14px;
       }
+
       .clock-date {
         font-size: 8.5px;
       }
@@ -2321,9 +2675,11 @@
         grid-template-columns: 1fr !important;
         gap: 8px;
       }
+
       .budget-card {
         padding: 12px 14px;
       }
+
       .budget-card-val {
         font-size: 18px;
       }
@@ -2340,9 +2696,11 @@
       .schedule-header-grid {
         flex-direction: row;
       }
+
       .today-focus-wrapper {
         flex: 1.2 1 350px;
       }
+
       .weather-wrapper {
         flex: 1 1 300px;
       }
@@ -2362,6 +2720,7 @@
         gap: 20px;
         align-items: start;
       }
+
       #book-list .input-box {
         grid-column: span 2;
       }
@@ -2389,11 +2748,21 @@
         background: #fff !important;
         color: #000 !important;
       }
-      .hero, .fab-container, .scroll-top, .nav-actions-floating,
-      .tabs, .day-pills, .search-box, .input-box,
-      .btn-sm, .item-link, .toast-container {
+
+      .hero,
+      .fab-container,
+      .scroll-top,
+      .nav-actions-floating,
+      .tabs,
+      .day-pills,
+      .search-box,
+      .input-box,
+      .btn-sm,
+      .item-link,
+      .toast-container {
         display: none !important;
       }
+
       .app {
         margin: 0 !important;
         padding: 0 !important;
@@ -2401,9 +2770,22 @@
         box-shadow: none !important;
         border: none !important;
       }
-      .section { display: block !important; page-break-inside: avoid; }
-      .day-card { box-shadow: none !important; border: 1px solid #ccc !important; }
-      .stat, .list-card, .flight-card, .contact-box, .pack-card {
+
+      .section {
+        display: block !important;
+        page-break-inside: avoid;
+      }
+
+      .day-card {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+      }
+
+      .stat,
+      .list-card,
+      .flight-card,
+      .contact-box,
+      .pack-card {
         box-shadow: none !important;
         border: 1px solid #ccc !important;
       }
@@ -2415,7 +2797,10 @@
       background: #1f1816;
       color: #f5e6dd;
     }
-    [data-theme="dark"] .leaflet-container { background: #18120f; }
+
+    [data-theme="dark"] .leaflet-container {
+      background: #18120f;
+    }
 
     /* ============ DRESS TAB STYLES ============ */
     .dress-grid {
@@ -2705,6 +3090,7 @@
     .lookbook-modal-scroll::-webkit-scrollbar {
       width: 6px;
     }
+
     .lookbook-modal-scroll::-webkit-scrollbar-thumb {
       background-color: var(--border);
       border-radius: 4px;
@@ -2852,16 +3238,29 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- ============ HERO ============ -->
@@ -2883,10 +3282,22 @@
       <div class="countdown" id="countdown-banner">
         <div class="countdown-label" id="cd-label">⏳ Trip starts in</div>
         <div class="countdown-units" id="cd-units">
-          <div class="cd-unit"><div class="cd-num" id="cd-days">—</div><div class="cd-lbl">Days</div></div>
-          <div class="cd-unit"><div class="cd-num" id="cd-hours">—</div><div class="cd-lbl">Hours</div></div>
-          <div class="cd-unit"><div class="cd-num" id="cd-mins">—</div><div class="cd-lbl">Min</div></div>
-          <div class="cd-unit"><div class="cd-num" id="cd-secs">—</div><div class="cd-lbl">Sec</div></div>
+          <div class="cd-unit">
+            <div class="cd-num" id="cd-days">—</div>
+            <div class="cd-lbl">Days</div>
+          </div>
+          <div class="cd-unit">
+            <div class="cd-num" id="cd-hours">—</div>
+            <div class="cd-lbl">Hours</div>
+          </div>
+          <div class="cd-unit">
+            <div class="cd-num" id="cd-mins">—</div>
+            <div class="cd-lbl">Min</div>
+          </div>
+          <div class="cd-unit">
+            <div class="cd-num" id="cd-secs">—</div>
+            <div class="cd-lbl">Sec</div>
+          </div>
         </div>
         <div class="cd-status" id="cd-status" style="display:none">LIVE</div>
       </div>
@@ -2924,7 +3335,9 @@
       <div class="tab" data-target="food-tab" onclick="showTab('food-tab',this)">🍽 Food</div>
       <div class="tab" data-target="map-tab" onclick="showTab('map-tab',this)">🗺 Map</div>
       <div class="tab" data-target="dress-tab" onclick="showTab('dress-tab',this)">
-        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; display: inline-block; vertical-align: middle;">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"
+          stroke-linecap="round" stroke-linejoin="round"
+          style="margin-right: 6px; display: inline-block; vertical-align: middle;">
           <path d="M22 17H2L12 9l10 8z" />
           <path d="M12 9V6a3 3 0 1 1 3 3" />
         </svg>Dress
@@ -2940,7 +3353,8 @@
 
       <!-- Activity Search -->
       <div class="search-box">
-        <input id="activity-search" type="text" placeholder="Search activities, places, food..." oninput="filterActivities()">
+        <input id="activity-search" type="text" placeholder="Search activities, places, food..."
+          oninput="filterActivities()">
       </div>
 
       <!-- Side-by-side top grid for Today's Focus & Live Weather -->
@@ -2972,37 +3386,53 @@
         <div class="list-item">
           <div class="li-body">
             <div class="li-name" style="color:var(--marigold)">⚽ Sunday Estadio Azteca Match Traffic Warning</div>
-            <div class="li-sub">Estadio Azteca is hosting a FIFA Round of 16 match on Sunday, July 5. Kickoff is at <b>6:00 PM CST (local Mexico City time)</b>. Severe traffic gridlock will affect the southern boroughs (Xochimilco and Coyoacán) starting midday. <b>You must escape northwest by 12:30 PM at the latest</b> to avoid gridlock. Avoid traveling south or toward Centro after 4:00 PM.</div>
+            <div class="li-sub">Estadio Azteca is hosting a FIFA Round of 16 match on Sunday, July 5. Kickoff is at
+              <b>6:00 PM CST (local Mexico City time)</b>. Severe traffic gridlock will affect the southern boroughs
+              (Xochimilco and Coyoacán) starting midday. <b>You must escape northwest by 12:30 PM at the latest</b> to
+              avoid gridlock. Avoid traveling south or toward Centro after 4:00 PM.
+            </div>
           </div>
         </div>
         <div class="list-item">
           <div class="li-body">
             <div class="li-name">📺 Watch Locations in Roma Norte</div>
-            <div class="li-sub">Since Mexico is playing, the city atmosphere will be electric. Secure a table at a local restaurant, sports bar, or cantina in Roma Norte or Condesa by 5:30 PM to watch the 6:00 PM broadcast. If they win, walk immediately to the nearby Angel of Independence roundabout on Paseo de la Reforma to see the city celebrate!</div>
+            <div class="li-sub">Since Mexico is playing, the city atmosphere will be electric. Secure a table at a local
+              restaurant, sports bar, or cantina in Roma Norte or Condesa by 5:30 PM to watch the 6:00 PM broadcast. If
+              they win, walk immediately to the nearby Angel of Independence roundabout on Paseo de la Reforma to see
+              the city celebrate!</div>
           </div>
         </div>
         <div class="list-item">
           <div class="li-body">
             <div class="li-name">🎒 Arena México Security Policies (Friday Lucha Libre)</div>
-            <div class="li-sub">Arena México enforces a strict clear bag policy. No backpacks or professional cameras are allowed inside. Leave all non-essential items in your room at the Hotel Geneve. Bring small Pesos cash (MXN) to tip the seat ushers. Doctores neighborhood is not safe at night; always Uber directly to the arena door and back.</div>
+            <div class="li-sub">Arena México enforces a strict clear bag policy. No backpacks or professional cameras
+              are allowed inside. Leave all non-essential items in your room at the Hotel Geneve. Bring small Pesos cash
+              (MXN) to tip the seat ushers. Doctores neighborhood is not safe at night; always Uber directly to the
+              arena door and back.</div>
           </div>
         </div>
         <div class="list-item">
           <div class="li-body">
             <div class="li-name">⚠️ CNTE Reforma Protests</div>
-            <div class="li-sub">Teacher association (CNTE) blockades are common on Paseo de la Reforma. Before walking to the Angel of Independence or booking an Uber along Reforma, ask the reception staff at Hotel Geneve for active alerts.</div>
+            <div class="li-sub">Teacher association (CNTE) blockades are common on Paseo de la Reforma. Before walking
+              to the Angel of Independence or booking an Uber along Reforma, ask the reception staff at Hotel Geneve for
+              active alerts.</div>
           </div>
         </div>
         <div class="list-item">
           <div class="li-body">
             <div class="li-name">💧 Water & Food Safety</div>
-            <div class="li-sub">Never drink tap water — use bottled water even for brushing teeth. Avoid raw vegetables washed in tap water at street stalls. Stick to busy, high-turnover taquerías. Carry Imodium and Pepto-Bismol as a precaution.</div>
+            <div class="li-sub">Never drink tap water — use bottled water even for brushing teeth. Avoid raw vegetables
+              washed in tap water at street stalls. Stick to busy, high-turnover taquerías. Carry Imodium and
+              Pepto-Bismol as a precaution.</div>
           </div>
         </div>
         <div class="list-item">
           <div class="li-body">
             <div class="li-name">🚕 Uber/DiDi Safety Tips</div>
-            <div class="li-sub">Always verify the license plate and driver before entering. Sit in the front seat (less targetable). Share your trip with a contact via the app. Avoid hailing street taxis — they're unregulated. Pin your destination accurately.</div>
+            <div class="li-sub">Always verify the license plate and driver before entering. Sit in the front seat (less
+              targetable). Share your trip with a contact via the app. Avoid hailing street taxis — they're unregulated.
+              Pin your destination accurately.</div>
           </div>
         </div>
       </div>
@@ -3017,25 +3447,29 @@
         <div class="list-item">
           <div class="li-body">
             <div class="li-name">🚇 Metro · 5 MXN per ride</div>
-            <div class="li-sub">Cheapest transit. Buy a Tarjeta de Movilidad Integrada (TMI) at any Metrobús station — NOT sold at the airport. Trains get very crowded at rush hour. Keep belongings in front pocket.</div>
+            <div class="li-sub">Cheapest transit. Buy a Tarjeta de Movilidad Integrada (TMI) at any Metrobús station —
+              NOT sold at the airport. Trains get very crowded at rush hour. Keep belongings in front pocket.</div>
           </div>
         </div>
         <div class="list-item">
           <div class="li-body">
             <div class="li-name">🚕 Uber / DiDi · 80-300 MXN typical</div>
-            <div class="li-sub">Safest option for tourists. Always use the app, never street hail. Cash option available. DiDi often cheaper than Uber.</div>
+            <div class="li-sub">Safest option for tourists. Always use the app, never street hail. Cash option
+              available. DiDi often cheaper than Uber.</div>
           </div>
         </div>
         <div class="list-item">
           <div class="li-body">
             <div class="li-name">🚌 Metrobús · 6 MXN per ride</div>
-            <div class="li-sub">BRT system along major arteries. Requires TMI card. Useful for Insurgentes corridor and Reforma.</div>
+            <div class="li-sub">BRT system along major arteries. Requires TMI card. Useful for Insurgentes corridor and
+              Reforma.</div>
           </div>
         </div>
         <div class="list-item">
           <div class="li-body">
             <div class="li-name">🚶 Walking · Roma / Condesa / Centro</div>
-            <div class="li-sub">These neighborhoods are very walkable. Watch for uneven sidewalks. Avoid walking alone in Doctores, Tepito, or unknown areas after dark.</div>
+            <div class="li-sub">These neighborhoods are very walkable. Watch for uneven sidewalks. Avoid walking alone
+              in Doctores, Tepito, or unknown areas after dark.</div>
           </div>
         </div>
       </div>
@@ -3045,15 +3479,18 @@
     <div id="food-tab" class="section">
       <!-- Sub-Tabs Switcher -->
       <div class="food-sub-tabs">
-        <button class="food-sub-tab-btn active" onclick="switchFoodSubTab('restaurants', this)">🍽 Must-Go Restaurants</button>
-        <button class="food-sub-tab-btn" onclick="switchFoodSubTab('specialties', this)">🌮 Must-Try Specialties</button>
+        <button class="food-sub-tab-btn active" onclick="switchFoodSubTab('restaurants', this)">🍽 Must-Go
+          Restaurants</button>
+        <button class="food-sub-tab-btn" onclick="switchFoodSubTab('specialties', this)">🌮 Must-Try
+          Specialties</button>
       </div>
 
       <!-- Must-Go Restaurants Panel -->
       <div id="food-restaurants-panel">
         <!-- Search Box -->
         <div class="search-box">
-          <input id="food-search" type="text" placeholder="Search food guide by name, pros, cons..." oninput="filterFood()">
+          <input id="food-search" type="text" placeholder="Search food guide by name, pros, cons..."
+            oninput="filterFood()">
         </div>
 
         <!-- Food Categories Quick Jump -->
@@ -3077,11 +3514,16 @@
         <div id="cdmx-map"></div>
       </div>
       <div class="map-legend">
-        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--rosa-mexicano)"></span> Highlight / Anchor</div>
-        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--jade)"></span> Confirmed Booking</div>
-        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--marigold)"></span> Food / Dining</div>
-        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--sky-blue)"></span> Shopping</div>
-        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--plum)"></span> Sightseeing</div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--rosa-mexicano)"></span>
+          Highlight / Anchor</div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--jade)"></span> Confirmed
+          Booking</div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--marigold)"></span> Food /
+          Dining</div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--sky-blue)"></span> Shopping
+        </div>
+        <div class="map-legend-item"><span class="map-legend-dot" style="background:var(--plum)"></span> Sightseeing
+        </div>
       </div>
       <div style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:12px">
         Interactive Mexico City Map — Select routes above or tap markers for details.
@@ -3123,20 +3565,23 @@
     <!-- ============ TAB 6: DRESS ============ -->
     <div id="dress-tab" class="section">
       <div class="section-title">🧥 Outfit Planner & Lookbook</div>
-      
+
       <!-- Weather Verification Links -->
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:-10px; margin-bottom:15px; font-size:12px; font-weight:700;">
+      <div
+        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:-10px; margin-bottom:15px; font-size:12px; font-weight:700;">
         <span style="color:var(--text-muted);">☀️ DWD ICON model forecast data</span>
         <div style="display:flex; gap:12px;">
-          <a href="https://www.accuweather.com/en/mx/mexico-city/242560/weather-forecast/242560" target="_blank" style="color:var(--rosa-mexicano); text-decoration:none;">Verify on AccuWeather ↗</a>
+          <a href="https://www.accuweather.com/en/mx/mexico-city/242560/weather-forecast/242560" target="_blank"
+            style="color:var(--rosa-mexicano); text-decoration:none;">Verify on AccuWeather ↗</a>
           <span style="color:var(--border);">|</span>
-          <a href="https://weather.com/weather/tenday/l/Mexico+City+Mexico" target="_blank" style="color:var(--rosa-mexicano); text-decoration:none;">Verify on Weather.com ↗</a>
+          <a href="https://weather.com/weather/tenday/l/Mexico+City+Mexico" target="_blank"
+            style="color:var(--rosa-mexicano); text-decoration:none;">Verify on Weather.com ↗</a>
         </div>
       </div>
-      
+
       <!-- Day Navigation Pills (Specific to Dress) -->
       <div class="day-pills" id="dress-day-pills"></div>
-      
+
       <!-- Outfit Grid / Cards Container -->
       <div id="dress-container"></div>
     </div>
@@ -3163,11 +3608,11 @@
   <div id="lookbook-modal" class="lookbook-modal" onclick="closeLookbookModalOutside(event)">
     <div class="lookbook-modal-content">
       <button class="lookbook-close" onclick="closeLookbookModal()">&times;</button>
-      
+
       <div id="lookbook-modal-body" class="lookbook-modal-scroll">
         <!-- Content will be injected dynamically by JavaScript -->
       </div>
-      
+
       <div class="lookbook-modal-nav">
         <button id="lookbook-prev-btn" onclick="navigateLookbook(-1)">← Previous Day</button>
         <button id="lookbook-next-btn" onclick="navigateLookbook(1)">Next Day →</button>
@@ -3175,7 +3620,7 @@
     </div>
   </div>
 
-<script>
+  <script>
     // ============ DATABASE: WEATHER ============
     const WEATHER = [
       { date: "2026-07-03", day: "Fri", high: 73, rain: 60, icon: "🌧", desc: "Showers" },
@@ -3239,7 +3684,7 @@
           { t: "9:30 AM", name: "Xochimilco Canals Trajinera 🛶", sub: "Nuevo Nativitas pier. Ride decorated wooden boats down Aztec canals (~750 MXN/hr). Morning = dry window.", tags: ["relax"], rm: false },
           { t: "11:30 AM", name: "Coyoacán Market stroll 🍱", sub: "Famous tostadas at the market stalls — try the tostadas de tinga (chicken) and tinga de res (shredded beef). Browse bohemian craft stalls.", tags: ["food", "lunch"], rm: false, lunch: true },
           { t: "12:30 PM", name: "CRITICAL TRANSIT northwest", sub: "Escape south boroughs before match traffic locks roads. Uber northwest to Chapultepec.", tags: ["drive"], tx: true },
-          { t: "2:00 PM", name: "National Museum of Anthropology 🏛️", sub: "Booked via Amigo Tours (Booking #: SXX664465). Note: tickets are sent the day before (July 4). Closes at 5:00 PM.", tags: ["booked", "anchor"], rm: false },
+          { t: "2:00 PM", name: "National Museum of Anthropology 🏛️", sub: "World-class collection. Exhibits vacate at 4:45 PM. 2.5 hours of dedicated pacing (Castle moved to Sat).", tags: ["relax"], rm: true },
           { t: "5:00 PM", name: "Secure Table + Pre-match snack 🍺", sub: "Head to Roma Norte. Grab a table at a sports bar — order a torta cubana or chilaquiles to fuel up before kickoff. Pair with a cold Modelo or agua fresca.", tags: ["food", "relax"], rm: false },
           { t: "6:00 PM", name: "WORLD CUP MATCH: Mexico R16 ⚽", sub: "Kickoff local time 6:00 PM CST. Watch on screens with the local fans.", tags: ["booked", "anchor"], rm: false },
           { t: "8:00 PM", name: "Angel Celebrations 🇲🇽", sub: "If Mexico wins, head to the nearby Angel of Independence to join massive street party. Keep phone safe.", tags: ["relax"], rm: true }
@@ -3822,7 +4267,7 @@
     }
 
     // ============ TAB SWITCHING ============
-    window.showTab = function(id, el) {
+    window.showTab = function (id, el) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       const sec = document.getElementById(id);
@@ -3913,7 +4358,7 @@
       container.innerHTML = html;
     }
 
-    window.jumpToDay = function(idx) {
+    window.jumpToDay = function (idx) {
       const target = document.getElementById(`day-card-${idx}`);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -3925,7 +4370,7 @@
     };
 
     // ============ ACTIVITY FILTER ============
-    window.filterActivities = function() {
+    window.filterActivities = function () {
       const q = document.getElementById('activity-search').value.toLowerCase().trim();
       document.querySelectorAll('#day-list .item').forEach(item => {
         if (!q) {
@@ -4205,8 +4650,8 @@
           } else {
             const btn = item.rm
               ? (removed
-                  ? `<button class="btn-sm btn-restore" onclick="tog(${di},${ii})">restore</button>`
-                  : `<button class="btn-sm" onclick="tog(${di},${ii})">remove</button>`)
+                ? `<button class="btn-sm btn-restore" onclick="tog(${di},${ii})">restore</button>`
+                : `<button class="btn-sm" onclick="tog(${di},${ii})">remove</button>`)
               : "";
 
             const ec = item.free ? " free-block" : item.lunch ? " lunch-block" : item.dinner ? " dinner-block" : "";
@@ -4348,14 +4793,14 @@
     let currentFoodCategory = 'all';
     let foodSearchQuery = '';
 
-    window.switchFoodSubTab = function(subTab, btn) {
+    window.switchFoodSubTab = function (subTab, btn) {
       document.querySelectorAll('.food-sub-tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeFoodSubTab = subTab;
-      
+
       const resPanel = document.getElementById('food-restaurants-panel');
       const specPanel = document.getElementById('food-specialties-panel');
-      
+
       if (subTab === 'restaurants') {
         resPanel.style.display = 'block';
         specPanel.style.display = 'none';
@@ -4367,14 +4812,14 @@
       }
     };
 
-    window.filterFoodCat = function(category, btn) {
+    window.filterFoodCat = function (category, btn) {
       document.querySelectorAll('#food-categories .phrase-cat-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentFoodCategory = category;
       renderFoodGuide();
     };
 
-    window.filterFood = function() {
+    window.filterFood = function () {
       foodSearchQuery = document.getElementById('food-search').value.toLowerCase().trim();
       renderFoodGuide();
     };
@@ -4382,7 +4827,7 @@
     function renderFoodCategories() {
       const container = document.getElementById('food-categories');
       if (!container) return;
-      
+
       let html = `<button class="phrase-cat-btn active" onclick="filterFoodCat('all', this)">All</button>`;
       FOOD_GUIDE.forEach(cat => {
         const emoji = cat.category.split(' ')[0] || "🍽️";
@@ -4402,10 +4847,10 @@
 
         const filteredItems = cat.items.filter(item => {
           if (!foodSearchQuery) return true;
-          return item.name.toLowerCase().includes(foodSearchQuery) || 
-                 item.sub.toLowerCase().includes(foodSearchQuery) ||
-                 item.pros.toLowerCase().includes(foodSearchQuery) ||
-                 item.cons.toLowerCase().includes(foodSearchQuery);
+          return item.name.toLowerCase().includes(foodSearchQuery) ||
+            item.sub.toLowerCase().includes(foodSearchQuery) ||
+            item.pros.toLowerCase().includes(foodSearchQuery) ||
+            item.cons.toLowerCase().includes(foodSearchQuery);
         });
 
         if (filteredItems.length === 0) return;
@@ -4418,7 +4863,7 @@
         filteredItems.forEach(f => {
           const key = `food-${f.id}`;
           const done = state.checked[key];
-          
+
           html += `
             <div class="food-card${done ? ' done' : ''}" id="card-${key}">
               <div class="food-card-header">
@@ -4794,7 +5239,7 @@
     }
 
     // ============ LIST MODIFICATION ============
-    window.addToList = function(t) {
+    window.addToList = function (t) {
       const secEl = document.getElementById('new-' + t + '-sec');
       const nameEl = document.getElementById('new-' + t + '-name');
       const subEl = document.getElementById('new-' + t + '-sub');
@@ -4825,7 +5270,7 @@
       showToast('✓ Added successfully', 'success');
     };
 
-    window.delFromList = function(t, id) {
+    window.delFromList = function (t, id) {
       if (id.startsWith('custom-')) {
         const rawId = id.replace('custom-', '');
         state.custom[t] = state.custom[t].filter(c => c.id !== rawId);
@@ -4840,7 +5285,7 @@
     };
 
     // ============ INTERACTIVE ACTIONS ============
-    window.tog = function(di, ii) {
+    window.tog = function (di, ii) {
       const key = `${di}-${ii}`;
       state.removed[key] = !state.removed[key];
       save();
@@ -4848,7 +5293,7 @@
       if (document.getElementById('schedule-tab').classList.contains('active')) renderToday();
     };
 
-    window.chk = function(key, el) {
+    window.chk = function (key, el) {
       state.checked[key] = !state.checked[key];
       save();
 
@@ -4931,7 +5376,7 @@
       }
     }
 
-    window.convertCurrency = function(from) {
+    window.convertCurrency = function (from) {
       if (from === 'mxn') {
         const mxn = parseFloat(document.getElementById('conv-mxn').value) || 0;
         const usd = mxn / state.mxnRate;
@@ -4943,7 +5388,7 @@
       }
     };
 
-    window.swapCurrency = function() {
+    window.swapCurrency = function () {
       const mxnEl = document.getElementById('conv-mxn');
       const usdEl = document.getElementById('conv-usd');
       const tmp = mxnEl.value;
@@ -4980,12 +5425,12 @@
       document.getElementById('phrase-list').innerHTML = listHTML;
     }
 
-    window.setPhraseCat = function(cat) {
+    window.setPhraseCat = function (cat) {
       state.activePhraseCat = cat;
       renderPhrasebook();
     };
 
-    window.speakPhrase = function(btn, text) {
+    window.speakPhrase = function (btn, text) {
       if ('speechSynthesis' in window) {
         btn.classList.add('speaking');
         const u = new SpeechSynthesisUtterance(text);
@@ -5013,11 +5458,11 @@
 
     function getOutfitRecommendation(w) {
       if (!w) return "Comfortable walking clothes with layers.";
-      
+
       const rainProb = w.rain || 0;
       const highTemp = w.high || 70;
       const desc = (w.desc || "").toLowerCase();
-      
+
       let rec = "";
       if (rainProb >= 50 || desc.includes("rain") || desc.includes("storm") || desc.includes("showers") || desc.includes("drizzle")) {
         rec = "☔ High rain chance! Wear a water-resistant outer jacket/coat, carry an umbrella, and wear sturdy, waterproof or closed-toe walking shoes to navigate wet sidewalks. Avoid sandals or canvas shoes today.";
@@ -5162,7 +5607,7 @@
       container.innerHTML = html;
     }
 
-    window.jumpToDressDay = function(idx) {
+    window.jumpToDressDay = function (idx) {
       const target = document.getElementById(`dress-card-${idx}`);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -5173,7 +5618,7 @@
       }
     };
 
-    window.clearOutfitSlot = function(di, slotKey, event) {
+    window.clearOutfitSlot = function (di, slotKey, event) {
       if (event) event.stopPropagation();
       if (state.outfits && state.outfits[di]) {
         state.outfits[di][slotKey] = '';
@@ -5183,14 +5628,14 @@
       }
     };
 
-    window.handleOutfitUpload = function(event, di, slotKey) {
+    window.handleOutfitUpload = function (event, di, slotKey) {
       const file = event.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         const img = new Image();
-        img.onload = function() {
+        img.onload = function () {
           const canvas = document.createElement('canvas');
           const maxDim = 400; // max width/height
           let w = img.width;
@@ -5232,7 +5677,7 @@
     // ============ LOOKBOOK MODAL CONTROLLER ============
     let activeLookbookDayIndex = 0;
 
-    window.openLookbook = function(dayIndex) {
+    window.openLookbook = function (dayIndex) {
       activeLookbookDayIndex = dayIndex;
       const modal = document.getElementById('lookbook-modal');
       if (modal) {
@@ -5242,7 +5687,7 @@
       }
     };
 
-    window.closeLookbookModal = function() {
+    window.closeLookbookModal = function () {
       const modal = document.getElementById('lookbook-modal');
       if (modal) {
         modal.style.display = 'none';
@@ -5250,13 +5695,13 @@
       }
     };
 
-    window.closeLookbookModalOutside = function(event) {
+    window.closeLookbookModalOutside = function (event) {
       if (event.target.id === 'lookbook-modal') {
         closeLookbookModal();
       }
     };
 
-    window.navigateLookbook = function(dir) {
+    window.navigateLookbook = function (dir) {
       const targetIndex = activeLookbookDayIndex + dir;
       if (targetIndex >= 0 && targetIndex < DAYS.length) {
         activeLookbookDayIndex = targetIndex;
@@ -5264,7 +5709,7 @@
       }
     };
 
-    window.clearLookbookSlot = function(di, slotKey, event) {
+    window.clearLookbookSlot = function (di, slotKey, event) {
       if (event) event.stopPropagation();
       if (confirm(`Remove this item from your outfit planner?`)) {
         if (state.outfits && state.outfits[di]) {
@@ -5277,12 +5722,12 @@
       }
     };
 
-    window.renderLookbookModalContent = function() {
+    window.renderLookbookModalContent = function () {
       const di = activeLookbookDayIndex;
       const day = DAYS[di];
       const w = WEATHER[di];
       const outfits = state.outfits && state.outfits[di] ? state.outfits[di] : {};
-      
+
       const prevBtn = document.getElementById('lookbook-prev-btn');
       const nextBtn = document.getElementById('lookbook-next-btn');
       if (prevBtn) prevBtn.disabled = di === 0;
@@ -5364,7 +5809,7 @@
       }
       mapInitialized = true;
       const map = L.map('cdmx-map').setView([19.4000, -99.1300], 11);
-      
+
       const tileUrl = state.theme === 'dark'
         ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
         : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
@@ -5372,7 +5817,7 @@
       const tiles = L.tileLayer(tileUrl, {
         attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
       }).addTo(map);
-      
+
       window.cdmxMap = map;
       window.cdmxTiles = tiles;
       window.cdmxLine = null;
@@ -5384,7 +5829,7 @@
     function rebuildMapMarkers() {
       if (markersLayer) window.cdmxMap.removeLayer(markersLayer);
       markersLayer = L.layerGroup().addTo(window.cdmxMap);
-      
+
       // Plot all trip locations defined in MAP_LOCATIONS to ensure none are missing (like Pyramids, Basilica, etc.)
       const relevantLocNames = Object.keys(MAP_LOCATIONS);
 
@@ -5394,7 +5839,7 @@
           // Determine color based on location type and legend alignment
           let color = 'var(--plum)'; // Default to Sightseeing (Plum)
           const lc = name.toLowerCase();
-          
+
           if (lc.includes('airport')) {
             color = 'var(--sky-blue)'; // Transit/Shopping
           } else if (lc.includes('hotel') || lc.includes('geneve')) {
@@ -5434,7 +5879,7 @@
       container.innerHTML = html;
     }
 
-    window.showRoute = function(dayId, event) {
+    window.showRoute = function (dayId, event) {
       document.querySelectorAll('.route-btn').forEach(b => b.classList.remove('active'));
       if (event && event.target) event.target.classList.add('active');
 
@@ -5452,7 +5897,7 @@
       const dayColors = ['var(--jade)', 'var(--marigold)', 'var(--rosa-mexicano)', 'var(--sky-blue)', 'var(--jade)'];
       const dayIdx = parseInt(dayId.replace('day', '')) - 1;
       const rawLineColor = dayColors[dayIdx] || 'var(--rosa-mexicano)';
-      
+
       // Resolve theme variables to hex for Leaflet drawing
       const colorMap = {
         'var(--jade)': '#00897b',
@@ -5538,7 +5983,7 @@
         const startHour = g[0].hour;
         const endHour = g[g.length - 1].hour;
         const maxProb = Math.max(...g.map(item => item.prob));
-        
+
         const formatTime = (h) => {
           const ampm = h >= 12 ? 'PM' : 'AM';
           const hr = h % 12 === 0 ? 12 : h % 12;
@@ -5564,7 +6009,7 @@
         const data = await resp.json();
         const current = data.current;
         const daily = data.daily;
- 
+
         const wmoIcon = (code) => {
           if (code <= 1) return '☀️';
           if (code <= 3) return '⛅';
@@ -5587,7 +6032,7 @@
           if (code <= 86) return 'Snow showers';
           return 'Thunderstorm';
         };
- 
+
         const tripDates = ['2026-07-03', '2026-07-04', '2026-07-05', '2026-07-06', '2026-07-07'];
         tripDates.forEach((td, i) => {
           const dIdx = daily.time.indexOf(td);
@@ -5606,7 +6051,7 @@
 
         const curIcon = wmoIcon(current.weather_code);
         const curDesc = wmoDesc(current.weather_code);
-        
+
         // Safeguard UV Index parsing for models like ICON which may return null for UV variables
         const uvVal = typeof current.uv_index === 'number' ? current.uv_index.toFixed(1) : '--';
         const uvLevel = typeof current.uv_index === 'number'
@@ -5663,7 +6108,7 @@
       if (btn) {
         btn.innerHTML = `${state.theme === 'dark' ? '☀️' : '🌙'}<span class="fab-item-label">Toggle Theme</span>`;
       }
-      
+
       // Dynamically update map tile layer when the theme switches
       if (window.cdmxMap && window.cdmxTiles) {
         const newUrl = state.theme === 'dark'
@@ -5673,7 +6118,7 @@
       }
     }
 
-    window.toggleTheme = function() {
+    window.toggleTheme = function () {
       state.theme = state.theme === 'dark' ? 'light' : 'dark';
       save();
       applyTheme();
@@ -5681,14 +6126,14 @@
     };
 
     // ============ FAB ============
-    window.toggleFab = function() {
+    window.toggleFab = function () {
       const c = document.getElementById('fab-container');
       const btn = document.getElementById('fab-main');
       c.classList.toggle('open');
       btn.classList.toggle('open');
     };
 
-    window.quickAction = function(action) {
+    window.quickAction = function (action) {
       toggleFab();
       if (action === 'todo') {
         showTab('schedule-tab', document.querySelector('[data-target="schedule-tab"]'));
@@ -5736,4 +6181,5 @@
     setInterval(renderFlights, 30 * 1000);
   </script>
 </body>
+
 </html>
