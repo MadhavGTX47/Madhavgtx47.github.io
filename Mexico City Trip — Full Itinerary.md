@@ -80,6 +80,7 @@
 | 3:00 PM | Check in — Geneve Ciudad de México. Settle in, unpack, and hydrate |
 | 4:30 PM | Walk west along **Paseo de la Reforma** toward El Ángel. *(Check hotel reception for any active CNTE teacher blockades on Reforma before walking).* |
 | 5:00 PM | 📍 **Angel of Independence** — golden monument at the Reforma roundabout. Pace yourself (elevation: 2,240m) |
+| 5:15 PM | ✂️ **Haircut with Jordan** — **Booked** · Caballero haircut (45 min) @ 5:15 PM with Jordan. Cost: 400 MXN. Cancel by 5:15 PM |
 | 6:00 PM | Wander back through **Roma Norte** streets — get a feel for the neighborhood |
 | 6:30 PM | 🌮 Dinner: al pastor or guisados taquería in Roma Norte |
 | 7:30 PM | 🚗 Uber to **Arena México** (Friday rush + seasonal rain requires a 45-min transit buffer) |
