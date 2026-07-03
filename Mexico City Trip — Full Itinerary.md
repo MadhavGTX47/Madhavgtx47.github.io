@@ -128,7 +128,7 @@
 | 9:30 AM | 🛶 **Xochimilco Canals** — rent a *trajinera* at **Embarcadero Nuevo Nativitas**. Float the canals (morning is usually dry). ~750 MXN/hr per boat |
 | 11:30 AM | 🍱 **Coyoacán Market** — bohemian neighborhood, grab famous local tostadas and crafts |
 | 12:30 PM | 🚗 **CRITICAL TRANSIT:** Uber northwest to Chapultepec. You must escape south boroughs before match traffic locks the roads |
-| 2:00 PM | 🏛️ **National Museum of Anthropology** — open Sundays. Exhibits vacate starting 4:45 PM, closes 5:00 PM. Budget 2.5 hours of paced exploration (Castle moved to Saturday) |
+| 2:00 PM | 🏛️ **National Museum of Anthropology** — **Booked via Amigo Tours** (Booking #: SXX664465). Note: tickets are sent the day before (July 4). Explore world-class collection; closes at 5:00 PM. |
 | 5:00 PM | Back to Roma Norte/Condesa. Secure a table at a local pub or sports bar |
 | 6:00 PM | ⚽ **World Cup Kickoff:** Watch the Mexico Round of 16 match broadcast. Electric atmosphere |
 | 8:00 PM | 📍 **Post-Match:** If Mexico wins, walk to the Angel of Independence to join massive street celebrations. Keep phone safe from pickpockets |
@@ -215,7 +215,7 @@ Do not treat the rain as a "maybe." July averages **50% to 80% precipitation cha
 |------|-------------|----------|-----------|
 | Lucha Libre tickets | Fri Jul 3 night | Ticketmaster México | 200–500 MXN |
 | Hot air balloon (Booked) | Sat Jul 4 morning | WeFly (ID: 1547607034530290) | Paid: 3,640 MXN |
-| Anthropology Museum | Sun Jul 5 afternoon | INAH website or Tiqets | ~100–210 MXN |
+| Anthropology Museum (Booked) | Sun Jul 5 afternoon | Amigo Tours (ID: SXX664465) | Paid online |
 
 ---
 
@@ -228,6 +228,7 @@ Do not treat the rain as a "maybe." July averages **50% to 80% precipitation cha
 | Embassy of India Mexico City | +52 55 9680 9992 | Musset 325, Polanco — Emergency helpline: +52 55-4847-7539 |
 | Hotel Geneve Front Desk | +52 55 5080 0800 | Londres 130, Zona Rosa |
 | Teotihuacán Balloon (Wefly) | +52 55 4505 5334 | Book sunrise balloon tour & shuttle |
+| Anthropology Museum (Amigo Tours) | +52 1 56 2550 9276 | Urgent help / Booking SXX664465 |
 
 ---
 
