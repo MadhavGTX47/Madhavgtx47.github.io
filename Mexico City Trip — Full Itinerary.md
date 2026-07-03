@@ -102,11 +102,10 @@
 | 4:30 AM | 🎈 **We Fly Teotihuacán Check-in** — Arrive at We Fly office for coffee and flight prep. Sunrise balloon takes off shortly after. *(Confirmation ID: 1547607034530290)* |
 | 8:00 AM | 🏛️ **Teotihuacán Archaeological Zone** — Enter Gate 1, walk the **Avenue of the Dead**, Pyramids of the Sun & Moon. Check gate signage for Moon climbing access |
 | 11:00 AM | Depart ruins, head back toward the city |
-| 12:30 PM | 🕍 **Basilica of Our Lady of Guadalupe** — stop en route back. Major religious site, worth a 30-min stop |
-| 1:15 PM | 🛒 **Mercado de San Juan** — lunch & exotic gourmet tasting (moved here from late afternoon to avoid vendor closures) |
-| 3:00 PM | 🚗 Uber northwest to Chapultepec |
-| 3:30 PM | 🏰 **Chapultepec Castle** — federal museum. Closes at 5:00 PM (doing this today eases Sunday's pacing) |
-| 5:00 PM | Return to Hotel Geneve — rest, freshen up, and shelter from late afternoon rain |
+| 12:30 PM | 🛒 **Mercado de San Juan** — Head straight to Centro. Enjoy gourmet lunch, vanilla-cured salmon tostadas, and exotic cheeses |
+| 2:00 PM | 🎨 **Museo de Arte Popular (MAP)** — Incredible folk art museum. Essential for checking out vibrant Alebrijes, Catrinas, and textiles |
+| 3:30 PM | 🎭 **Palacio de Bellas Artes & Shopping** — See the famous Diego Rivera murals inside, then explore shops along Madero street or head to a modern mall like Reforma 222 |
+| 5:00 PM | Return to Hotel Geneve — rest, freshen up, and shelter from late afternoon rain. *(Note: Basilica and Chapultepec Castle can be swapped back in if you change your mind)* |
 | 6:30 PM | 🚶 **Avenida Francisco I. Madero** — the pedestrian boulevard from Bellas Artes to the Zócalo |
 | 7:15 PM | 🏛️ **The Zócalo** — main square at dusk: street food, architecture, atmosphere |
 | 8:00 PM | 🍽️ **Dinner in Centro Histórico** — traditional Mexican dinner at Cafe de Tacuba or El Cardenal (Hint: Or do a DIY taco crawl! Hit Tacos de Canasta Los Especiales on Madero, and the legendary Taquería Los Cocuyos on Bolívar) |
