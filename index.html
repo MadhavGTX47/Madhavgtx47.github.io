@@ -3164,7 +3164,7 @@
     <div class="lookbook-modal-content">
       <button class="lookbook-close" onclick="closeLookbookModal()">&times;</button>
       
-      <div id="lookbook-modal-body">
+      <div id="lookbook-modal-body" class="lookbook-modal-scroll">
         <!-- Content will be injected dynamically by JavaScript -->
       </div>
       
@@ -5316,28 +5316,27 @@
       const rec = getOutfitRecommendation(w);
 
       body.innerHTML = `
-        <div class="lookbook-modal-scroll">
-          <div class="lookbook-modal-title">
-            <span class="day-badge" style="background:${day.color}; color:${day.tc}">${day.label}</span>
-            <span>Lookbook</span>
+        <div class="lookbook-modal-title">
+          <span class="day-badge" style="background:${day.color}; color:${day.tc}">${day.label}</span>
+          <span>Lookbook</span>
+        </div>
+        <div class="lookbook-modal-subtitle">${day.date} · ${day.title}</div>
+        
+        <div class="lookbook-weather-strip">
+          <div style="font-weight:800; display:flex; align-items:center; gap:6px; color:var(--text-dark); margin-bottom:4px;">
+            <span>${w ? w.icon : '❓'}</span>
+            <span>Forecast: ${w ? w.high : '--'}°F · ${w ? w.desc : 'Unavailable'}</span>
           </div>
-          <div class="lookbook-modal-subtitle">${day.date} · ${day.title}</div>
-          
-          <div class="lookbook-weather-strip">
-            <div style="font-weight:800; display:flex; align-items:center; gap:6px; color:var(--text-dark); margin-bottom:4px;">
-              <span>${w ? w.icon : '❓'}</span>
-              <span>Forecast: ${w ? w.high : '--'}°F · ${w ? w.desc : 'Unavailable'}</span>
-            </div>
-            <div style="font-size:11.5px; color:var(--text-muted); font-weight:600; line-height:1.4;">
-              💡 <strong>Outfit Tip:</strong> ${rec}
-            </div>
-          </div>
-
-          <div class="lookbook-item-list">
-            ${filledItemsHtml}
+          <div style="font-size:11.5px; color:var(--text-muted); font-weight:600; line-height:1.4;">
+            💡 <strong>Outfit Tip:</strong> ${rec}
           </div>
         </div>
+
+        <div class="lookbook-item-list">
+          ${filledItemsHtml}
+        </div>
       `;
+      body.scrollTop = 0; // Reset scroll position to top when switching days
     };
 
     // ============ LEAFLET MAP ============
