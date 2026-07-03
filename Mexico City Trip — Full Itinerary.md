@@ -76,12 +76,11 @@
 
 | Time | Plan |
 |------|------|
-| 2:05 PM | Land at MEX Terminal 2. Clear immigration. Grab Uber/DiDi to hotel (~40–50 min Friday traffic, ~200–300 MXN) |
-| 3:00 PM | Check in — Geneve Ciudad de México. Settle in, unpack, and hydrate |
-| 4:30 PM | Walk west along **Paseo de la Reforma** toward El Ángel. *(Check hotel reception for any active CNTE teacher blockades on Reforma before walking).* |
-| 5:00 PM | 📍 **Angel of Independence** — golden monument at the Reforma roundabout. Pace yourself (elevation: 2,240m) |
-| 5:15 PM | ✂️ **Haircut with Jordan** — **Booked** · Caballero haircut (45 min) @ 5:15 PM with Jordan. Cost: 400 MXN. Cancel by 5:15 PM |
-| 6:00 PM | Wander back through **Roma Norte** streets — get a feel for the neighborhood |
+| 2:05 PM | Land at MEX Terminal 2. Expect 45–60+ mins for immigration and baggage claim (World Cup crowds) before grabbing an Uber |
+| 4:00 PM | Check in — Geneve Ciudad de México. Settle in, unpack, and hydrate |
+| 4:30 PM | 📍 **Paseo de la Reforma & Angel of Independence** — Walk west to the golden monument at the Reforma roundabout, then head south to Roma Norte |
+| 5:15 PM | ✂️ **Haircut with Jordan** — **Booked** · Caballero haircut (45 min) @ 5:15 PM with Jordan. Cost: 400 MXN. (Verify cancellation window with Jordan) |
+| 6:00 PM | Wander through **Roma Norte** streets — get a feel for the neighborhood |
 | 6:30 PM | 🌮 Dinner: al pastor or guisados taquería in Roma Norte |
 | 7:30 PM | 🚗 Uber to **Arena México** (Friday rush + seasonal rain requires a 45-min transit buffer) |
 | 8:30 PM | 🤼 **Lucha Libre — Viernes Espectacular CMLL** · Loud, theatrical, and iconic. Ushers charge a mandatory seat propina (20–50 MXN) to sit. Have exact small change ready |
@@ -99,7 +98,7 @@
 | Time | Plan |
 |------|------|
 | 3:00 AM | Wake up |
-| 3:30 AM | Depart hotel via self-organized Uber or private driver (~1 hr north, no pickup selected) |
+| 3:30 AM | **CRITICAL**: Depart hotel via pre-booked private driver or We Fly shuttle. Do not rely on rideshare apps at 3:30 AM (~1 hr north) |
 | 4:30 AM | 🎈 **We Fly Teotihuacán Check-in** — Arrive at We Fly office for coffee and flight prep. Sunrise balloon takes off shortly after. *(Confirmation ID: 1547607034530290)* |
 | 8:00 AM | 🏛️ **Teotihuacán Archaeological Zone** — Enter Gate 1, walk the **Avenue of the Dead**, Pyramids of the Sun & Moon. Check gate signage for Moon climbing access |
 | 11:00 AM | Depart ruins, head back toward the city |
@@ -150,7 +149,7 @@
 | 2:30 PM | 🏺 **Mercado de Artesanías de la Ciudadela** — Shop handicrafts under covered market stalls which shield you from the heavy afternoon deluge |
 | 4:30 PM | 🎒 **Return to Hotel Geneve / Pack** — Unwind at hotel during the heaviest rainfall. Get a head start on packing |
 | 6:30 PM | 🚶 **Paseo de la Reforma evening stroll** — Relaxed walk down quiet monument lanes as the storm clears. Sturdy walking shoes recommended |
-| 8:00 PM | 🎉 **Final Dinner** — Celebration dinner at Masala y Maíz (Juárez) or Máximo Bistrot (Roma Norte). Book ahead |
+| 8:00 PM | 🎉 **Final Dinner** — Celebration dinner at Masala y Maíz (Juárez) or Máximo Bistrot (Roma Norte). **ACTION REQUIRED:** Book ahead now to lock this in |
 | 10:00 PM | ⚠️ **Final Packing Check** — Confirm all bags packed and travel docs ready for tomorrow's early checkout |
 
 ---
