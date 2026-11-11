@@ -1,9 +1,7 @@
-# Travel Dashboard
+# Travel Dashboards
 
-This is a Travel Dashboard for a trip to Mexico City.
+One self-contained HTML file per trip (HTML, CSS and JavaScript inline, no build step).
 
-## How to Make Changes
-
-The main file we care about is always `index.html`.
-It contains all the HTML, CSS, and JavaScript for the dashboard.
-To make changes, edit `index.html` directly. There is no build process required. Simply open `index.html` in your web browser to view your changes.
+- `index.html` — landing page; the next trip's dashboard goes here
+- `mexicocity.html` — Mexico City, July 2026
+- `hawaii.html` — Oahu, April 2026
